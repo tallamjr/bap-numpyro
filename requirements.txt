@@ -1,5 +1,6 @@
 arviz==0.11.2
 causalgraphicalmodels==0.0.4
 daft==0.1.2
+funsor==0.4.1
 jupyter==1.0.0
 numpyro==0.7.2
