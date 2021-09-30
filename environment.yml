@@ -4,16 +4,18 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - nikola
   - pip
   - python=3.8
   - pip:
     - black
+    - jupyter-book==0.10.2
     - nbval
     - neovim
     - pep517
     - pytest
     - pytest-cov
     - pytest-subtests
+    - sphinx==3.5.2
+    - sphinxcontrib-bibtex==2.1.4
     - twine
     - -r requirements.txt
