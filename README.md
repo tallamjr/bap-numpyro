@@ -1,4 +1,4 @@
-[![Test Status](https://github.com/tallamjr/bap-numpyro/workflows/CI/badge.svg)](https://github.com/tallamjr/bap-numpyro/actions)
+![](https://github.com/tallamjr/bap-numpyro/workflows/CI/badge.svg)
 
 # Bayesian Analysis in Python (2nd ed.) with Numpyro
 
