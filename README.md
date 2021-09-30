@@ -2,7 +2,7 @@
 
 # Bayesian Analysis in Python (2nd ed.) with Numpyro
 
-![frontcover](https://static.packt-cdn.com/products/9781789341652/cover/9781789341652-original.png)
+<img src="https://static.packt-cdn.com/products/9781789341652/cover/9781789341652-original.png" width="48">
 
 After discovering the fantastic
 [`rethinking-numpyro`](https://fehiepsi.github.io/rethinking-numpyro/) project by @fehiepsi, I was
