@@ -1,3 +1,6 @@
+# Jupyter book
+_build
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -118,7 +121,7 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
-/site
+# /site
 
 # mypy
 .mypy_cache/
