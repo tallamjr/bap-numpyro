@@ -28,7 +28,7 @@ jobs:
         pip install nbval
     - name: Test with nbval
       run: |
-        find notebooks -maxdepth 1 -name "[01][01234]*.ipynb" | grep -v "[01][01234]*-x.ipynb" | sort -n | xargs pytest -vx --nbval-lax --durations=0
+        find notebooks -maxdepth 1 -name "[01][012348]*.ipynb" | grep -v "[01][01234]*-x.ipynb" | sort -n | xargs pytest -vx --nbval-lax --durations=0
 
   # chapters_exercises:
 
