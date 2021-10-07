@@ -16,13 +16,13 @@ best to write idiomatic code and translate things etc. My plan is to translate a
 using _only_ `jax`, `arviz`, `numpyro` and `seaborn`.  There are aspects where I could not figure
 out how to do it, maybe you can help?!
 
-> ## How to read the notebooks
+<!-- ## How to read the notebooks
 
-> + Read on the site: https://tallamjr.github.io/bap-numpyro/
++ Read on the site: https://tallamjr.github.io/bap-numpyro/
 
-> + Use GitHub's renderer: https://github.com/tallamjr/bap-numpyro/tree/master/notebooks/
++ Use GitHub's renderer: https://github.com/tallamjr/bap-numpyro/tree/master/notebooks/
 
-> + Use Jupyter's nbviewer: https://nbviewer.jupyter.org/github/tallamjr/bap-numpyro/tree/master/notebooks/
++ Use Jupyter's nbviewer: https://nbviewer.jupyter.org/github/tallamjr/bap-numpyro/tree/master/notebooks/ -->
 
 ## Acknowledgements
 
