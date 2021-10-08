@@ -30,28 +30,28 @@ jobs:
       run: |
         find notebooks -maxdepth 1 -name "[01][012348]*.ipynb" | grep -v "[01][01234]*-x.ipynb" | sort -n | xargs pytest -vx --nbval-lax --durations=0
 
-  # chapters_exercises:
+  chapters_exercises:
 
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       python-version: [3.9]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
 
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Set up Python ${{ matrix.python-version }}
-  #     uses: actions/setup-python@v2
-  #     with:
-  #       python-version: ${{ matrix.python-version }}
-  #   - name: Install dependencies
-  #     run: |
-  #       python -m pip install --upgrade pip
-  #       pip install git+https://github.com/pyro-ppl/numpyro.git
-  #       pip install -r requirements.txt
-  #       pip install nbval
-  #   - name: Test with nbval
-  #     run: |
-  #       find notebooks -maxdepth 1 -name "[01][01234]*-x.ipynb" | grep -v "[01][012345678]*.ipynb" | sort -n | xargs pytest -vx --nbval-lax --durations=0
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install git+https://github.com/pyro-ppl/numpyro.git
+        pip install -r requirements.txt
+        pip install nbval
+    - name: Test with nbval
+      run: |
+        find notebooks -maxdepth 1 -name "[01][012]*-x.ipynb" | sort -n | xargs pytest -vx --nbval-lax --durations=0
 
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
   # deploy-book:
