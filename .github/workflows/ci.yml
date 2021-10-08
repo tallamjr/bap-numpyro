@@ -49,7 +49,7 @@ jobs:
         pip install git+https://github.com/pyro-ppl/numpyro.git
         pip install -r requirements.txt
         pip install nbval
-        apt-get install graphviz
+        sudo apt-get install graphviz
     - name: Test with nbval
       run: |
         find notebooks -maxdepth 1 -name "[01][012]*-x.ipynb" | sort -n | xargs pytest -vx --nbval-lax --durations=0
