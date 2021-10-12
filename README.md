@@ -22,10 +22,10 @@ out how to do it, maybe you can help?!
 
 #### TODOs:
 
-- [] Fix Chapters 5, 6, 7
-- [] Complete port of exercises 3 and 4
-- [] Complete exercises for chapters 5, 6, 7 & 8
-- [] Remove unused imports from each notebook
+- [ ] Fix Chapters 5, 6, 7
+- [ ] Complete port of exercises 3 and 4
+- [ ] Complete exercises for chapters 5, 6, 7 & 8
+- [ ] Remove unused imports from each notebook
 
 <!-- ## How to read the notebooks
 
