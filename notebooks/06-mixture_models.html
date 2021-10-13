@@ -1,0 +1,1910 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 6. Mixture Models &#8212; Bayesian Analysis in Python (2nd ed.) with NumPyro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://tallamjr.github.io/bap-numpyro/notebooks/06-mixture_models.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 7. Gaussian Processes" href="07-gaussian-process.html" />
+    <link rel="prev" title="Chapter 5. Model Comparison" href="05-model_comparison.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/bap-cover.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Bayesian Analysis in Python (2nd ed.) with NumPyro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Bayesian Analysis in Python (2nd ed.) with Numpyro
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Bayesian Analysis in Python (2nd ed.) with NumPyro
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-thinking-probabilistically.html">
+   Chapter 1. Thinking Probabilistically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-programming-probabilistically.html">
+   Chapter 2. Programming Probabilistically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-modeling-with-Linear-regressions.html">
+   Chapter 3. Modeling with Linear Regressions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-generalizing_linear_models.html">
+   Chapter 4. Generalizing Linear Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-model_comparison.html">
+   Chapter 5. Model Comparison
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 6. Mixture Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-gaussian-process.html">
+   Chapter 7. Gaussian Processes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-inference-engines.html">
+   Chapter 8. Inferene Engines
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-x.html">
+   Chapter 1 Exercises
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-x.html">
+   Chapter 2 Exercises
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-x.html">
+   Chapter 3 Exercises
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-x.html">
+   Chapter 4 Exercises
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/06-mixture_models.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/tallamjr/bap-numpyro"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-mixture_models.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/06-mixture_models.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/06-mixture_models.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/06-mixture_models.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-identifiability-of-mixture-models">
+   Non-identifiability of mixture models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-choose-k">
+   How to choose K
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-finite-mixture-model">
+   Non-finite mixture model
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="chapter-6-mixture-models">
+<h1>Chapter 6. Mixture Models<a class="headerlink" href="#chapter-6-mixture-models" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">vmap</span><span class="p">,</span> <span class="n">local_device_count</span><span class="p">,</span> <span class="n">pmap</span><span class="p">,</span> <span class="n">lax</span><span class="p">,</span> <span class="n">tree_map</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">nn</span> <span class="k">as</span> <span class="n">jnn</span>
+<span class="kn">from</span> <span class="nn">jax.scipy</span> <span class="kn">import</span> <span class="n">stats</span><span class="p">,</span> <span class="n">special</span>
+
+<span class="kn">import</span> <span class="nn">numpyro</span>
+<span class="kn">import</span> <span class="nn">numpyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
+<span class="kn">import</span> <span class="nn">numpyro.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+
+<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">HMC</span><span class="p">,</span> <span class="n">Predictive</span>
+<span class="kn">from</span> <span class="nn">numpyro.diagnostics</span> <span class="kn">import</span> <span class="n">hpdi</span><span class="p">,</span> <span class="n">print_summary</span>
+<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">Predictive</span><span class="p">,</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span><span class="p">,</span> <span class="n">init_to_value</span>
+<span class="kn">from</span> <span class="nn">numpyro.infer.autoguide</span> <span class="kn">import</span> <span class="n">AutoLaplaceApproximation</span>
+<span class="kn">from</span> <span class="nn">numpyro.distributions.transforms</span> <span class="kn">import</span> <span class="n">OrderedTransform</span>
+
+<span class="n">seed</span><span class="o">=</span><span class="mi">1234</span>
+
+<span class="k">if</span> <span class="s2">&quot;SVG&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">config</span> InlineBackend.figure_formats = [&quot;svg&quot;]
+<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">message</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">category</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">message</span>
+<span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;arviz-darkgrid&quot;</span><span class="p">)</span>
+<span class="n">numpyro</span><span class="o">.</span><span class="n">set_platform</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span> <span class="c1"># or &quot;gpu&quot;, &quot;tpu&quot; depending on system</span>
+<span class="n">numpyro</span><span class="o">.</span><span class="n">set_host_device_count</span><span class="p">(</span><span class="n">local_device_count</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import pymc3 as pm</span>
+<span class="c1"># import numpy as np</span>
+<span class="c1"># import scipy.stats as stats</span>
+<span class="c1"># import pandas as pd</span>
+<span class="c1"># import theano.tensor as tt</span>
+<span class="c1"># import matplotlib.pyplot as plt</span>
+<span class="c1"># import arviz as az</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># az.style.use(&#39;arviz-darkgrid&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># np.random.seed(42)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/chemical_shifts_theo_exp.csv&#39;</span><span class="p">)</span>
+<span class="n">cs_exp</span> <span class="o">=</span> <span class="n">cs</span><span class="p">[</span><span class="s1">&#39;exp&#39;</span><span class="p">]</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([], [])
+</pre></div>
+</div>
+<img alt="../_images/06-mixture_models_5_1.png" src="../_images/06-mixture_models_5_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#with pm.Model() as model_kg:</span>
+<span class="c1">#    p = pm.Dirichlet(&#39;p&#39;, a=np.ones(clusters))</span>
+<span class="c1">#    z = pm.Categorical(&#39;z&#39;, p=p, shape=len(cs_exp))</span>
+<span class="c1">#    means = pm.Normal(&#39;means&#39;, mu=cs_exp.mean(), sd=10, shape=clusters)</span>
+<span class="c1">#    sd = pm.HalfNormal(&#39;sd&#39;, sd=10)</span>
+<span class="c1">#</span>
+<span class="c1">#    y = pm.Normal(&#39;y&#39;, mu=means[z], sd=sd, observed=cs_exp)</span>
+<span class="c1">#    trace_kg = pm.sample()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># with numpyro.handlers.seed(rng_seed=seed):</span>
+<span class="c1">#     N = 1  # Samples</span>
+<span class="c1">#     b = numpyro.sample(&quot;p&quot;, dist.Dirichlet(concentration=jnp.ones(clusters)).expand([N]))</span>
+<span class="c1"># # dist.Dirichlet(concentration=jnp.ones(clusters)).sample(random.PRNGKey(0), (1,))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># b.squeeze()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">clusters</span><span class="p">)))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">clusters</span><span class="p">,))</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span><span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 2500/2500 [00:05&lt;00:00, 491.61it/s, 3 steps of size 6.26e-01. acc. prob=0.92]
+sample: 100%|███████████████████████████████████████████| 2500/2500 [00:01&lt;00:00, 1701.92it/s, 7 steps of size 6.96e-01. acc. prob=0.90]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;means&#39;: DeviceArray([[46.59215 , 57.53969 ],
+              [46.77208 , 57.60634 ],
+              [47.404488, 57.47748 ],
+              ...,
+              [57.420513, 47.251415],
+              [57.43893 , 47.13221 ],
+              [57.534637, 46.69333 ]], dtype=float32),
+ &#39;p&#39;: DeviceArray([[0.07781173, 0.9221883 ],
+              [0.07711639, 0.9228836 ],
+              [0.11415413, 0.8858459 ],
+              ...,
+              [0.90347517, 0.09652483],
+              [0.8928458 , 0.10715419],
+              [0.9177794 , 0.08222061]], dtype=float32),
+ &#39;sd&#39;: DeviceArray([3.6385975, 3.6188638, 3.5631063, ..., 3.6311502, 3.6953619,
+              3.5244987], dtype=float32)}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">]</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc</span><span class="p">,</span> <span class="n">varnames</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n0&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n0&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n1&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n1&#39;}&gt;]], dtype=object)
+</pre></div>
+</div>
+<img alt="../_images/06-mixture_models_11_1.png" src="../_images/06-mixture_models_11_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># clusters = 2</span>
+<span class="c1"># with pm.Model() as model_mg:</span>
+<span class="c1">#     p = pm.Dirichlet(&#39;p&#39;, a=np.ones(clusters))</span>
+<span class="c1">#     means = pm.Normal(&#39;means&#39;, mu=cs_exp.mean(), sd=10, shape=clusters)</span>
+<span class="c1">#     sd = pm.HalfNormal(&#39;sd&#39;, sd=10)</span>
+<span class="c1">#     y = pm.NormalMixture(&#39;y&#39;, w=p, mu=means, sd=sd, observed=cs_exp)</span>
+<span class="c1">#     trace_mg = pm.sample(random_seed=123)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># varnames = [&#39;means&#39;, &#39;p&#39;]</span>
+<span class="c1"># az.plot_trace(trace_mg, varnames)</span>
+<span class="c1"># plt.savefig(&#39;B11197_06_06.png&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">varnames</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>means[0]</th>
+      <td>52.154</td>
+      <td>5.324</td>
+      <td>46.283</td>
+      <td>57.672</td>
+      <td>3.752</td>
+      <td>3.176</td>
+      <td>3.0</td>
+      <td>55.0</td>
+      <td>1.83</td>
+    </tr>
+    <tr>
+      <th>means[1]</th>
+      <td>52.156</td>
+      <td>5.316</td>
+      <td>46.310</td>
+      <td>57.674</td>
+      <td>3.746</td>
+      <td>3.171</td>
+      <td>3.0</td>
+      <td>58.0</td>
+      <td>1.83</td>
+    </tr>
+    <tr>
+      <th>p[0]</th>
+      <td>0.500</td>
+      <td>0.410</td>
+      <td>0.078</td>
+      <td>0.924</td>
+      <td>0.289</td>
+      <td>0.245</td>
+      <td>3.0</td>
+      <td>51.0</td>
+      <td>1.83</td>
+    </tr>
+    <tr>
+      <th>p[1]</th>
+      <td>0.500</td>
+      <td>0.410</td>
+      <td>0.076</td>
+      <td>0.922</td>
+      <td>0.289</td>
+      <td>0.245</td>
+      <td>3.0</td>
+      <td>51.0</td>
+      <td>1.83</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># az.summary(trace_mg, varnames)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="non-identifiability-of-mixture-models">
+<h2>Non-identifiability of mixture models<a class="headerlink" href="#non-identifiability-of-mixture-models" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([50.859257, 56.51029 ], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1776, 1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">clusters</span><span class="p">)))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+    
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,))</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span><span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc2</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc2</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 2500/2500 [00:06&lt;00:00, 369.88it/s, 7 steps of size 6.35e-01. acc. prob=0.92]
+sample: 100%|████████████████████████████████████████████| 2500/2500 [00:02&lt;00:00, 835.65it/s, 3 steps of size 7.73e-01. acc. prob=0.86]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">]</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc2</span><span class="p">,</span> <span class="n">varnames</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0, 0&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0, 0&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0, 1&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0, 1&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1, 0&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1, 0&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1, 1&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1, 1&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n0&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n0&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n1&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n1&#39;}&gt;]], dtype=object)
+</pre></div>
+</div>
+<img alt="../_images/06-mixture_models_20_1.png" src="../_images/06-mixture_models_20_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instead of a potential we can use an ordered transformation</span>
+<span class="c1"># transform=pm.distributions.transforms.ordered</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>means[0,0]</th>
+      <td>46.823</td>
+      <td>0.402</td>
+      <td>46.108</td>
+      <td>47.601</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>4707.0</td>
+      <td>3263.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>means[0,1]</th>
+      <td>57.464</td>
+      <td>0.099</td>
+      <td>57.274</td>
+      <td>57.646</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>5627.0</td>
+      <td>3227.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>means[1,0]</th>
+      <td>46.822</td>
+      <td>0.398</td>
+      <td>46.077</td>
+      <td>47.548</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>4401.0</td>
+      <td>2888.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>means[1,1]</th>
+      <td>57.464</td>
+      <td>0.099</td>
+      <td>57.280</td>
+      <td>57.649</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4593.0</td>
+      <td>3082.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>p[0]</th>
+      <td>0.090</td>
+      <td>0.006</td>
+      <td>0.078</td>
+      <td>0.101</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4095.0</td>
+      <td>2982.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>p[1]</th>
+      <td>0.910</td>
+      <td>0.006</td>
+      <td>0.899</td>
+      <td>0.922</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4095.0</td>
+      <td>2982.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>sd</th>
+      <td>3.649</td>
+      <td>0.053</td>
+      <td>3.549</td>
+      <td>3.746</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>5568.0</td>
+      <td>3207.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="how-to-choose-k">
+<h2>How to choose K<a class="headerlink" href="#how-to-choose-k" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">clusters</span><span class="p">)))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+    
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,))</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span><span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc2</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc2</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 2500/2500 [00:08&lt;00:00, 281.81it/s, 7 steps of size 6.35e-01. acc. prob=0.92]
+sample: 100%|████████████████████████████████████████████| 2500/2500 [00:05&lt;00:00, 417.45it/s, 3 steps of size 7.73e-01. acc. prob=0.86]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        
+        <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">cluster</span><span class="p">)))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+    
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">cluster</span><span class="p">)</span>
+        <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;means&#39;</span><span class="p">,</span> 
+                               <span class="n">dist</span><span class="o">.</span><span class="n">TransformedDistribution</span><span class="p">(</span>
+                                   <span class="n">base_distribution</span><span class="o">=</span><span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">([</span><span class="n">cluster</span><span class="p">]),</span> 
+                               <span class="n">transforms</span><span class="o">=</span><span class="n">OrderedTransform</span><span class="p">()</span>
+                              <span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">means</span><span class="p">)</span>
+        <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+        <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span><span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+        
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+    <span class="n">trace</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+    <span class="n">models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.405282   -1.0672494  -0.89249873]
+(3,)
+Traced&lt;ConcreteArray([-1.405282   -1.0672494  -0.89249873], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
+  with primal = DeviceArray([-1.405282  , -1.0672494 , -0.89249873], dtype=float32)
+       tangent = Traced&lt;ShapedArray(float32[3]):JaxprTrace(level=1/0)&gt;
+(3,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                          | 0/2500 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[3])&gt;with&lt;JVPTrace(level=4/1)&gt;
+  with primal = Traced&lt;ShapedArray(float32[3])&gt;with&lt;DynamicJaxprTrace(level=2/1)&gt;
+       tangent = Traced&lt;ShapedArray(float32[3]):JaxprTrace(level=3/1)&gt;
+(3,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:08&lt;00:00, 286.52it/s, 63 steps of size 4.23e-02. acc. prob=0.90]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.792481   -0.17571521  0.1223264 ]
+(3,)
+Traced&lt;ConcreteArray([-1.792481   -0.17571521  0.1223264 ], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
+  with primal = DeviceArray([-1.792481  , -0.17571521,  0.1223264 ], dtype=float32)
+       tangent = Traced&lt;ShapedArray(float32[3]):JaxprTrace(level=1/0)&gt;
+(3,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:03&lt;00:00, 820.09it/s, 15 steps of size 2.43e-01. acc. prob=0.91]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.405282   3.7530613  3.927812   4.386582 ]
+(4,)
+Traced&lt;ConcreteArray([-1.405282   3.7530613  3.927812   4.386582 ], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
+  with primal = DeviceArray([-1.405282 ,  3.7530613,  3.927812 ,  4.386582 ], dtype=float32)
+       tangent = Traced&lt;ShapedArray(float32[4]):JaxprTrace(level=1/0)&gt;
+(4,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                          | 0/2500 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[4])&gt;with&lt;JVPTrace(level=4/1)&gt;
+  with primal = Traced&lt;ShapedArray(float32[4])&gt;with&lt;DynamicJaxprTrace(level=2/1)&gt;
+       tangent = Traced&lt;ShapedArray(float32[4]):JaxprTrace(level=3/1)&gt;
+(4,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:35&lt;00:00, 70.17it/s, 255 steps of size 1.19e-02. acc. prob=0.95]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.792481  -0.5164275 -0.2183859  1.5443151]
+(4,)
+Traced&lt;ConcreteArray([-1.792481  -0.5164275 -0.2183859  1.5443151], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
+  with primal = DeviceArray([-1.792481 , -0.5164275, -0.2183859,  1.5443151], dtype=float32)
+       tangent = Traced&lt;ShapedArray(float32[4]):JaxprTrace(level=1/0)&gt;
+(4,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:27&lt;00:00, 90.79it/s, 127 steps of size 8.03e-03. acc. prob=0.94]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.7935977 1.8328353 4.7855444 4.9249754 5.1354523]
+(5,)
+Traced&lt;ConcreteArray([0.7935977 1.8328353 4.7855444 4.9249754 5.1354523], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
+  with primal = DeviceArray([0.7935977, 1.8328353, 4.7855444, 4.9249754, 5.1354523], dtype=float32)
+       tangent = Traced&lt;ShapedArray(float32[5]):JaxprTrace(level=1/0)&gt;
+(5,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                          | 0/2500 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[5])&gt;with&lt;JVPTrace(level=4/1)&gt;
+  with primal = Traced&lt;ShapedArray(float32[5])&gt;with&lt;DynamicJaxprTrace(level=2/1)&gt;
+       tangent = Traced&lt;ShapedArray(float32[5]):JaxprTrace(level=3/1)&gt;
+(5,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:17&lt;00:00, 145.12it/s, 31 steps of size 1.21e-01. acc. prob=0.95]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.9015174  4.3690042  7.8917313  8.105168  13.3667755]
+(5,)
+Traced&lt;ConcreteArray([ 0.9015174  4.3690042  7.8917313  8.105168  13.3667755], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
+  with primal = DeviceArray([ 0.9015174,  4.3690042,  7.8917313,  8.105168 , 13.3667755],            dtype=float32)
+       tangent = Traced&lt;ShapedArray(float32[5]):JaxprTrace(level=1/0)&gt;
+(5,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:13&lt;00:00, 183.09it/s, 63 steps of size 6.52e-02. acc. prob=0.86]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.7935977 1.8328353 7.11053   7.249961  7.460438  8.691059 ]
+(6,)
+Traced&lt;ConcreteArray([0.7935977 1.8328353 7.11053   7.249961  7.460438  8.691059 ], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
+  with primal = DeviceArray([0.7935977, 1.8328353, 7.11053  , 7.249961 , 7.460438 ,
+                             8.691059 ], dtype=float32)
+       tangent = Traced&lt;ShapedArray(float32[6]):JaxprTrace(level=1/0)&gt;
+(6,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                          | 0/2500 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[6])&gt;with&lt;JVPTrace(level=4/1)&gt;
+  with primal = Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=2/1)&gt;
+       tangent = Traced&lt;ShapedArray(float32[6]):JaxprTrace(level=3/1)&gt;
+(6,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:35&lt;00:00, 70.27it/s, 127 steps of size 6.11e-02. acc. prob=0.57]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.9015174  4.3690042  5.2567453  5.4701824 10.731791  10.875133 ]
+(6,)
+Traced&lt;ConcreteArray([ 0.9015174  4.3690042  5.2567453  5.4701824 10.731791  10.875133 ], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
+  with primal = DeviceArray([ 0.9015174,  4.3690042,  5.2567453,  5.4701824, 10.731791 ,
+                             10.875133 ], dtype=float32)
+       tangent = Traced&lt;ShapedArray(float32[6]):JaxprTrace(level=1/0)&gt;
+(6,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 2500/2500 [00:25&lt;00:00, 97.44it/s, 31 steps of size 1.19e-01. acc. prob=0.92]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+ 
+<span class="n">ax</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">trace_x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">traces</span><span class="p">):</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">]</span> <span class="o">*</span> <span class="n">clusters</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+ 
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+        <span class="n">i_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">trace_x</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+        <span class="n">means_y</span> <span class="o">=</span> <span class="n">trace_x</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">][</span><span class="n">i_</span><span class="p">]</span>
+        <span class="n">p_y</span> <span class="o">=</span> <span class="n">trace_x</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;p&#39;</span><span class="p">][</span><span class="n">i_</span><span class="p">]</span>
+        <span class="n">sd</span> <span class="o">=</span> <span class="n">trace_x</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">][</span><span class="n">i_</span><span class="p">]</span>
+        <span class="n">distri</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means_y</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">distri</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x_</span><span class="p">))</span> <span class="o">*</span> <span class="n">p_y</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+ 
+    <span class="n">means_y</span> <span class="o">=</span> <span class="n">trace_x</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">p_y</span> <span class="o">=</span> <span class="n">trace_x</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">trace_x</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">distri</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means_y</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    <span class="c1">#stats.norm(means_y, sd)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">distri</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x_</span><span class="p">))</span> <span class="o">*</span> <span class="n">p_y</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">distri</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x_</span><span class="p">))</span> <span class="o">*</span> <span class="n">p_y</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+         
+    <span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">,</span> <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;linewidth&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;k&#39;</span><span class="p">},</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;K = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clusters</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/06-mixture_models_26_0.png" src="../_images/06-mixture_models_26_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prior = Predictive(mcmc_l.sampler.model, num_samples=10)</span>
+<span class="c1"># prior_p = prior(random.PRNGKey(seed), obs=y_1s)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> 
+                     <span class="n">posterior_samples</span><span class="o">=</span><span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> 
+                     <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[3])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(3,)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_values([DeviceArray([57.74525 , 50.141926, 53.405487, ..., 57.63712 , 58.24072 ,
+             64.50387 ], dtype=float32)])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ppc_mm</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">traces</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> 
+                     <span class="n">posterior_samples</span><span class="o">=</span><span class="n">traces</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> 
+                     <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[3])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(3,)
+Traced&lt;ShapedArray(float32[4])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(4,)
+Traced&lt;ShapedArray(float32[5])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(5,)
+Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(6,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">ppc_mm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">d_sim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ppc_mm</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">d_sim</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [57.74525  50.141926 53.405487 ... 57.63712  58.24072  64.50387 ]
+1 [55.685463 47.6005   49.555256 ... 57.849586 55.612312 61.546535]
+2 [54.532833 46.843277 54.844418 ... 54.875175 53.33296  59.637592]
+3 [55.4144   41.105106 53.29952  ... 53.94297  52.922012 60.480656]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">d_sim</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">100</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(100, 1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># iqr(d_sim[&#39;y&#39;][:100].T, 0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ppc_mm = [pm.sample_posterior_predictive(traces[i], 1000, models[i])</span>
+<span class="c1">#           for i in range(4)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">iqr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="p">[</span><span class="mi">75</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">a</span><span class="p">))</span>
+
+<span class="n">T_obs</span> <span class="o">=</span> <span class="n">iqr</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">d_sim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ppc_mm</span><span class="p">):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">d_sim</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">100</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">T_sim</span> <span class="o">=</span> <span class="n">iqr</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">T_sim</span><span class="p">)</span>
+    <span class="n">p_value</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">T_sim</span> <span class="o">&gt;=</span> <span class="n">T_obs</span><span class="p">)</span>
+    <span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">T_sim</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">T_obs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;K = </span><span class="si">{</span><span class="n">clusters</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> p-value </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0.]
+[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0.]
+[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0.]
+[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0.]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RuntimeWarning: divide by zero encountered in true_divide
+RuntimeWarning: invalid value encountered in true_divide
+RuntimeWarning: divide by zero encountered in true_divide
+RuntimeWarning: invalid value encountered in true_divide
+RuntimeWarning: divide by zero encountered in true_divide
+RuntimeWarning: invalid value encountered in true_divide
+RuntimeWarning: divide by zero encountered in true_divide
+RuntimeWarning: invalid value encountered in true_divide
+</pre></div>
+</div>
+<img alt="../_images/06-mixture_models_35_2.png" src="../_images/06-mixture_models_35_2.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comp</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">traces</span><span class="p">)),</span> <span class="n">ic</span><span class="o">=</span><span class="s2">&quot;waic&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;BB-pseudo-BMA&#39;</span><span class="p">)</span>
+<span class="n">comp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The default method used to estimate the weights for each model,has changed from BB-pseudo-BMA to stacking
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[5.2118061e+01 7.1559749e+20 8.0297345e+20 8.2045797e+20 2.1260502e+32
+ 1.1329012e+34]
+(6,)
+Traced&lt;ShapedArray(float32[3])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(3,)
+[5.2118061e+01 7.1559749e+20 8.0297345e+20 8.2045797e+20 2.1260502e+32
+ 1.1329012e+34]
+(6,)
+Traced&lt;ShapedArray(float32[4])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(4,)
+[5.2118061e+01 7.1559749e+20 8.0297345e+20 8.2045797e+20 2.1260502e+32
+ 1.1329012e+34]
+(6,)
+Traced&lt;ShapedArray(float32[5])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(5,)
+[5.2118061e+01 7.1559749e+20 8.0297345e+20 8.2045797e+20 2.1260502e+32
+ 1.1329012e+34]
+(6,)
+Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+(6,)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
+See http://arxiv.org/abs/1507.04544 for details
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rank</th>
+      <th>waic</th>
+      <th>p_waic</th>
+      <th>d_waic</th>
+      <th>weight</th>
+      <th>se</th>
+      <th>dse</th>
+      <th>warning</th>
+      <th>waic_scale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>-5135.310869</td>
+      <td>15.798141</td>
+      <td>0.000000</td>
+      <td>7.039205e-01</td>
+      <td>32.746687</td>
+      <td>0.000000</td>
+      <td>True</td>
+      <td>log</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>-5136.615405</td>
+      <td>12.786784</td>
+      <td>1.304536</td>
+      <td>2.390853e-01</td>
+      <td>31.524217</td>
+      <td>1.300529</td>
+      <td>False</td>
+      <td>log</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>-5139.413207</td>
+      <td>7.432724</td>
+      <td>4.102338</td>
+      <td>5.699420e-02</td>
+      <td>31.128302</td>
+      <td>2.552043</td>
+      <td>False</td>
+      <td>log</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>-5203.690167</td>
+      <td>17.401520</td>
+      <td>68.379299</td>
+      <td>2.699810e-21</td>
+      <td>31.289554</td>
+      <td>9.751138</td>
+      <td>False</td>
+      <td>log</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Broken. TODO, fix error relating to this.</span>
+<span class="c1"># az.plot_compare(comp)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="non-finite-mixture-model">
+<h2>Non-finite mixture model<a class="headerlink" href="#non-finite-mixture-model" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">stick_breaking_truncated</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Truncated stick-breaking process view of a DP</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    α : float</span>
+<span class="sd">        concentration parameter</span>
+<span class="sd">    H : `numpyro` distribution</span>
+<span class="sd">        base distribution</span>
+<span class="sd">    K : int</span>
+<span class="sd">        number of components</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    locs : array</span>
+<span class="sd">        locations</span>
+<span class="sd">    w : array</span>
+<span class="sd">        probabilities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<span class="c1">#     βs = stats.beta.rvs(1, α, size=K)</span>
+    <span class="n">βs</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="n">α</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">K</span><span class="p">,))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">βs</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">]),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">βs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+    <span class="n">locs</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">K</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="n">locs</span><span class="p">,</span> <span class="n">w</span>
+
+<span class="c1"># Parameters DP</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">()</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]</span>
+
+<span class="c1"># plot</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">α</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphas</span><span class="p">):</span>
+    <span class="n">locs</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">stick_breaking_truncated</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">locs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;α = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">α</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: This figure was using constrained_layout, but that is incompatible with subplots_adjust and/or tight_layout; disabling constrained_layout.
+</pre></div>
+</div>
+<img alt="../_images/06-mixture_models_39_1.png" src="../_images/06-mixture_models_39_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">α</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">()</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+<span class="n">x_</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">]</span> <span class="o">*</span> <span class="n">K</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">locs</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">stick_breaking_truncated</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+<span class="c1"># dist = stats.laplace(locs, 0.5)</span>
+<span class="n">distri</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Laplace</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">locs</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">distri</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x_</span><span class="p">))</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">distri</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x_</span><span class="p">))</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([], [])
+</pre></div>
+</div>
+<img alt="../_images/06-mixture_models_40_1.png" src="../_images/06-mixture_models_40_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="k">def</span> <span class="nf">stick_breaking</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;β&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="n">α</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">K</span><span class="p">,))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">β</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">]),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">β</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="c1">#     β = pm.Beta(&#39;β&#39;, 1., α, shape=K)</span>
+<span class="c1">#     w = β * pm.math.concatenate([[1.], tt.extra_ops.cumprod(1. - β)[:-1]])</span>
+
+    <span class="k">return</span> <span class="n">w</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;α&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">deterministic</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">stick_breaking</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">K</span><span class="p">))</span>
+                       
+<span class="c1">#     p = numpyro.sample(&quot;p&quot;, dist.Dirichlet(concentration=jnp.ones(clusters)))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">w</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+    
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">K</span><span class="p">)</span>
+
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">K</span><span class="p">,))</span>
+                       
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+                       
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    
+    <span class="n">obss</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;obss&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span><span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_accept_prob</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+<span class="n">mcmc3</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc3</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 100/100 [04:19&lt;00:00,  2.60s/it, 1023 steps of size 6.57e-03. acc. prob=0.52]
+sample: 100%|████████████████████████████████████████████| 100/100 [04:46&lt;00:00,  2.86s/it, 1023 steps of size 1.83e-03. acc. prob=0.97]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># with pm.Model() as model:</span>
+<span class="c1">#     α = pm.Gamma(&#39;α&#39;, 1, 1.)</span>
+<span class="c1">#     w = pm.Deterministic(&#39;w&#39;, stick_breaking(α, K))</span>
+<span class="c1">#     means = pm.Normal(&#39;means&#39;,</span>
+<span class="c1">#                       mu=np.linspace(cs_exp.min(), cs_exp.max(), K),</span>
+<span class="c1">#                       sd=10, shape=K)</span>
+    
+<span class="c1">#     sd = pm.HalfNormal(&#39;sd&#39;, sd=10, shape=K)</span>
+<span class="c1">#     obs = pm.NormalMixture(&#39;obs&#39;, w, means, sd=sd, observed=cs_exp.values)</span>
+<span class="c1">#     trace = pm.sample(1000, tune=2000, nuts_kwargs={&#39;target_accept&#39;:0.85})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc3</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;α&#39;</span><span class="p">],</span> <span class="n">divergences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/06-mixture_models_44_0.png" src="../_images/06-mixture_models_44_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc3</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;α&#39;</span><span class="p">],</span> <span class="n">divergences</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/06-mixture_models_45_0.png" src="../_images/06-mixture_models_45_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plot_w</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_w</span><span class="p">,</span> <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">plot_w</span><span class="p">,</span> <span class="n">plot_w</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Component&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Average weight&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Average weight&#39;)
+</pre></div>
+</div>
+<img alt="../_images/06-mixture_models_46_1.png" src="../_images/06-mixture_models_46_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([[45.43555 , 45.76748 , 45.818993, 54.50315 , 59.173943,
+              64.33026 ],
+             [45.743027, 45.879845, 46.071526, 54.450314, 59.080513,
+              64.30733 ],
+             [45.39138 , 45.724678, 45.91162 , 54.48335 , 59.17437 ,
+              64.41409 ],
+             ...,
+             [45.498985, 51.297474, 54.39981 , 57.54888 , 60.524788,
+              64.93046 ],
+             [45.635292, 51.222794, 54.21004 , 57.125477, 60.29111 ,
+              64.93555 ],
+             [45.34042 , 51.778076, 54.736847, 57.581596, 60.05674 ,
+              64.63671 ]], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(100, 20, 20)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1, 100, 20, 20)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">][:,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(100, 1, 20, 20)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((100,), (100, 1))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">][:,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((100, 1, 20), (100, 20, 1))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
+        <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="mi">9</span><span class="n">y</span><span class="o">/</span><span class="mi">6</span><span class="n">kx7fns90pn84gtycx7dyl680000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_33006</span><span class="o">/</span><span class="mf">463852275.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>         <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>         <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="p">)</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/distribution.py</span> in <span class="ni">__call__</span><span class="nt">(cls, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">92</span>             <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span>                 <span class="k">return</span> <span class="n">result</span>
+<span class="ne">---&gt; </span><span class="mi">94</span>         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span> 
+<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="nd">@property</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/continuous.py</span> in <span class="ni">__init__</span><span class="nt">(self, loc, scale, validate_args)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1238</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1239</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">validate_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1240</span>         <span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">promote_shapes</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1241</span>         <span class="n">batch_shape</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">broadcast_shapes</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">scale</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1242</span>         <span class="nb">super</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/util.py</span> in <span class="ni">promote_shapes</span><span class="nt">(shape, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">286</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span>         <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">288</span>         <span class="n">num_dims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lax</span><span class="o">.</span><span class="n">broadcast_shapes</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">shapes</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">289</span>         <span class="k">return</span> <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">290</span>             <span class="n">_reshape</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_dims</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">num_dims</span> <span class="k">else</span> <span class="n">arg</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/util.py</span> in <span class="ni">wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span>         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span>       <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">195</span>         <span class="k">return</span> <span class="n">cached</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">_trace_context</span><span class="p">(),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span> 
+<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="n">wrapper</span><span class="o">.</span><span class="n">cache_clear</span> <span class="o">=</span> <span class="n">cached</span><span class="o">.</span><span class="n">cache_clear</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/util.py</span> in <span class="ni">cached</span><span class="nt">(_, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span>     <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span><span class="p">(</span><span class="n">max_size</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">188</span>       <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span> 
+<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/lax/lax.py</span> in <span class="ni">broadcast_shapes</span><span class="nt">(*shapes)</span>
+<span class="g g-Whitespace">     </span><span class="mi">90</span>   <span class="n">result_shape</span> <span class="o">=</span> <span class="n">_try_broadcast_shapes</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">91</span>   <span class="k">if</span> <span class="n">result_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">92</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incompatible shapes for broadcasting: </span><span class="si">{}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span>                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">shapes</span><span class="p">))))</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span>   <span class="k">return</span> <span class="n">result_shape</span>
+
+<span class="ne">ValueError</span>: Incompatible shapes for broadcasting: ((1, 1, 1, 1), (1, 100, 20, 20), (1, 1, 1, 100))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_plot</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cs</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="n">post_pdf_contribs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+    <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
+        <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">x_plot</span><span class="p">))</span>
+    <span class="p">)</span> <span class="c1"># [:, jnp.newaxis, :]</span>
+<span class="n">post_pdfs</span> <span class="o">=</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">post_pdf_contribs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="mi">9</span><span class="n">y</span><span class="o">/</span><span class="mi">6</span><span class="n">kx7fns90pn84gtycx7dyl680000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_33006</span><span class="o">/</span><span class="mf">4200411102.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">post_pdf_contribs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>         <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>         <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/distribution.py</span> in <span class="ni">__call__</span><span class="nt">(cls, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">92</span>             <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span>                 <span class="k">return</span> <span class="n">result</span>
+<span class="ne">---&gt; </span><span class="mi">94</span>         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span> 
+<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="nd">@property</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/continuous.py</span> in <span class="ni">__init__</span><span class="nt">(self, loc, scale, validate_args)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1238</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1239</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">validate_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1240</span>         <span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">promote_shapes</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1241</span>         <span class="n">batch_shape</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">broadcast_shapes</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">scale</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1242</span>         <span class="nb">super</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/util.py</span> in <span class="ni">promote_shapes</span><span class="nt">(shape, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">286</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span>         <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">288</span>         <span class="n">num_dims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lax</span><span class="o">.</span><span class="n">broadcast_shapes</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">shapes</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">289</span>         <span class="k">return</span> <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">290</span>             <span class="n">_reshape</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_dims</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">num_dims</span> <span class="k">else</span> <span class="n">arg</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/util.py</span> in <span class="ni">wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span>         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span>       <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">195</span>         <span class="k">return</span> <span class="n">cached</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">_trace_context</span><span class="p">(),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span> 
+<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="n">wrapper</span><span class="o">.</span><span class="n">cache_clear</span> <span class="o">=</span> <span class="n">cached</span><span class="o">.</span><span class="n">cache_clear</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/util.py</span> in <span class="ni">cached</span><span class="nt">(_, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span>     <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span><span class="p">(</span><span class="n">max_size</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">188</span>       <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span> 
+<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/lax/lax.py</span> in <span class="ni">broadcast_shapes</span><span class="nt">(*shapes)</span>
+<span class="g g-Whitespace">     </span><span class="mi">90</span>   <span class="n">result_shape</span> <span class="o">=</span> <span class="n">_try_broadcast_shapes</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">91</span>   <span class="k">if</span> <span class="n">result_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">92</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incompatible shapes for broadcasting: </span><span class="si">{}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span>                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">shapes</span><span class="p">))))</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span>   <span class="k">return</span> <span class="n">result_shape</span>
+
+<span class="ne">ValueError</span>: Incompatible shapes for broadcasting: ((1, 1, 1, 1), (1, 100, 20, 20), (1, 1, 1, 100))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">x_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cs</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="n">post_pdf_contribs</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">x_plot</span><span class="p">),</span>
+                                   <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+                                   <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span>
+<span class="n">post_pdfs</span> <span class="o">=</span> <span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">post_pdf_contribs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">IndexError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="mi">9</span><span class="n">y</span><span class="o">/</span><span class="mi">6</span><span class="n">kx7fns90pn84gtycx7dyl680000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_33006</span><span class="o">/</span><span class="mf">2613252450.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">post_pdf_contribs</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">x_plot</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                                    <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
+<span class="ne">----&gt; </span><span class="mi">6</span>                                    <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">post_pdfs</span> <span class="o">=</span> <span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">post_pdf_contribs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ni">_rewriting_take</span><span class="nt">(arr, idx, indices_are_sorted, unique_indices)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5150</span>   <span class="n">arr</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5151</span>   <span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span> <span class="o">=</span> <span class="n">_split_index_for_jit</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">5152</span>   <span class="k">return</span> <span class="n">_gather</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span><span class="p">,</span> <span class="n">indices_are_sorted</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">5153</span>                  <span class="n">unique_indices</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5154</span> 
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ni">_gather</span><span class="nt">(arr, treedef, static_idx, dynamic_idx, indices_are_sorted, unique_indices)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5159</span>             <span class="n">unique_indices</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">5160</span>   <span class="n">idx</span> <span class="o">=</span> <span class="n">_merge_static_and_dynamic_indices</span><span class="p">(</span><span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">5161</span>   <span class="n">indexer</span> <span class="o">=</span> <span class="n">_index_to_gather</span><span class="p">(</span><span class="n">shape</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="n">idx</span><span class="p">)</span>  <span class="c1"># shared with _scatter_update</span>
+<span class="g g-Whitespace">   </span><span class="mi">5162</span>   <span class="n">y</span> <span class="o">=</span> <span class="n">arr</span>
+<span class="g g-Whitespace">   </span><span class="mi">5163</span> 
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ni">_index_to_gather</span><span class="nt">(x_shape, idx, normalize_indices)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5251</span> <span class="k">def</span> <span class="nf">_index_to_gather</span><span class="p">(</span><span class="n">x_shape</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">normalize_indices</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">5252</span>   <span class="c1"># Remove ellipses and add trailing slice(None)s.</span>
+<span class="ne">-&gt; </span><span class="mi">5253</span>   <span class="n">idx</span> <span class="o">=</span> <span class="n">_canonicalize_tuple_index</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_shape</span><span class="p">),</span> <span class="n">idx</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5254</span> 
+<span class="g g-Whitespace">   </span><span class="mi">5255</span>   <span class="c1"># Check for advanced indexing:</span>
+
+<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ni">_canonicalize_tuple_index</span><span class="nt">(arr_ndim, idx)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5531</span>   <span class="k">if</span> <span class="n">len_without_none</span> <span class="o">&gt;</span> <span class="n">arr_ndim</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">5532</span>     <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Too many indices for array: </span><span class="si">{}</span><span class="s2"> non-None/Ellipsis indices for dim </span><span class="si">{}</span><span class="s2">.&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">5533</span>     <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">len_without_none</span><span class="p">,</span> <span class="n">arr_ndim</span><span class="p">))</span>
+<span class="nn">   5534   ellipses = (i for i, elt</span> in <span class="ni">enumerate</span><span class="nt">(idx) if elt is Ellipsis)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5535</span>   <span class="n">ellipsis_index</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ellipses</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="ne">IndexError</span>: Too many indices for array: 2 non-None/Ellipsis indices for dim 1.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plot</span><span class="p">,</span> <span class="n">post_pdfs</span><span class="p">[::</span><span class="mi">100</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;0.5&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plot</span><span class="p">,</span> <span class="n">post_pdfs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Exercises</span>
+<span class="c1"># clusters = 3</span>
+<span class="c1"># n_cluster = [200, 150, 170]</span>
+<span class="c1"># n_total = sum(n_cluster)</span>
+<span class="c1"># means = [5, 0, -3]</span>
+<span class="c1"># std_devs = [2, 2, 2]</span>
+<span class="c1"># mix = np.random.normal(jnp.repeat(means, n_cluster),</span>
+<span class="c1"># np.repeat(std_devs, n_cluster))</span>
+<span class="c1"># az.plot_kde(np.array(mix));</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="05-model_comparison.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Chapter 5. Model Comparison</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="07-gaussian-process.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Chapter 7. Gaussian Processes</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a><br/>
+        
+          <div class="extra_footer">
+            <p>
+Code released under a <a href="https://opensource.org/licenses/MIT">MIT license</a>.
+</p>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

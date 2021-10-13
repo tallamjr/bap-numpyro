@@ -1,0 +1,2810 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 2 Exercises &#8212; Bayesian Analysis in Python (2nd ed.) with NumPyro</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://tallamjr.github.io/bap-numpyro/notebooks/02-x.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 3 Exercises" href="03-x.html" />
+    <link rel="prev" title="Chapter 1 Exercises" href="01-x.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/bap-cover.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Bayesian Analysis in Python (2nd ed.) with NumPyro</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Bayesian Analysis in Python (2nd ed.) with Numpyro
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Bayesian Analysis in Python (2nd ed.) with NumPyro
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-thinking-probabilistically.html">
+   Chapter 1. Thinking Probabilistically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-programming-probabilistically.html">
+   Chapter 2. Programming Probabilistically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-modeling-with-Linear-regressions.html">
+   Chapter 3. Modeling with Linear Regressions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-generalizing_linear_models.html">
+   Chapter 4. Generalizing Linear Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-model_comparison.html">
+   Chapter 5. Model Comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-mixture_models.html">
+   Chapter 6. Mixture Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-gaussian-process.html">
+   Chapter 7. Gaussian Processes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-inference-engines.html">
+   Chapter 8. Inferene Engines
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Exercises
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-x.html">
+   Chapter 1 Exercises
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 2 Exercises
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-x.html">
+   Chapter 3 Exercises
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-x.html">
+   Chapter 4 Exercises
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/02-x.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/tallamjr/bap-numpyro"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/02-x.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/02-x.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/02-x.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/02-x.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-1">
+   Question 1
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#baseline-model">
+     Baseline model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#match-prior-for-previous-example">
+     Match prior for previous example
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1">
+     Replace the beta distribution with a uniform one in the interval [0,1]
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#discussion">
+     Discussion
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#replace-the-beta-distribution-with-a-uniform-1-2">
+     Replace the beta distribution with a uniform  [-1,2]
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Discussion
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-2">
+   Question 2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-3">
+   Question 3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-4">
+   Question 4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-5">
+   Question 5
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gaussian-model">
+     Gaussian Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#shared-nu-across-all-groups">
+     Shared
+     <span class="math notranslate nohighlight">
+      \(\nu\)
+     </span>
+     across all groups
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#one-nu-per-group">
+     One
+     <span class="math notranslate nohighlight">
+      \(\nu\)
+     </span>
+     per group
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-6">
+   Question 6
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-1-estimate-model-parameters-per-group">
+     Step 1: Estimate model parameters per group
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-2-get-posterior-predictive-values-per-group">
+     Step 2: Get posterior predictive values per group
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-3-pick-data-points-at-random-from-each-group-and-compare">
+     Step 3: Pick data points at random from each group and compare
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-7">
+   Question 7
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#summary-comparison">
+     Summary comparison
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Discussion
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-8">
+   Question 8
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-9">
+   Question 9
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="chapter-2-exercises">
+<h1>Chapter 2 Exercises<a class="headerlink" href="#chapter-2-exercises" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">BSpline</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gaussian_kde</span>
+
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">vmap</span><span class="p">,</span> <span class="n">local_device_count</span><span class="p">,</span> <span class="n">pmap</span>
+
+<span class="kn">import</span> <span class="nn">numpyro</span>
+<span class="kn">import</span> <span class="nn">numpyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
+<span class="kn">import</span> <span class="nn">numpyro.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+
+<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">HMC</span><span class="p">,</span> <span class="n">Predictive</span>
+<span class="kn">from</span> <span class="nn">numpyro.diagnostics</span> <span class="kn">import</span> <span class="n">hpdi</span><span class="p">,</span> <span class="n">print_summary</span>
+<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">Predictive</span><span class="p">,</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span><span class="p">,</span> <span class="n">init_to_value</span>
+<span class="kn">from</span> <span class="nn">numpyro.infer.autoguide</span> <span class="kn">import</span> <span class="n">AutoLaplaceApproximation</span>
+
+
+<span class="n">seed</span><span class="o">=</span><span class="mi">1234</span>
+
+<span class="k">if</span> <span class="s2">&quot;SVG&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">config</span> InlineBackend.figure_formats = [&quot;svg&quot;]
+<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">message</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">category</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">message</span>
+<span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;arviz-darkgrid&quot;</span><span class="p">)</span>
+<span class="n">numpyro</span><span class="o">.</span><span class="n">set_platform</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span> <span class="c1"># or &quot;gpu&quot;, &quot;tpu&quot; depending on system</span>
+<span class="n">numpyro</span><span class="o">.</span><span class="n">set_host_device_count</span><span class="p">(</span><span class="n">local_device_count</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="question-1">
+<h2>Question 1<a class="headerlink" href="#question-1" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>Using PyMC3, change the parameters of the prior beta distribution in <code class="docutils literal notranslate"><span class="pre">our_first_model</span></code> to match those of the previous chapter. Compare the results to the previous chapter. Replace the beta distribution with a uniform one in the interval [0,1]. Are the results equivalent to <span class="math notranslate nohighlight">\(Beta(\alpha=1, \beta=1)\)</span>? Is the sampling slower, faster or the same? What about using a larger interval, such as [-1,2]? Does the model run? What errors do you get?</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trials</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">theta_real</span> <span class="o">=</span> <span class="mf">0.35</span>  <span class="c1"># unknown value in a real experiment</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">theta_real</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">123</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">trials</span><span class="p">,))</span>
+<span class="c1"># data = stats.bernoulli.rvs(p=theta_real, size=trials)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="baseline-model">
+<h3>Baseline model<a class="headerlink" href="#baseline-model" title="Permalink to this headline">¶</a></h3>
+<p>First let us set a baseline model with a <span class="math notranslate nohighlight">\(\alpha =1, \beta=1\)</span> prior. We’ll give <span class="math notranslate nohighlight">\(\theta\)</span> a more verbose name to be able to more easily identify it later. It should be noted that string variable names do not have to the same as the object name.</p>
+<p>When evaluating each model the strategy will be the same.</p>
+<ol class="simple">
+<li><p>Run the model</p></li>
+<li><p>Read the warning messages</p></li>
+<li><p>View the posterior kernel density estimate and traceplot</p></li>
+<li><p>Inspect the numerical summary</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># a priori</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ Beta(alpha=1, beta=1)&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
+    <span class="c1"># likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">θ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc_baseline</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_baseline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|██████████████████████████| 5500/5500 [00:02&lt;00:00, 2035.75it/s, 3 steps of size 1.01e+00. acc. prob=0.91]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7494.27it/s, 3 steps of size 1.18e+00. acc. prob=0.90]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7467.46it/s, 3 steps of size 1.07e+00. acc. prob=0.89]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7554.77it/s, 3 steps of size 8.88e-01. acc. prob=0.91]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc_baseline</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_6_0.png" src="../_images/02-x_6_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baseline_model</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc_baseline</span><span class="p">)</span>
+<span class="n">baseline_model</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>θ Beta(alpha=1, beta=1)</th>
+      <td>0.336</td>
+      <td>0.179</td>
+      <td>0.025</td>
+      <td>0.654</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>6644.0</td>
+      <td>8142.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="match-prior-for-previous-example">
+<h3>Match prior for previous example<a class="headerlink" href="#match-prior-for-previous-example" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Picking first parameters from page 28</span>
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># a priori</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;θ&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">θ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|██████████████████████████| 5500/5500 [00:02&lt;00:00, 1896.94it/s, 3 steps of size 1.01e+00. acc. prob=0.91]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7079.68it/s, 3 steps of size 1.18e+00. acc. prob=0.90]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 6914.24it/s, 3 steps of size 1.07e+00. acc. prob=0.89]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7260.89it/s, 3 steps of size 8.88e-01. acc. prob=0.91]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1">
+<h3>Replace the beta distribution with a uniform one in the interval [0,1]<a class="headerlink" href="#replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Picking first parameters from page 28</span>
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># a priori</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ Uniform(0,1)&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">θ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc_uniform</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_uniform</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|██████████████████████████| 5500/5500 [00:02&lt;00:00, 2075.46it/s, 1 steps of size 9.34e-01. acc. prob=0.92]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7531.80it/s, 3 steps of size 1.14e+00. acc. prob=0.91]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 6961.59it/s, 3 steps of size 1.18e+00. acc. prob=0.87]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7762.11it/s, 3 steps of size 1.20e+00. acc. prob=0.88]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc_uniform</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_12_0.png" src="../_images/02-x_12_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uniform_prior_0_1</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc_uniform</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">baseline_model</span><span class="p">,</span> <span class="n">uniform_prior_0_1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>θ Beta(alpha=1, beta=1)</th>
+      <td>0.336</td>
+      <td>0.179</td>
+      <td>0.025</td>
+      <td>0.654</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>6644.0</td>
+      <td>8142.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>θ Uniform(0,1)</th>
+      <td>0.334</td>
+      <td>0.180</td>
+      <td>0.030</td>
+      <td>0.656</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>7436.0</td>
+      <td>8597.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="discussion">
+<h3>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">¶</a></h3>
+<p>Both priors produce identical results. This is to be expected as a <span class="math notranslate nohighlight">\(Beta(1,1)\)</span> prior is exactly the same as a <span class="math notranslate nohighlight">\(Uniform(0,1)\)</span> prior. I encourage you to prove it to yourself by plotting both. Furthermore, the models sampling times are identical as well.</p>
+</div>
+<div class="section" id="replace-the-beta-distribution-with-a-uniform-1-2">
+<h3>Replace the beta distribution with a uniform  [-1,2]<a class="headerlink" href="#replace-the-beta-distribution-with-a-uniform-1-2" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># a priori</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ Uniform(-1,1)&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="c1"># likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">θ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc_uniform_minus_1_2</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_uniform_minus_1_2</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|██████████████████████████| 5500/5500 [00:02&lt;00:00, 2079.47it/s, 7 steps of size 6.44e-01. acc. prob=0.91]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 6590.69it/s, 3 steps of size 8.60e-01. acc. prob=0.86]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7147.64it/s, 1 steps of size 1.10e+00. acc. prob=0.80]
+sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7372.29it/s, 3 steps of size 1.05e+00. acc. prob=0.84]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc_uniform_minus_1_2</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_17_0.png" src="../_images/02-x_17_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uniform_prior_minus_1_2</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc_uniform_minus_1_2</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">baseline_model</span><span class="p">,</span> <span class="n">uniform_prior_minus_1_2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>θ Beta(alpha=1, beta=1)</th>
+      <td>0.336</td>
+      <td>0.179</td>
+      <td>0.025</td>
+      <td>0.654</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>6644.0</td>
+      <td>8142.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>θ Uniform(-1,1)</th>
+      <td>0.335</td>
+      <td>0.178</td>
+      <td>0.022</td>
+      <td>0.637</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>6041.0</td>
+      <td>7257.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Discussion<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Looking at the mean, sd, and HPD values, both results look identical, which is great. However there are three items that raise concerns. We will cover these in depth in Chapter 8 but will note them here as part of the exercise.</p>
+<p>The first is that there are two new warning messages that look something like <code class="docutils literal notranslate"><span class="pre">There</span> <span class="pre">were</span> <span class="pre">1179</span> <span class="pre">divergences</span> <span class="pre">after</span> <span class="pre">tuning.</span> <span class="pre">Increase</span> <span class="pre">target_accept</span> <span class="pre">or</span> <span class="pre">reparameterize</span></code>. Here, the sampler is warning us that something is going wrong with sampling.</p>
+<p>The second is the black bars at the bottom of the traceplot. These also indicate divergences.</p>
+<p>Lastly, when looking at eff_n, which stands for effective number of samples, the <span class="math notranslate nohighlight">\(Uniform(-1,2)\)</span> prior has a much lower number than the <span class="math notranslate nohighlight">\(Beta(1,1)\)</span>, meaning that the number of useful samples was much less than the total number of samples drawn.</p>
+<p>This makes sense when asking the question “Can a probabiity be less than 0 or more than 1?”. The answer is no, but in our prior we’re asking the sampler to “test” prior probability values less than 0 and greater than 1, and when it does so the likelihood function is unable to compute a value.</p>
+<p>Again, we’ll cover MCMC diagnostics (and what to do) in much more detail in Chapter 8, but for now it is sufficient to be able to recognize these warnings when they appear.</p>
+</div>
+</div>
+<div class="section" id="question-2">
+<h2>Question 2<a class="headerlink" href="#question-2" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>Read about the <a class="reference external" href="https://docs.pymc.io/notebooks/getting_started.html#Case-study-2:-Coal-mining-disasters">coal mining disaster model</a> that is part of the PyMC3 documentation. Try to implement and run this model by yourself.</em></p>
+</div>
+<div class="section" id="question-3">
+<h2>Question 3<a class="headerlink" href="#question-3" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>Modify <code class="docutils literal notranslate"><span class="pre">model_g</span></code>: change the prior for the mean to a Gaussian distribution centered at the empirical mean, and play with a couple of reasonable values for the standard deviation of this prior. How robust/sensitive are the inferences to these changes? What do you think of using a Gaussian, which is an unbounded distribution (goes from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(+\infty\)</span>), to model bouded data such as this? Remember that we said it is not possible to get values below 0 or above 100.</em></p>
+<p>First let’s load the data and calculate the mean and standard deviation</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/chemical_shifts.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>51.06</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>55.12</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>53.73</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>50.24</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>52.05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">empirical_mean</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">empirical_std</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">empirical_mean</span><span class="p">,</span> <span class="n">empirical_std</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(53.496456, dtype=float32), DeviceArray(3.4200068, dtype=float32))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, let’s create a model with a prior parametrized by <span class="math notranslate nohighlight">\(\mu \text{~} N(53, \sigma)\)</span>. Since we want to test the effect of various <span class="math notranslate nohighlight">\(\sigma\)</span> values, we’ll assume that values of [1.5, 3.0, 5.0] are reasonable priors parameters. We’ll also add one unreasonable <span class="math notranslate nohighlight">\(sigma\)</span> of 1000 for comparison.</p>
+<p>A benefit of Python is that we can create a loop to run three models and compare results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">summaries</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sd_priors</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">sd_prior</span> <span class="ow">in</span> <span class="n">sd_priors</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Modified prior to Gaussian</span>
+        <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;μ_prior_</span><span class="si">{</span><span class="n">sd_prior</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">empirical_mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd_prior</span><span class="p">))</span>
+        <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+        <span class="c1"># Likelihood</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+        
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+    <span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">summaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 699.15it/s, 7 steps of size 8.02e-01. acc. prob=0.93]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 7309.98it/s, 3 steps of size 7.60e-01. acc. prob=0.93]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6883.45it/s, 7 steps of size 9.07e-01. acc. prob=0.92]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6873.74it/s, 3 steps of size 1.04e+00. acc. prob=0.88]
+sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 741.67it/s, 3 steps of size 7.38e-01. acc. prob=0.94]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6881.21it/s, 3 steps of size 7.53e-01. acc. prob=0.94]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 7111.00it/s, 3 steps of size 8.62e-01. acc. prob=0.89]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6837.45it/s, 3 steps of size 7.97e-01. acc. prob=0.93]
+sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 718.08it/s, 3 steps of size 6.16e-01. acc. prob=0.95]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 7166.38it/s, 7 steps of size 8.00e-01. acc. prob=0.92]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6828.82it/s, 3 steps of size 8.31e-01. acc. prob=0.90]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6815.96it/s, 3 steps of size 1.08e+00. acc. prob=0.89]
+sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 709.60it/s, 3 steps of size 7.31e-01. acc. prob=0.93]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 7079.51it/s, 3 steps of size 8.03e-01. acc. prob=0.93]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5105.73it/s, 7 steps of size 8.54e-01. acc. prob=0.93]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6858.02it/s, 3 steps of size 9.82e-01. acc. prob=0.90]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">summaries</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>μ_prior_1.5</th>
+      <td>53.495</td>
+      <td>0.487</td>
+      <td>52.600</td>
+      <td>54.477</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>3521.0</td>
+      <td>2716.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ</th>
+      <td>3.533</td>
+      <td>0.378</td>
+      <td>2.884</td>
+      <td>4.254</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>2732.0</td>
+      <td>2464.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ_prior_3</th>
+      <td>53.492</td>
+      <td>0.510</td>
+      <td>52.496</td>
+      <td>54.447</td>
+      <td>0.009</td>
+      <td>0.006</td>
+      <td>3146.0</td>
+      <td>2358.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ</th>
+      <td>3.554</td>
+      <td>0.389</td>
+      <td>2.862</td>
+      <td>4.280</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>2652.0</td>
+      <td>2167.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ_prior_5</th>
+      <td>53.496</td>
+      <td>0.499</td>
+      <td>52.581</td>
+      <td>54.483</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>3514.0</td>
+      <td>2809.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ</th>
+      <td>3.544</td>
+      <td>0.372</td>
+      <td>2.875</td>
+      <td>4.242</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>2554.0</td>
+      <td>2167.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ_prior_1000</th>
+      <td>53.483</td>
+      <td>0.516</td>
+      <td>52.441</td>
+      <td>54.448</td>
+      <td>0.009</td>
+      <td>0.006</td>
+      <td>3205.0</td>
+      <td>2635.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ</th>
+      <td>3.544</td>
+      <td>0.381</td>
+      <td>2.805</td>
+      <td>4.216</td>
+      <td>0.008</td>
+      <td>0.005</td>
+      <td>2587.0</td>
+      <td>2404.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Looking at the summaries, the combination of model and inference technique seem quite robust to the changes. Even with a prior that is 300x larger than the empirical prior, the posterior values converge to approximately the same result. Computationally there seems to be very little difference.</p>
+<p>Logically however, there could be some question about the choice of an unbounded prior. Since it is not possible to get values below 0 or above 100, it doesn’t make practical sense to have a prior that exists for those values. Luckily though, with modern inference methods such as NUTS, the samples can “bypass” questionable priors and still get a good approximation of the posterior.</p>
+</div>
+<div class="section" id="question-4">
+<h2>Question 4<a class="headerlink" href="#question-4" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>Using the data in chemical_shifts.csv, compute the empirical mean and the standard deviation with and without outliers. Repeat the exercise by adding more outliers. Compare those results to the Bayesian estimations using the Gaussian and Student’s t distributions from the chapter.</em></p>
+<p>Let’s first compute the mean and standard deviation without removing any data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/chemical_shifts.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">empirical_mean</span><span class="p">,</span> <span class="n">empirical_std</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">empirical_mean</span><span class="p">,</span> <span class="n">empirical_std</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(53.496456, dtype=float32), DeviceArray(3.4200068, dtype=float32))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then let’s let’s identify outliers by using the <em>2x standard deviation</em> methodology:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outlier_mask</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="o">-</span><span class="n">empirical_mean</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">empirical_std</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">data</span><span class="p">[</span><span class="n">outlier_mask</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([63.43, 68.58], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Removing those two values, let’s recompute the mean and standard deviation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">empirical_mean_no_outliers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">outlier_mask</span><span class="p">])</span>
+<span class="n">empirical_std_no_outliers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">outlier_mask</span><span class="p">])</span>
+
+<span class="n">empirical_mean_no_outliers</span><span class="p">,</span> <span class="n">empirical_std_no_outliers</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(52.95261, dtype=float32), DeviceArray(2.1950302, dtype=float32))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that the mean has dropped from 53.49 to 52.95, and the standard deviation has dropped from 3.42 to 2.19. Logically this makes sense as the data is “less spread out” when we don’t include  outliers.</p>
+<p>Let’s repeat the exercise but add more outliers. We can do this by repeating the previously identified outliers a couple more times:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an array with the outliers repeated 4 times</span>
+<span class="n">additional_outliers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">outlier_mask</span><span class="p">],</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Concatenate the original data array and the additional outliers</span>
+<span class="n">data_more_outliers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">additional_outliers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
+<span class="n">data_more_outliers</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([[51.06],
+             [55.12],
+             [53.73],
+             [50.24],
+             [52.05],
+             [56.4 ],
+             [48.45],
+             [52.34],
+             [55.65],
+             [51.49],
+             [51.86],
+             [63.43],
+             [53.  ],
+             [56.09],
+             [51.93],
+             [52.31],
+             [52.33],
+             [57.48],
+             [57.44],
+             [55.14],
+             [53.93],
+             [54.62],
+             [56.09],
+             [68.58],
+             [51.36],
+             [55.47],
+             [50.73],
+             [51.94],
+             [54.95],
+             [50.39],
+             [52.91],
+             [51.5 ],
+             [52.68],
+             [47.72],
+             [49.73],
+             [51.82],
+             [54.99],
+             [52.84],
+             [53.19],
+             [54.52],
+             [51.46],
+             [53.73],
+             [51.61],
+             [49.81],
+             [52.42],
+             [54.3 ],
+             [53.84],
+             [53.16],
+             [63.43],
+             [63.43],
+             [63.43],
+             [63.43],
+             [68.58],
+             [68.58],
+             [68.58],
+             [68.58]], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">empirical_mean_more_outliers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_more_outliers</span><span class="p">)</span>
+<span class="n">empirical_std_more_outliers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data_more_outliers</span><span class="p">)</span>
+
+<span class="n">empirical_mean_more_outliers</span><span class="p">,</span> <span class="n">empirical_std_more_outliers</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(55.28339, dtype=float32), DeviceArray(5.489223, dtype=float32))
+</pre></div>
+</div>
+</div>
+</div>
+<p>The mean and standard deviation both go up in this case. This intuitively makes sense because the distribution needs to “stretch” to include these additional data points that are farther away from the mean.</p>
+</div>
+<div class="section" id="question-5">
+<h2>Question 5<a class="headerlink" href="#question-5" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>Modify the tips example to make it robust to outliers. Try with one shared <span class="math notranslate nohighlight">\(\nu\)</span> for all groups and also with one <span class="math notranslate nohighlight">\(\nu\)</span> per group. Run posterior predictive checks to assess these three models.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tips</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/tips.csv&#39;</span><span class="p">)</span>
+<span class="n">tip</span> <span class="o">=</span> <span class="n">tips</span><span class="p">[</span><span class="s1">&#39;tip&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">tips</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">],</span>
+                     <span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Thur&#39;</span><span class="p">,</span> <span class="s1">&#39;Fri&#39;</span><span class="p">,</span> <span class="s1">&#39;Sat&#39;</span><span class="p">,</span> <span class="s1">&#39;Sun&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">codes</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="gaussian-model">
+<h3>Gaussian Model<a class="headerlink" href="#gaussian-model" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Priors</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+    <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+    <span class="c1"># Likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tip</span><span class="p">))</span>
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">y_pred_normal</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 617.67it/s, 7 steps of size 6.89e-01. acc. prob=0.89]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5770.65it/s, 7 steps of size 7.45e-01. acc. prob=0.87]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_normal</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_pred_normal</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">100</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tips_normal</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc</span><span class="p">,</span> <span class="n">posterior_predictive</span><span class="o">=</span><span class="n">y_pred_normal</span><span class="p">,</span> <span class="p">)</span>
+<span class="c1"># tips_normal = az.from_pymc3(trace=trace_normal, posterior_predictive=y_pred_normal)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">tips_normal</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">mean</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Posterior Predictive Check for Normal Tips Model&quot;</span><span class="p">);</span>
+<span class="c1"># axes[0].set_title(&quot;Posterior Predictive Check for Normal Tips Model&quot;);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+</pre></div>
+</div>
+<img alt="../_images/02-x_48_1.png" src="../_images/02-x_48_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="shared-nu-across-all-groups">
+<h3>Shared <span class="math notranslate nohighlight">\(\nu\)</span> across all groups<a class="headerlink" href="#shared-nu-across-all-groups" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Priors</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+    <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+    <span class="n">ν</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;ν&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">30</span><span class="p">))</span>
+    
+    <span class="c1"># Likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">StudentT</span><span class="p">(</span><span class="n">ν</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc_nu_shared</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_nu_shared</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">tip</span><span class="p">)</span>
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc_nu_shared</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc_nu_shared</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">y_pred_nu_shared</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:03&lt;00:00, 479.80it/s, 7 steps of size 4.68e-01. acc. prob=0.92]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5180.11it/s, 7 steps of size 4.97e-01. acc. prob=0.93]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_nu_shared</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_pred_nu_shared</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">100</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_nu_shared</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([[3.3804502 , 1.855169  , 2.6588318 , ..., 2.3689137 ,
+              3.9253676 , 1.7528629 ],
+             [3.7585166 , 4.7252293 , 2.6407044 , ..., 2.5933318 ,
+              6.6557975 , 1.5313852 ],
+             [4.1861796 , 3.0742688 , 3.1691594 , ..., 4.770434  ,
+              0.99994695, 3.0893745 ],
+             ...,
+             [6.1282716 , 0.09785277, 2.0844345 , ..., 1.3396584 ,
+              4.6238675 , 0.21592183],
+             [1.0493304 , 2.8243797 , 3.9303071 , ..., 3.959254  ,
+              2.518939  , 0.926102  ],
+             [2.820881  , 2.8085551 , 5.292919  , ..., 1.9563518 ,
+              3.7566905 , 6.6220255 ]], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># with pm.Model() as comparing_groups:</span>
+<span class="c1">#     μ = pm.Normal(&#39;μ&#39;, mu=0, sd=10, shape=groups)</span>
+<span class="c1">#     σ = pm.HalfNormal(&#39;σ&#39;, sd=10, shape=groups)</span>
+<span class="c1">#     ν = pm.Exponential(&#39;ν&#39;, 1/30)</span>
+    
+<span class="c1">#     y = pm.StudentT(&#39;y&#39;, mu=μ[idx], sd=σ[idx], nu=ν, observed=tip)</span>
+    
+<span class="c1">#     trace_nu_shared = pm.sample(5000)</span>
+<span class="c1">#     y_pred_nu_shared = pm.sample_posterior_predictive(trace_nu_shared, 100)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tips_nu_shared</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc_nu_shared</span><span class="p">,</span> <span class="n">posterior_predictive</span><span class="o">=</span><span class="n">y_pred_nu_shared</span><span class="p">)</span>
+<span class="c1"># tips_normal = az.from_pymc3(trace=trace_normal, posterior_predictive=y_pred_normal)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">tips_nu_shared</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">mean</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Posterior Predictive Check for Student T Shared ν Tips Model&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+<span class="c1"># axes[0].set_title(&quot;Posterior Predictive Check for Normal Tips Model&quot;);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+</pre></div>
+</div>
+<img alt="../_images/02-x_54_1.png" src="../_images/02-x_54_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="one-nu-per-group">
+<h3>One <span class="math notranslate nohighlight">\(\nu\)</span> per group<a class="headerlink" href="#one-nu-per-group" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">rng_seed</span><span class="o">=</span><span class="mi">1234</span><span class="p">):</span>
+        <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+        <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+        <span class="n">ν</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;ν&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">([</span><span class="n">groups</span><span class="p">]))</span>
+    
+    <span class="c1"># Likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">StudentT</span><span class="p">(</span><span class="n">ν</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tip</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(244,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmc_nu_per_group</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_nu_per_group</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">tip</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:03&lt;00:00, 417.62it/s, 7 steps of size 4.48e-01. acc. prob=0.92]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 2147.20it/s, 7 steps of size 5.34e-01. acc. prob=0.86]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc_nu_per_group</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc_nu_per_group</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">y_pred_nu_per_group</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_nu_per_group</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_pred_nu_per_group</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">100</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tips_nu_per_group</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">posterior</span><span class="o">=</span><span class="n">mcmc_nu_per_group</span><span class="p">,</span> <span class="n">posterior_predictive</span><span class="o">=</span><span class="n">y_pred_nu_per_group</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">tips_nu_per_group</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">mean</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Posterior Predictive Check for Student T ν per group&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+</pre></div>
+</div>
+<img alt="../_images/02-x_63_1.png" src="../_images/02-x_63_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="question-6">
+<h2>Question 6<a class="headerlink" href="#question-6" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>Compute the probability of superiority directly from the posterior (without computing Cohen’s d first). You can use the <code class="docutils literal notranslate"><span class="pre">pm.sample_posterior_predictive()</span></code> function to take a sample from each group. Is it really different from the calculation assuming normality? Can you explain the result?</em></p>
+<p>The goal is to calculate Cohen’s D numerically. We’ll do that in 3 steps:</p>
+<ol class="simple">
+<li><p>Fit a distribution of parameters to our data</p></li>
+<li><p>Generate posterior predictive distributions for our groups</p></li>
+<li><p>Pick data points at random from each group and compare the datapoints in each group</p></li>
+</ol>
+<div class="section" id="step-1-estimate-model-parameters-per-group">
+<h3>Step 1: Estimate model parameters per group<a class="headerlink" href="#step-1-estimate-model-parameters-per-group" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tips</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/tips.csv&#39;</span><span class="p">)</span>
+<span class="n">tip</span> <span class="o">=</span> <span class="n">tips</span><span class="p">[</span><span class="s1">&#39;tip&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">tips</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">],</span>
+                     <span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Thur&#39;</span><span class="p">,</span> <span class="s1">&#39;Fri&#39;</span><span class="p">,</span> <span class="s1">&#39;Sat&#39;</span><span class="p">,</span> <span class="s1">&#39;Sun&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">codes</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Priors</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+    <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+    
+    <span class="c1"># Likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc_cg</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_cg</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">tip</span><span class="p">)</span>
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc_cg</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc_cg</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">ppc_cg</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+
+<span class="n">ppc_cg</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ppc_cg</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">500</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 559.87it/s, 7 steps of size 6.89e-01. acc. prob=0.89]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5668.81it/s, 7 steps of size 7.45e-01. acc. prob=0.87]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flat_tips</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">posterior</span><span class="o">=</span><span class="n">mcmc_cg</span><span class="p">)</span>
+<span class="n">tips_gaussian</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">flat_tips</span><span class="p">)</span>
+<span class="n">tips_gaussian</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>μ[0]</th>
+      <td>2.767</td>
+      <td>0.164</td>
+      <td>2.473</td>
+      <td>3.085</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>3093.0</td>
+      <td>1329.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[1]</th>
+      <td>2.726</td>
+      <td>0.269</td>
+      <td>2.240</td>
+      <td>3.243</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>2525.0</td>
+      <td>1487.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[2]</th>
+      <td>2.997</td>
+      <td>0.175</td>
+      <td>2.636</td>
+      <td>3.301</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>2913.0</td>
+      <td>1306.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[3]</th>
+      <td>3.256</td>
+      <td>0.143</td>
+      <td>2.980</td>
+      <td>3.503</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>2935.0</td>
+      <td>1481.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[0]</th>
+      <td>1.270</td>
+      <td>0.119</td>
+      <td>1.058</td>
+      <td>1.492</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3532.0</td>
+      <td>1564.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[1]</th>
+      <td>1.109</td>
+      <td>0.212</td>
+      <td>0.737</td>
+      <td>1.499</td>
+      <td>0.005</td>
+      <td>0.003</td>
+      <td>2613.0</td>
+      <td>1435.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[2]</th>
+      <td>1.654</td>
+      <td>0.125</td>
+      <td>1.435</td>
+      <td>1.897</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>3144.0</td>
+      <td>1403.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[3]</th>
+      <td>1.252</td>
+      <td>0.100</td>
+      <td>1.064</td>
+      <td>1.436</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3178.0</td>
+      <td>1464.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="step-2-get-posterior-predictive-values-per-group">
+<h3>Step 2: Get posterior predictive values per group<a class="headerlink" href="#step-2-get-posterior-predictive-values-per-group" title="Permalink to this headline">¶</a></h3>
+<p>In our case, let’s see if Sunday is superior to Thursday in regards to tips.</p>
+<p>In our code, recall that:</p>
+<ul class="simple">
+<li><p>We have 244 items</p></li>
+<li><p>We encoded the string labels of days into “codes” or integers</p></li>
+<li><p>Sunday was encoded as 3, Thursday was encoded as 0</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get our model&#39;s predictions for possible tips on Thursday and Sunday</span>
+<span class="n">posterior_predictive_thursday</span> <span class="o">=</span> <span class="n">ppc_cg</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][:,</span><span class="n">idx</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">posterior_predictive_sunday</span> <span class="o">=</span> <span class="n">ppc_cg</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][:,</span><span class="n">idx</span><span class="o">==</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Just to get a sense of the distributions, let’s plot them:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">posterior_predictive_thursday</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_71_0.png" src="../_images/02-x_71_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">posterior_predictive_sunday</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_72_0.png" src="../_images/02-x_72_0.png" />
+</div>
+</div>
+<p>From visual inspection, it’s hard to see the difference between the two groups.</p>
+</div>
+<div class="section" id="step-3-pick-data-points-at-random-from-each-group-and-compare">
+<h3>Step 3: Pick data points at random from each group and compare<a class="headerlink" href="#step-3-pick-data-points-at-random-from-each-group-and-compare" title="Permalink to this headline">¶</a></h3>
+<p>Let’s numerically simulate Cohen’s D by drawing random samples from both posterior predictive distributions and naively calculating probability</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">count_superior</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+    <span class="n">thursday_tip_draw</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="n">a</span><span class="o">=</span><span class="n">posterior_predictive_thursday</span><span class="p">)</span>
+    <span class="n">sunday_tip_draw</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="n">a</span><span class="o">=</span><span class="n">posterior_predictive_sunday</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">thursday_tip_draw</span> <span class="o">&gt;</span> <span class="n">sunday_tip_draw</span><span class="p">:</span>
+        <span class="n">count_superior</span> <span class="o">+=</span><span class="mi">1</span>
+        
+<span class="n">count_superior</span><span class="o">/</span><span class="n">samples</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.381
+</pre></div>
+</div>
+</div>
+</div>
+<p>.397 is very similar to the calculation we obtained in Figure 2.18. This means that, given a tip on Thursday, there is only a 4 in 10 chance that it will be higher than a tip on Sunday. In other words, you should sign up for Sunday shifts if you’re looking to make extra money! I encourage you to try changing the idx values to compare other groups.</p>
+<p>For reference, another, more efficient way to compute Cohen’s D is possible with numpy broadcasting. The code below is functionally identical to the code above, but by using numpy broadcasting we can write less code and the computation is completed more efficiently:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">thursday_tip_draws</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">a</span><span class="o">=</span><span class="n">posterior_predictive_thursday</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,))</span>
+<span class="n">sunday_tip_draws</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">a</span><span class="o">=</span><span class="n">posterior_predictive_sunday</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,))</span>
+
+<span class="p">(</span><span class="n">thursday_tip_draws</span> <span class="o">&gt;</span> <span class="n">sunday_tip_draws</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray(0.406, dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="question-7">
+<h2>Question 7<a class="headerlink" href="#question-7" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>Repeat the exercise we did with <code class="docutils literal notranslate"><span class="pre">model_h</span></code>. This time, without hierarchical structure, use a flat prior such as <span class="math notranslate nohighlight">\(Beta(1,1)\)</span>. Compare the results of both models.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate data</span>
+<span class="n">N_samples</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="n">G_samples</span> <span class="o">=</span> <span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="c1"># [18, 18, 18]  # [3, 3, 3]  </span>
+
+<span class="n">group_idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">N_samples</span><span class="p">)),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">N_samples</span><span class="p">))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">N_samples</span><span class="p">)):</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">G_samples</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">N_samples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">G_samples</span><span class="p">[</span><span class="n">i</span><span class="p">]])))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Baseline model</span>
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Priors</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
+    <span class="n">κ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;κ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+                       
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="n">μ</span><span class="o">*</span><span class="n">κ</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">μ</span><span class="p">)</span><span class="o">*</span><span class="n">κ</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">N_samples</span><span class="p">),))</span>
+    
+    <span class="c1"># Likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">θ</span><span class="p">[</span><span class="n">group_idx</span><span class="p">]),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc_h</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc_h</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc_h</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">ppc_h</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+
+<span class="n">ppc_h</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ppc_h</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">500</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:03&lt;00:00, 467.57it/s, 3 steps of size 5.23e-01. acc. prob=0.90]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5774.81it/s, 7 steps of size 4.86e-01. acc. prob=0.93]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc_h</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_80_0.png" src="../_images/02-x_80_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">mcmc_h</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_81_0.png" src="../_images/02-x_81_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baseline_summary</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc_h</span><span class="p">)</span>
+<span class="n">baseline_summary</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>θ[0]</th>
+      <td>0.548</td>
+      <td>0.089</td>
+      <td>0.378</td>
+      <td>0.708</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>1870.0</td>
+      <td>1528.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>θ[1]</th>
+      <td>0.128</td>
+      <td>0.056</td>
+      <td>0.027</td>
+      <td>0.228</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>1885.0</td>
+      <td>1188.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>θ[2]</th>
+      <td>0.130</td>
+      <td>0.058</td>
+      <td>0.028</td>
+      <td>0.235</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>2038.0</td>
+      <td>1368.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>κ</th>
+      <td>5.980</td>
+      <td>4.084</td>
+      <td>0.523</td>
+      <td>13.470</td>
+      <td>0.105</td>
+      <td>0.074</td>
+      <td>1404.0</td>
+      <td>1356.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>μ</th>
+      <td>0.301</td>
+      <td>0.120</td>
+      <td>0.105</td>
+      <td>0.539</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>1421.0</td>
+      <td>1371.0</td>
+      <td>1.01</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baseline_model</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">posterior</span><span class="o">=</span><span class="n">mcmc_h</span><span class="p">,</span> <span class="n">posterior_predictive</span><span class="o">=</span><span class="n">ppc_h</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">baseline_model</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">mean</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+</pre></div>
+</div>
+<img alt="../_images/02-x_83_1.png" src="../_images/02-x_83_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># baseline_model = az.from_pymc3(trace=trace_h, posterior_predictive=ppc_h)</span>
+<span class="c1"># az.plot_ppc(baseline_model, figsize=(12,6), mean=False);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Flat model</span>
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Priors</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
+    <span class="n">κ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;κ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+                       
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="n">μ</span><span class="o">*</span><span class="n">κ</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">μ</span><span class="p">)</span><span class="o">*</span><span class="n">κ</span><span class="p">))</span>
+    
+    <span class="c1"># Likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">θ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc_non_h</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_non_h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc_non_h</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc_non_h</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">ppc_non_h</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+
+<span class="n">ppc_non_h</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ppc_non_h</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">500</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:03&lt;00:00, 483.93it/s, 7 steps of size 6.81e-01. acc. prob=0.83]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6294.30it/s, 7 steps of size 5.73e-01. acc. prob=0.94]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc_non_h</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_86_0.png" src="../_images/02-x_86_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">mcmc_non_h</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_87_0.png" src="../_images/02-x_87_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flat_summary</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc_non_h</span><span class="p">)</span>
+<span class="n">flat_summary</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>θ</th>
+      <td>0.272</td>
+      <td>0.045</td>
+      <td>0.186</td>
+      <td>0.354</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>1744.0</td>
+      <td>1512.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>κ</th>
+      <td>9.159</td>
+      <td>5.936</td>
+      <td>0.029</td>
+      <td>19.496</td>
+      <td>0.176</td>
+      <td>0.125</td>
+      <td>901.0</td>
+      <td>698.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ</th>
+      <td>0.343</td>
+      <td>0.156</td>
+      <td>0.049</td>
+      <td>0.620</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>1370.0</td>
+      <td>991.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flat_model</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">posterior</span><span class="o">=</span><span class="n">mcmc_non_h</span><span class="p">,</span> <span class="n">posterior_predictive</span><span class="o">=</span><span class="n">ppc_non_h</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">flat_model</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+</pre></div>
+</div>
+<img alt="../_images/02-x_89_1.png" src="../_images/02-x_89_1.png" />
+</div>
+</div>
+<div class="section" id="summary-comparison">
+<h3>Summary comparison<a class="headerlink" href="#summary-comparison" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">baseline_summary</span><span class="p">,</span> <span class="n">flat_summary</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>θ[0]</th>
+      <td>0.548</td>
+      <td>0.089</td>
+      <td>0.378</td>
+      <td>0.708</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>1870.0</td>
+      <td>1528.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>θ[1]</th>
+      <td>0.128</td>
+      <td>0.056</td>
+      <td>0.027</td>
+      <td>0.228</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>1885.0</td>
+      <td>1188.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>θ[2]</th>
+      <td>0.130</td>
+      <td>0.058</td>
+      <td>0.028</td>
+      <td>0.235</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>2038.0</td>
+      <td>1368.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>κ</th>
+      <td>5.980</td>
+      <td>4.084</td>
+      <td>0.523</td>
+      <td>13.470</td>
+      <td>0.105</td>
+      <td>0.074</td>
+      <td>1404.0</td>
+      <td>1356.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>μ</th>
+      <td>0.301</td>
+      <td>0.120</td>
+      <td>0.105</td>
+      <td>0.539</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>1421.0</td>
+      <td>1371.0</td>
+      <td>1.01</td>
+    </tr>
+    <tr>
+      <th>θ</th>
+      <td>0.272</td>
+      <td>0.045</td>
+      <td>0.186</td>
+      <td>0.354</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>1744.0</td>
+      <td>1512.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>κ</th>
+      <td>9.159</td>
+      <td>5.936</td>
+      <td>0.029</td>
+      <td>19.496</td>
+      <td>0.176</td>
+      <td>0.125</td>
+      <td>901.0</td>
+      <td>698.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>μ</th>
+      <td>0.343</td>
+      <td>0.156</td>
+      <td>0.049</td>
+      <td>0.620</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>1370.0</td>
+      <td>991.0</td>
+      <td>1.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Discussion<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>In the hiearchical model, we get three estimates of <span class="math notranslate nohighlight">\(\theta\)</span>, one per each group. So, by using a hierarchical model, we’re able to obtain the range of <span class="math notranslate nohighlight">\(\theta\)</span> parameters per group, and not just the average <span class="math notranslate nohighlight">\(\theta\)</span> parameter for all groups.</p>
+</div>
+</div>
+<div class="section" id="question-8">
+<h2>Question 8<a class="headerlink" href="#question-8" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>Create a hierarchical version of the tips example by partially pooling across the days of the week. Compare the results to those obtained without the hierarchical structure.</em></p>
+<p>Refer to Question 6 for the non-pooled version of the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Priors</span>
+    <span class="n">pooled_mean</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;pooled_mean&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">))</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">pooled_mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+    
+    <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
+    
+    <span class="c1"># Likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mcmc_pooled_tips</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_pooled_tips</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">tip</span><span class="p">)</span>
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc_pooled_tips</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc_pooled_tips</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">ppc_pooled_tips</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+
+<span class="n">ppc_pooled_tips</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ppc_pooled_tips</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">500</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 531.90it/s, 7 steps of size 5.87e-01. acc. prob=0.91]
+sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5603.35it/s, 3 steps of size 5.90e-01. acc. prob=0.92]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">mcmc_pooled_tips</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_95_0.png" src="../_images/02-x_95_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_tips_dataset</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">posterior</span><span class="o">=</span><span class="n">mcmc_pooled_tips</span><span class="p">)</span>
+<span class="n">tips_pooled_summary</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">pooled_tips_dataset</span><span class="p">)</span>
+<span class="n">tips_pooled_summary</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>pooled_mean</th>
+      <td>2.940</td>
+      <td>0.514</td>
+      <td>1.938</td>
+      <td>3.855</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>4705.0</td>
+      <td>1374.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[0]</th>
+      <td>2.779</td>
+      <td>0.161</td>
+      <td>2.480</td>
+      <td>3.088</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>3150.0</td>
+      <td>1261.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[1]</th>
+      <td>2.746</td>
+      <td>0.242</td>
+      <td>2.295</td>
+      <td>3.212</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>2434.0</td>
+      <td>1216.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[2]</th>
+      <td>2.995</td>
+      <td>0.168</td>
+      <td>2.692</td>
+      <td>3.322</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>3523.0</td>
+      <td>1659.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[3]</th>
+      <td>3.248</td>
+      <td>0.142</td>
+      <td>2.974</td>
+      <td>3.503</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>3447.0</td>
+      <td>1230.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[0]</th>
+      <td>1.266</td>
+      <td>0.114</td>
+      <td>1.048</td>
+      <td>1.466</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3751.0</td>
+      <td>1306.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[1]</th>
+      <td>1.095</td>
+      <td>0.200</td>
+      <td>0.731</td>
+      <td>1.432</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>3429.0</td>
+      <td>1465.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[2]</th>
+      <td>1.654</td>
+      <td>0.130</td>
+      <td>1.435</td>
+      <td>1.916</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>4926.0</td>
+      <td>1584.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[3]</th>
+      <td>1.256</td>
+      <td>0.108</td>
+      <td>1.061</td>
+      <td>1.457</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3472.0</td>
+      <td>1427.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">tips_gaussian</span><span class="p">,</span> <span class="n">tips_pooled_summary</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>μ[0]</th>
+      <td>2.767</td>
+      <td>0.164</td>
+      <td>2.473</td>
+      <td>3.085</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>3093.0</td>
+      <td>1329.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[1]</th>
+      <td>2.726</td>
+      <td>0.269</td>
+      <td>2.240</td>
+      <td>3.243</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>2525.0</td>
+      <td>1487.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[2]</th>
+      <td>2.997</td>
+      <td>0.175</td>
+      <td>2.636</td>
+      <td>3.301</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>2913.0</td>
+      <td>1306.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[3]</th>
+      <td>3.256</td>
+      <td>0.143</td>
+      <td>2.980</td>
+      <td>3.503</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>2935.0</td>
+      <td>1481.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[0]</th>
+      <td>1.270</td>
+      <td>0.119</td>
+      <td>1.058</td>
+      <td>1.492</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3532.0</td>
+      <td>1564.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[1]</th>
+      <td>1.109</td>
+      <td>0.212</td>
+      <td>0.737</td>
+      <td>1.499</td>
+      <td>0.005</td>
+      <td>0.003</td>
+      <td>2613.0</td>
+      <td>1435.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[2]</th>
+      <td>1.654</td>
+      <td>0.125</td>
+      <td>1.435</td>
+      <td>1.897</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>3144.0</td>
+      <td>1403.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[3]</th>
+      <td>1.252</td>
+      <td>0.100</td>
+      <td>1.064</td>
+      <td>1.436</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3178.0</td>
+      <td>1464.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>pooled_mean</th>
+      <td>2.940</td>
+      <td>0.514</td>
+      <td>1.938</td>
+      <td>3.855</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>4705.0</td>
+      <td>1374.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[0]</th>
+      <td>2.779</td>
+      <td>0.161</td>
+      <td>2.480</td>
+      <td>3.088</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>3150.0</td>
+      <td>1261.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[1]</th>
+      <td>2.746</td>
+      <td>0.242</td>
+      <td>2.295</td>
+      <td>3.212</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>2434.0</td>
+      <td>1216.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[2]</th>
+      <td>2.995</td>
+      <td>0.168</td>
+      <td>2.692</td>
+      <td>3.322</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>3523.0</td>
+      <td>1659.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ[3]</th>
+      <td>3.248</td>
+      <td>0.142</td>
+      <td>2.974</td>
+      <td>3.503</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>3447.0</td>
+      <td>1230.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[0]</th>
+      <td>1.266</td>
+      <td>0.114</td>
+      <td>1.048</td>
+      <td>1.466</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3751.0</td>
+      <td>1306.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[1]</th>
+      <td>1.095</td>
+      <td>0.200</td>
+      <td>0.731</td>
+      <td>1.432</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>3429.0</td>
+      <td>1465.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[2]</th>
+      <td>1.654</td>
+      <td>0.130</td>
+      <td>1.435</td>
+      <td>1.916</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>4926.0</td>
+      <td>1584.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>σ[3]</th>
+      <td>1.256</td>
+      <td>0.108</td>
+      <td>1.061</td>
+      <td>1.457</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3472.0</td>
+      <td>1427.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">pooled_tips_dataset</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_98_0.png" src="../_images/02-x_98_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">flat_tips</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_99_0.png" src="../_images/02-x_99_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="question-9">
+<h2>Question 9<a class="headerlink" href="#question-9" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><em>PyMC3 can create <strong>directed acyclic graphs (DAGs)</strong> from models that are very similar to Kruschke’s diagrams. You can obtain them using the <code class="docutils literal notranslate"><span class="pre">pm.model_to_graphviz()</span></code> function. To generate DAGs, you may need to install graphviz using the command <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">conda-forge</span> <span class="pre">python-graphviz</span></code>. Generate a DAG for each model in this chapter.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numpyro</span><span class="o">.</span><span class="n">render_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model_args</span><span class="o">=</span><span class="p">(</span><span class="n">tip</span><span class="p">,),</span> <span class="n">render_distributions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02-x_102_0.svg" src="../_images/02-x_102_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pm.model_to_graphviz(pooled_mu_tips)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>A last note before finishing up: besides the exercises you’ll find at the end of each chapter, you can always try to (and probably should) think of problems you are interested in and how to apply what you have learned to that problem. Maybe you will need to define your problem in a different way, or maybe you will need to expand or modify the models you have learned. If you think this task is beyond your current skills, note down the problem and come back to it after reading another chapter in this book. Eventually, if the book does not answer your questions, check the <a class="reference external" href="https://docs.pymc.io/nb_examples/index.html">PyMC3 examples</a> or ask a question on <a class="reference external" href="https://discourse.pymc.io/">PyMC’s Discourse</a>.</em></p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="01-x.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Chapter 1 Exercises</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="03-x.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Chapter 3 Exercises</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a><br/>
+        
+          <div class="extra_footer">
+            <p>
+Code released under a <a href="https://opensource.org/licenses/MIT">MIT license</a>.
+</p>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
