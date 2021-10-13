@@ -72,18 +72,19 @@ jobs:
       with:
         auto-update-conda: true
         python-version: ${{ matrix.python-version }}
-    - name: Setup conda dependencies
+
+    # Build the book
+    - name: Setup conda dependencies and build the book
       shell: bash -l {0}
       run: |
         conda env create -q
         conda activate bap-numpyro
         conda env update
         pip install -r requirements.txt
-
-    # Build the book
-    - name: Build the book
-      run: |
         jupyter-book build .
+
+    # - name: Build the book
+    #   run: |
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action
