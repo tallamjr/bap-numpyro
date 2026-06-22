@@ -39,64 +39,25 @@ wheels = [
 
 [[package]]
 name = "arviz"
-version = "1.2.0"
+version = "0.23.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "arviz-base" },
-    { name = "arviz-plots" },
-    { name = "arviz-stats", extra = ["xarray"] },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/ac/da/1a15d73964342f63a4459a4b42838ad793c12421e27339b621f5227bcf97/arviz-1.2.0.tar.gz", hash = "sha256:ce9d8233691e37dc4b57b670ac1da3cca0f9312280fb0d77e7cd743772d2895c", size = 8665, upload-time = "2026-06-12T17:41:14.283Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d2/37/e66d037fd935f40606fc5dc1c610d78653037dd62d656a25cead401d81dc/arviz-1.2.0-py3-none-any.whl", hash = "sha256:3b2b313b4b57ebb2e028c5237e4eacbd4f56084d0162128f8f1f42266c7cf515", size = 9153, upload-time = "2026-06-12T17:41:13.149Z" },
-]
-
-[[package]]
-name = "arviz-base"
-version = "1.2.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "lazy-loader" },
+    { name = "h5netcdf" },
+    { name = "h5py" },
+    { name = "matplotlib" },
     { name = "numpy" },
+    { name = "packaging" },
+    { name = "pandas" },
+    { name = "platformdirs" },
+    { name = "scipy" },
+    { name = "setuptools" },
     { name = "typing-extensions" },
     { name = "xarray" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/e6/d7/4db6e89b0cc5a26ce0e84accd5dd6ff43572eb32e9b46c577bd5d219ed6a/arviz_base-1.2.0.tar.gz", hash = "sha256:be06f9c15c53a951a971bef697e6b0a68497aae4d1670be065dd8f0482e9efca", size = 1410416, upload-time = "2026-06-12T15:54:46.517Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/37/d7/82e5f456d50b6accf06d137594282bf6984526fa1b329a061f7b91b123aa/arviz_base-1.2.0-py3-none-any.whl", hash = "sha256:a3f7023b665823068ff4b973bb6205eacc65f3c0a446cc099d7e5326b50f1ffc", size = 1427453, upload-time = "2026-06-12T15:54:44.805Z" },
-]
-
-[[package]]
-name = "arviz-plots"
-version = "1.2.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "arviz-base" },
-    { name = "arviz-stats", extra = ["xarray"] },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/6e/d4/738cd3abcc27d681e9876a897d7bab4aa1ad0321257e1a65d2cdc52849bd/arviz_plots-1.2.0.tar.gz", hash = "sha256:e1f462aa0ac02fb957aabcae2cfcbee9bc089a029c94dab83fa2ed02d02098f3", size = 158834, upload-time = "2026-06-12T17:12:10.83Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/1a/06/85b6f3d07c8b0bd232c05c236188575074fcb9006174e5a5ca5b6dd12a9f/arviz_plots-1.2.0-py3-none-any.whl", hash = "sha256:2e16ed95ce6d6fbb171d60f7300f50c520ebeeb132be7539591a018076f66f16", size = 243949, upload-time = "2026-06-12T17:12:08.906Z" },
-]
-
-[[package]]
-name = "arviz-stats"
-version = "1.2.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "numpy" },
-    { name = "scipy" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/4c/97/fd555a4b16ac349f297c786dab1a3270b3540677b0222a84e517441eb338/arviz_stats-1.2.0.tar.gz", hash = "sha256:fc49e6e75f4fce953987a9bf17dc39950e1f12e7cd73f865257e5d1b6a5ee114", size = 157554, upload-time = "2026-06-12T16:20:11.552Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/96/8f/73f43d90534d49a4af4c8e35d5b60e2838435b0318f44262dc6fe2dd39d8/arviz_stats-1.2.0-py3-none-any.whl", hash = "sha256:f9084addeb1abdbab6e9816f0a063118bc4ff7c48ce9141a4dad20b0e41410ae", size = 183844, upload-time = "2026-06-12T16:20:10.191Z" },
-]
-
-[package.optional-dependencies]
-xarray = [
-    { name = "arviz-base" },
-    { name = "xarray" },
     { name = "xarray-einstats" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f3/c9/9c853633715f972eecc20995763c6e3005a3afcdcf47e39d20cd1c2889cd/arviz-0.23.4.tar.gz", hash = "sha256:611be826995066036c9443ea98d11486c279ef3da3b6cdc5c0816fab434115b9", size = 1592968, upload-time = "2026-02-04T17:57:53.664Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/1f/227f9cb7edcd3e14ab05928f3db00e9d595c0f269c87bf35f565ce44941b/arviz-0.23.4-py3-none-any.whl", hash = "sha256:c46c7faf8a06abadc9b5b64000584062ecbc20c2298e2bd6dfba04bb01a684ca", size = 1673773, upload-time = "2026-02-04T17:57:51.778Z" },
 ]
 
 [[package]]
@@ -152,7 +113,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "arviz", specifier = ">=0.20" },
+    { name = "arviz", specifier = ">=0.23,<1.0" },
     { name = "jax", specifier = ">=0.6" },
     { name = "matplotlib", specifier = ">=3.9" },
     { name = "numpy", specifier = ">=2.1" },
@@ -393,6 +354,38 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/1f/9b/391d015cbc6323e81b14c02cf825fdca7e0049c9bb489bf4ac72883118ba/greenlet-3.5.2-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:b9318cdeb9abdbfdd8bc8464ee4a06dffde2c7846e1def138365a6240ab2c9a5", size = 1638092, upload-time = "2026-06-17T17:40:08.163Z" },
     { url = "https://files.pythonhosted.org/packages/49/53/5b4df711f4356c62e85d9f819d87966d526d1cfb32bae49a8f7d6fc36ea4/greenlet-3.5.2-cp313-cp313-win_amd64.whl", hash = "sha256:2c3b3311af72b3d3b03cc0f1ffd11f072e834be5d0444105cf715fc44434e39c", size = 239352, upload-time = "2026-06-17T17:38:51.593Z" },
     { url = "https://files.pythonhosted.org/packages/bb/b6/18efc3a329ec035c3f344b8f2b60356451950ddf9b7b64ff00023778a1dd/greenlet-3.5.2-cp313-cp313-win_arm64.whl", hash = "sha256:f9bbd6216c45a563c2a61e478e038b439d9f248bde44f775ea37d339da643af4", size = 237635, upload-time = "2026-06-17T17:35:36.632Z" },
+]
+
+[[package]]
+name = "h5netcdf"
+version = "1.8.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ef/03/92d6cc02c0055158167255980461155d6e17f1c4143c03f8bcc18d3e3f3a/h5netcdf-1.8.1.tar.gz", hash = "sha256:9b396a4cc346050fc1a4df8523bc1853681ec3544e0449027ae397cb953c7a16", size = 78679, upload-time = "2026-01-23T07:35:31.233Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b1/8b/88f16936a8e8070a83d36239555227ecd91728f9ef222c5382cda07e0fd6/h5netcdf-1.8.1-py3-none-any.whl", hash = "sha256:a76ed7cfc9b8a8908ea7057c4e57e27307acff1049b7f5ed52db6c2247636879", size = 62915, upload-time = "2026-01-23T07:35:30.195Z" },
+]
+
+[[package]]
+name = "h5py"
+version = "3.16.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/db/33/acd0ce6863b6c0d7735007df01815403f5589a21ff8c2e1ee2587a38f548/h5py-3.16.0.tar.gz", hash = "sha256:a0dbaad796840ccaa67a4c144a0d0c8080073c34c76d5a6941d6818678ef2738", size = 446526, upload-time = "2026-03-06T13:49:08.07Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0f/9e/6142ebfda0cb6e9349c091eae73c2e01a770b7659255248d637bec54a88b/h5py-3.16.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:370a845f432c2c9619db8eed334d1e610c6015796122b0e57aa46312c22617d9", size = 3671808, upload-time = "2026-03-06T13:48:19.737Z" },
+    { url = "https://files.pythonhosted.org/packages/b0/65/5e088a45d0f43cd814bc5bec521c051d42005a472e804b1a36c48dada09b/h5py-3.16.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:42108e93326c50c2810025aade9eac9d6827524cdccc7d4b75a546e5ab308edb", size = 3045837, upload-time = "2026-03-06T13:48:21.854Z" },
+    { url = "https://files.pythonhosted.org/packages/da/1e/6172269e18cc5a484e2913ced33339aad588e02ba407fafd00d369e22ef3/h5py-3.16.0-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:099f2525c9dcf28de366970a5fb34879aab20491589fa89ce2863a84218bb524", size = 5193860, upload-time = "2026-03-06T13:48:24.071Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/98/ef2b6fe2903e377cbe870c3b2800d62552f1e3dbe81ce49e1923c53d1c5c/h5py-3.16.0-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:9300ad32dea9dfc5171f94d5f6948e159ed93e4701280b0f508773b3f582f402", size = 5400417, upload-time = "2026-03-06T13:48:25.728Z" },
+    { url = "https://files.pythonhosted.org/packages/bc/81/5b62d760039eed64348c98129d17061fdfc7839fc9c04eaaad6dee1004e4/h5py-3.16.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:171038f23bccddfc23f344cadabdfc9917ff554db6a0d417180d2747fe4c75a7", size = 5185214, upload-time = "2026-03-06T13:48:27.436Z" },
+    { url = "https://files.pythonhosted.org/packages/28/c4/532123bcd9080e250696779c927f2cb906c8bf3447df98f5ceb8dcded539/h5py-3.16.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:7e420b539fb6023a259a1b14d4c9f6df8cf50d7268f48e161169987a57b737ff", size = 5414598, upload-time = "2026-03-06T13:48:29.49Z" },
+    { url = "https://files.pythonhosted.org/packages/c3/d9/a27997f84341fc0dfcdd1fe4179b6ba6c32a7aa880fdb8c514d4dad6fba3/h5py-3.16.0-cp313-cp313-win_amd64.whl", hash = "sha256:18f2bbcd545e6991412253b98727374c356d67caa920e68dc79eab36bf5fedad", size = 3175509, upload-time = "2026-03-06T13:48:31.131Z" },
+    { url = "https://files.pythonhosted.org/packages/a5/23/bb8647521d4fd770c30a76cfc6cb6a2f5495868904054e92f2394c5a78ff/h5py-3.16.0-cp313-cp313-win_arm64.whl", hash = "sha256:656f00e4d903199a1d58df06b711cf3ca632b874b4207b7dbec86185b5c8c7d4", size = 2647362, upload-time = "2026-03-06T13:48:33.411Z" },
 ]
 
 [[package]]
@@ -716,18 +709,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/27/dd/4270b2c5e2ee49316c3859e62293bd2ea8e382339d63ab7bbe9f39c0ec3b/latexcodec-3.0.1.tar.gz", hash = "sha256:e78a6911cd72f9dec35031c6ec23584de6842bfbc4610a9678868d14cdfb0357", size = 31222, upload-time = "2025-06-17T18:47:34.051Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b5/40/23569737873cc9637fd488606347e9dd92b9fa37ba4fcda1f98ee5219a97/latexcodec-3.0.1-py3-none-any.whl", hash = "sha256:a9eb8200bff693f0437a69581f7579eb6bca25c4193515c09900ce76451e452e", size = 18532, upload-time = "2025-06-17T18:47:30.726Z" },
-]
-
-[[package]]
-name = "lazy-loader"
-version = "0.5"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "packaging" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/49/ac/21a1f8aa3777f5658576777ea76bfb124b702c520bbe90edf4ae9915eafa/lazy_loader-0.5.tar.gz", hash = "sha256:717f9179a0dbed357012ddad50a5ad3d5e4d9a0b8712680d4e687f5e6e6ed9b3", size = 15294, upload-time = "2026-03-06T15:45:09.054Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/8a/a1/8d812e53a5da1687abb10445275d41a8b13adb781bbf7196ddbcf8d88505/lazy_loader-0.5-py3-none-any.whl", hash = "sha256:ab0ea149e9c554d4ffeeb21105ac60bed7f3b4fd69b1d2360a4add51b170b005", size = 8044, upload-time = "2026-03-06T15:45:07.668Z" },
 ]
 
 [[package]]

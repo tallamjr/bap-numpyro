@@ -8,7 +8,7 @@ license = { text = "MIT" }
 dependencies = [
     "numpyro>=0.21,<0.22",
     "jax>=0.6",
-    "arviz>=0.20",
+    "arviz>=0.23,<1.0",
     "numpy>=2.1",
     "scipy>=1.14",
     "pandas>=2.2",
