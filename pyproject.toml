@@ -1,0 +1,30 @@
+[project]
+name = "bap-numpyro"
+version = "2026.0.0"
+description = "Bayesian Analysis in Python (2nd ed.) ported to NumPyro"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = { text = "MIT" }
+dependencies = [
+    "numpyro>=0.21,<0.22",
+    "jax>=0.6",
+    "arviz>=0.20",
+    "numpy>=2.1",
+    "scipy>=1.14",
+    "pandas>=2.2",
+    "matplotlib>=3.9",
+    "seaborn>=0.13",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter-book>=1.0,<2.0",
+    "nbmake>=1.5",
+    "pytest>=8.3",
+    "ipykernel>=6.29",
+    "jupytext>=1.16",
+]
+
+[tool.pytest.ini_options]
+addopts = "--nbmake --nbmake-timeout=1200"
+testpaths = ["notebooks"]
