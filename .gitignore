@@ -156,3 +156,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Generated figure outputs from notebook savefig() calls (book figure names)
+notebooks/B11197_*.png
