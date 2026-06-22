@@ -23,6 +23,7 @@ dev = [
     "pytest>=8.3",
     "ipykernel>=6.29",
     "jupytext>=1.16",
+    "pyflakes>=3.4.0",
 ]
 
 [tool.pytest.ini_options]
