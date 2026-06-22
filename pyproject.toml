@@ -28,5 +28,5 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-addopts = "--nbmake --nbmake-timeout=1200"
+addopts = "--nbmake --nbmake-kernel=python3 --nbmake-timeout=1200"
 testpaths = ["notebooks"]

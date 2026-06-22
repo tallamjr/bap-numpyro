@@ -42,6 +42,22 @@ Build the book locally:
 uv run jupyter-book build .
 ```
 
+### Running interactively in Jupyter Lab
+
+The notebooks are configured to use a dedicated `bap-numpyro` kernel that points at the project's `.venv` interpreter. Register it once:
+
+```bash
+uv run python -m ipykernel install --user --name bap-numpyro --display-name "Python (bap-numpyro)"
+```
+
+Then launch Jupyter from the project environment and open any notebook:
+
+```bash
+uv run jupyter lab
+```
+
+Each notebook already selects the "Python (bap-numpyro)" kernel. Do not run them with a generic "Python 3" kernel: that may resolve to a different environment that lacks the pinned NumPyro/ArviZ stack and will raise import errors. If you see `ModuleNotFoundError: No module named 'numpyro'` (or `arviz`), the wrong kernel is selected: switch to "Python (bap-numpyro)" via Kernel > Change Kernel.
+
 **Graphviz:** the model-rendering cell in the Chapter 2 exercises requires the `graphviz` system package. Install it with `brew install graphviz` (macOS) or `apt-get install graphviz` (Debian/Ubuntu).
 
 **Float64:** the Gaussian Process chapter and its exercises call `numpyro.enable_x64()` for numerical stability. Ensure JAX float64 is not disabled in your environment.
