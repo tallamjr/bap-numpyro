@@ -1,7 +1,7 @@
-- file: README
-  numbered: false
-
-- part: Bayesian Analysis in Python (2nd ed.) with NumPyro
+format: jb-book
+root: README
+parts:
+- caption: Bayesian Analysis in Python (2nd ed.) with NumPyro
   chapters:
   - file: notebooks/01-thinking-probabilistically.ipynb
   - file: notebooks/02-programming-probabilistically.ipynb
@@ -11,11 +11,13 @@
   - file: notebooks/06-mixture_models.ipynb
   - file: notebooks/07-gaussian-process.ipynb
   - file: notebooks/08-inference-engines.ipynb
-
-- part: Exercises
+- caption: Exercises
   chapters:
   - file: notebooks/01-x.ipynb
   - file: notebooks/02-x.ipynb
   - file: notebooks/03-x.ipynb
   - file: notebooks/04-x.ipynb
-
+  - file: notebooks/05-x.ipynb
+  - file: notebooks/06-x.ipynb
+  - file: notebooks/07-x.ipynb
+  - file: notebooks/08-x.ipynb

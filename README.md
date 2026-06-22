@@ -9,31 +9,58 @@ After discovering the fantastic
 [@fehiepsi](https://github.com/fehiepsi), I was inspired to try and do something like that myself.
 Primarily as a learning activity, this is my attempt at porting
 [@aloctavodia](https://github.com/aloctavodia)'s "Bayesian Analysis in Python" [example PyMC3
-code](https://github.com/aloctavodia/BAP) to [NumPyro](https://github.com/pyro-ppl/numpyro)
+code](https://github.com/aloctavodia/BAP) to [NumPyro](https://github.com/pyro-ppl/numpyro).
 
-🚧  **WIP** 🚧
+The port is now complete and modernised for 2026: all chapters (1-8) and exercises are ported, including newly-authored exercises for chapters 5-8 that do not exist in the original BAP repository.
 
-_**NOTE**_ : This is still a work-in-progress project.
+## Setup
 
-I am still very new to `numpyro` myself, and therefore welcome comments and suggestions about how
-best to write idiomatic code and translate things etc. My plan is to translate as much as possible
-using _only_ `jax`, `arviz`, `numpyro` and `seaborn`.  There are aspects where I could not figure
-out how to do it, maybe you can help?!
+The project is managed with [uv](https://docs.astral.sh/uv/) and targets the following stack:
 
-#### TODOs:
+| Tool    | Version |
+|---------|---------|
+| Python  | 3.13    |
+| NumPyro | 0.21    |
+| JAX     | 0.10    |
+| ArviZ   | 0.23    |
 
-- [ ] Fix Chapters 5, 6, 7
-- [ ] Complete port of exercises 3 and 4
-- [ ] Complete exercises for chapters 5, 6, 7 & 8
-- [ ] Remove unused imports from each notebook
+Create the environment:
 
-<!-- ## How to read the notebooks
+```bash
+uv sync --group dev
+```
 
-+ Read on the site: https://tallamjr.github.io/bap-numpyro/
+Run all notebooks as tests:
 
-+ Use GitHub's renderer: https://github.com/tallamjr/bap-numpyro/tree/master/notebooks/
+```bash
+uv run pytest --nbmake notebooks/
+```
 
-+ Use Jupyter's nbviewer: https://nbviewer.jupyter.org/github/tallamjr/bap-numpyro/tree/master/notebooks/ -->
+Build the book locally:
+
+```bash
+uv run jupyter-book build .
+```
+
+### Running interactively in Jupyter Lab
+
+The notebooks are configured to use a dedicated `bap-numpyro` kernel that points at the project's `.venv` interpreter. Register it once:
+
+```bash
+uv run python -m ipykernel install --user --name bap-numpyro --display-name "Python (bap-numpyro)"
+```
+
+Then launch Jupyter from the project environment and open any notebook:
+
+```bash
+uv run jupyter lab
+```
+
+Each notebook already selects the "Python (bap-numpyro)" kernel. Do not run them with a generic "Python 3" kernel: that may resolve to a different environment that lacks the pinned NumPyro/ArviZ stack and will raise import errors. If you see `ModuleNotFoundError: No module named 'numpyro'` (or `arviz`), the wrong kernel is selected: switch to "Python (bap-numpyro)" via Kernel > Change Kernel.
+
+**Graphviz:** the model-rendering cell in the Chapter 2 exercises requires the `graphviz` system package. Install it with `brew install graphviz` (macOS) or `apt-get install graphviz` (Debian/Ubuntu).
+
+**Float64:** the Gaussian Process chapter and its exercises call `numpyro.enable_x64()` for numerical stability. Ensure JAX float64 is not disabled in your environment.
 
 ## Acknowledgements
 
