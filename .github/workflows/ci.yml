@@ -27,6 +27,8 @@ jobs:
           python-version: "3.13"
       - run: sudo apt-get update && sudo apt-get install -y graphviz
       - run: uv sync --group dev
+      - name: Register the bap-numpyro Jupyter kernel
+        run: uv run python -m ipykernel install --user --name bap-numpyro --display-name "Python (bap-numpyro)"
       - run: uv run jupyter-book build .
       - uses: peaceiris/actions-gh-pages@v4
         with:
