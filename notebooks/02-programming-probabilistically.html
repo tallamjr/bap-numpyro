@@ -1,372 +1,513 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Chapter 2. Programming Probabilistically &#8212; Bayesian Analysis in Python (2nd ed.) with NumPyro</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    
-      
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
-
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/02-programming-probabilistically';</script>
     <link rel="canonical" href="https://tallamjr.github.io/bap-numpyro/notebooks/02-programming-probabilistically.html" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Chapter 3. Modeling with Linear Regressions" href="03-modeling-with-Linear-regressions.html" />
     <link rel="prev" title="Chapter 1. Thinking Probabilistically" href="01-thinking-probabilistically.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+  
+  <dialog id="pst-search-dialog">
     
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/bap-cover.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Bayesian Analysis in Python (2nd ed.) with NumPyro</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../README.html">
-   Bayesian Analysis in Python (2nd ed.) with Numpyro
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Bayesian Analysis in Python (2nd ed.) with NumPyro
- </span>
-</p>
+    
+    
+    <img src="../_static/bap-cover.png" class="logo__image only-light" alt="Bayesian Analysis in Python (2nd ed.) with NumPyro - Home"/>
+    <img src="../_static/bap-cover.png" class="logo__image only-dark pst-js-only" alt="Bayesian Analysis in Python (2nd ed.) with NumPyro - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    Bayesian Analysis in Python (2nd ed.) with Numpyro
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Bayesian Analysis in Python (2nd ed.) with NumPyro</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01-thinking-probabilistically.html">
-   Chapter 1. Thinking Probabilistically
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Chapter 2. Programming Probabilistically
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03-modeling-with-Linear-regressions.html">
-   Chapter 3. Modeling with Linear Regressions
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04-generalizing_linear_models.html">
-   Chapter 4. Generalizing Linear Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05-model_comparison.html">
-   Chapter 5. Model Comparison
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="06-mixture_models.html">
-   Chapter 6. Mixture Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="07-gaussian-process.html">
-   Chapter 7. Gaussian Processes
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="08-inference-engines.html">
-   Chapter 8. Inferene Engines
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01-thinking-probabilistically.html">Chapter 1. Thinking Probabilistically</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 2. Programming Probabilistically</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="03-modeling-with-Linear-regressions.html">Chapter 3. Modeling with Linear Regressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-generalizing_linear_models.html">Chapter 4. Generalizing Linear Models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05-model_comparison.html">Chapter 5. Model Comparison</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="06-mixture_models.html">Chapter 6. Mixture Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-gaussian-process.html">Chapter 7. Gaussian Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-inference-engines.html">Chapter 8. Inferene Engines</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Exercises
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01-x.html">
-   Chapter 1 Exercises
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02-x.html">
-   Chapter 2 Exercises
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03-x.html">
-   Chapter 3 Exercises
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04-x.html">
-   Chapter 4 Exercises
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01-x.html">Chapter 1 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-x.html">Chapter 2 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-x.html">Chapter 3 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-x.html">Chapter 4 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-x.html">Chapter 5 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-x.html">Chapter 6 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-x.html">Chapter 7 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-x.html">Chapter 8 Exercises</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/02-programming-probabilistically.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
 
-            <!-- Source interaction buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/tallamjr/bap-numpyro"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/02-programming-probabilistically.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/02-programming-probabilistically.ipynb"><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
     </div>
-</div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
+<div class="article-header-buttons">
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
 
-            <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/02-programming-probabilistically.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/02-programming-probabilistically.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Chapter 2. Programming Probabilistically
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#numpyro-primer">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       numpyro
-      </span>
-     </code>
-     primer
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#summarizing-the-posterior">
-       Summarizing the posterior
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h4 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#posterior-based-decisions">
-         Posterior-based decisions
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#gaussian-inferences">
-     Gaussian inferences
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#robust-inferences">
-       Robust inferences
-      </a>
-     </li>
-    </ul>
-   </li>
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/02-programming-probabilistically.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/02-programming-probabilistically.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
   </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tips-example">
-   Tips example
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#hierarchical-models">
-   Hierarchical Models
-  </a>
- </li>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/02-programming-probabilistically.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/02-programming-probabilistically.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/02-programming-probabilistically.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 2. Programming Probabilistically</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Chapter 2. Programming Probabilistically</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpyro-primer"><code class="docutils literal notranslate"><span class="pre">numpyro</span></code> primer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summarizing-the-posterior">Summarizing the posterior</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-based-decisions">Posterior-based decisions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-inferences">Gaussian inferences</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-inferences">Robust inferences</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-example">Tips example</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-models">Hierarchical Models</a></li>
 </ul>
 
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
+
+              
                 
-  <div class="section" id="chapter-2-programming-probabilistically">
-<h1>Chapter 2. Programming Probabilistically<a class="headerlink" href="#chapter-2-programming-probabilistically" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-2-programming-probabilistically">
+<h1>Chapter 2. Programming Probabilistically<a class="headerlink" href="#chapter-2-programming-probabilistically" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">BSpline</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gaussian_kde</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
-<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">vmap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">random</span>
 
-<span class="kn">import</span> <span class="nn">numpyro</span>
-<span class="kn">import</span> <span class="nn">numpyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
-<span class="kn">import</span> <span class="nn">numpyro.optim</span> <span class="k">as</span> <span class="nn">optim</span>
 
-<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">HMC</span><span class="p">,</span> <span class="n">Predictive</span>
-<span class="kn">from</span> <span class="nn">numpyro.diagnostics</span> <span class="kn">import</span> <span class="n">hpdi</span><span class="p">,</span> <span class="n">print_summary</span>
-<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">Predictive</span><span class="p">,</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span><span class="p">,</span> <span class="n">init_to_value</span>
-<span class="kn">from</span> <span class="nn">numpyro.infer.autoguide</span> <span class="kn">import</span> <span class="n">AutoLaplaceApproximation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro.distributions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.infer</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">Predictive</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_summary</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.infer</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.infer.autoguide</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoLaplaceApproximation</span>
 
 <span class="n">seed</span><span class="o">=</span><span class="mi">4321</span>
 
@@ -380,9 +521,15 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/bap-numpyro/bap-numpyro/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
 </div>
-<div class="section" id="numpyro-primer">
-<h2><code class="docutils literal notranslate"><span class="pre">numpyro</span></code> primer<a class="headerlink" href="#numpyro-primer" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<section id="numpyro-primer">
+<h2><code class="docutils literal notranslate"><span class="pre">numpyro</span></code> primer<a class="headerlink" href="#numpyro-primer" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trials</span> <span class="o">=</span> <span class="mi">4</span>
@@ -394,14 +541,14 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([0, 1, 0, 0], dtype=int32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([0, 0, 0, 0], dtype=int32)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="c1"># a priori</span>
     <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">))</span>
     <span class="c1"># likelihood</span>
@@ -415,14 +562,12 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: There are not enough devices to run parallel chains: expected 2 but got 1. Chains will be drawn sequentially. If you are running MCMC in CPU, consider using `numpyro.set_host_device_count(2)` at the beginning of your program. You can double-check how many devices are available in your system using `jax.local_device_count()`.
-sample: 100%|███████████████████████████| 2000/2000 [00:02&lt;00:00, 797.62it/s, 1 steps of size 9.83e-01. acc. prob=0.92]
-sample: 100%|██████████████████████████| 2000/2000 [00:00&lt;00:00, 7209.50it/s, 3 steps of size 1.13e+00. acc. prob=0.90]
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="summarizing-the-posterior">
-<h3>Summarizing the posterior<a class="headerlink" href="#summarizing-the-posterior" title="Permalink to this headline">¶</a></h3>
+<section id="summarizing-the-posterior">
+<h3>Summarizing the posterior<a class="headerlink" href="#summarizing-the-posterior" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc</span><span class="p">),</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -431,7 +576,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_6_0.png" src="../_images/02-programming-probabilistically_6_0.png" />
+<img alt="../_images/865005a39121fcc800d2a43b57b9f06ad3f97ab11771dbc5c1d8d51240709a07.png" src="../_images/865005a39121fcc800d2a43b57b9f06ad3f97ab11771dbc5c1d8d51240709a07.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -442,15 +587,15 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                mean       std    median      5.0%     95.0%     n_eff     r_hat
-         θ      0.33      0.18      0.31      0.05      0.61   1051.12      1.00
+         θ      0.17      0.14      0.14      0.00      0.38   1032.25      1.00
 
 Number of divergences: 0
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="posterior-based-decisions">
-<h4>Posterior-based decisions<a class="headerlink" href="#posterior-based-decisions" title="Permalink to this headline">¶</a></h4>
+<section id="posterior-based-decisions">
+<h4>Posterior-based decisions<a class="headerlink" href="#posterior-based-decisions" title="Link to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc</span><span class="p">))</span>
@@ -459,7 +604,7 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_9_0.png" src="../_images/02-programming-probabilistically_9_0.png" />
+<img alt="../_images/e469cca3d400e2d982d9b4f85437fc4c0ff6ec47bc1cec192e9a49134b9ac365.png" src="../_images/e469cca3d400e2d982d9b4f85437fc4c0ff6ec47bc1cec192e9a49134b9ac365.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -469,10 +614,13 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;θ&#39;}&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;θ&#39;}&gt;
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_10_1.png" src="../_images/02-programming-probabilistically_10_1.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight semibold, now using 700.
+</pre></div>
+</div>
+<img alt="../_images/bd055154c0cf975d6310665b6c04bc0300a957dcc7e8a9985f19023712893d6f.png" src="../_images/bd055154c0cf975d6310665b6c04bc0300a957dcc7e8a9985f19023712893d6f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -482,10 +630,10 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;θ&#39;}&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;θ&#39;}&gt;
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_11_1.png" src="../_images/02-programming-probabilistically_11_1.png" />
+<img alt="../_images/f088a34117398313651d9bfd5eb752404bb119b0ee4b9b6836c1dc5e3ff03ce0.png" src="../_images/f088a34117398313651d9bfd5eb752404bb119b0ee4b9b6836c1dc5e3ff03ce0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -495,10 +643,10 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;θ&#39;: DeviceArray([[0.17285858, 0.32812756, 0.48738322, ..., 0.16604272,
-               0.4787685 , 0.5638707 ],
-              [0.57522225, 0.6004805 , 0.4808577 , ..., 0.22368269,
-               0.21266927, 0.21266927]], dtype=float32)}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;θ&#39;: Array([[0.4302732 , 0.22730798, 0.35363612, ..., 0.2424667 , 0.2424667 ,
+         0.29889515],
+        [0.12797502, 0.2579594 , 0.24877162, ..., 0.2667495 , 0.39053956,
+         0.66751534]], dtype=float32)}
 </pre></div>
 </div>
 </div>
@@ -522,7 +670,7 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_13_0.png" src="../_images/02-programming-probabilistically_13_0.png" />
+<img alt="../_images/e161c89ba4b214bcd57898ec96e0b4cabdcd1ec6447d0c04f72234a24d421ac3.png" src="../_images/e161c89ba4b214bcd57898ec96e0b4cabdcd1ec6447d0c04f72234a24d421ac3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -532,8 +680,7 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(0.32869053, dtype=float32),
- DeviceArray(0.30531082, dtype=float32))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Array(0.17276159, dtype=float32), Array(0.13712831, dtype=float32))
 </pre></div>
 </div>
 </div>
@@ -562,14 +709,14 @@ Number of divergences: 0
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\hat \\theta$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_15_1.png" src="../_images/02-programming-probabilistically_15_1.png" />
+<img alt="../_images/3159213d4c30f3d41ee52da52c497841186e4c1bb9100cfe2e0b4d4885a76631.png" src="../_images/3159213d4c30f3d41ee52da52c497841186e4c1bb9100cfe2e0b4d4885a76631.png" />
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="gaussian-inferences">
-<h2>Gaussian inferences<a class="headerlink" href="#gaussian-inferences" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+</section>
+<section id="gaussian-inferences">
+<h2>Gaussian inferences<a class="headerlink" href="#gaussian-inferences" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/chemical_shifts.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -645,33 +792,168 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.YTick at 0x1272bdf40&gt;], [Text(0, 0, &#39;&#39;)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.YTick at 0x7f769c332fd0&gt;], [Text(0, 0, &#39;0&#39;)])
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_19_1.png" src="../_images/02-programming-probabilistically_19_1.png" />
+<img alt="../_images/9e95722d2e05f74d5e54531b0e1335212bcf321fae2a0d8c4ac0895b9bd35859.png" src="../_images/9e95722d2e05f74d5e54531b0e1335212bcf321fae2a0d8c4ac0895b9bd35859.png" />
 </div>
 </div>
  <center><img src="../_static/imgs/B11197_02_08.png" width="600"></center><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">40.</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">70.</span><span class="p">))</span>
     <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">))</span>
-    <span class="k">with</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">plate</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-        <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
 
     
 <span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="n">mcmc2</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">mcmc2</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">mcmc2</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: There are not enough devices to run parallel chains: expected 2 but got 1. Chains will be drawn sequentially. If you are running MCMC in CPU, consider using `numpyro.set_host_device_count(2)` at the beginning of your program. You can double-check how many devices are available in your system using `jax.local_device_count()`.
-sample: 100%|███████████████████████████| 1000/1000 [00:02&lt;00:00, 406.78it/s, 1 steps of size 7.91e-01. acc. prob=0.89]
-sample: 100%|██████████████████████████| 1000/1000 [00:00&lt;00:00, 6035.36it/s, 3 steps of size 6.60e-01. acc. prob=0.93]
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">40.</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">70.</span><span class="p">))</span>
+    <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">))</span>
+    
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="n">guide</span> <span class="o">=</span> <span class="n">AutoLaplaceApproximation</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">svi</span> <span class="o">=</span> <span class="n">SVI</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">guide</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">loss</span><span class="o">=</span><span class="n">Trace_ELBO</span><span class="p">(),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">svi_result</span> <span class="o">=</span> <span class="n">svi</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">svi_result</span><span class="o">.</span><span class="n">params</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2000 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 1/2000 [00:00&lt;07:50,  4.25it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███▍      | 677/2000 [00:00&lt;00:00, 2554.13it/s, init loss: 1089.1637, avg. loss [501-600]: 129.8815]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68%|██████▊   | 1366/2000 [00:00&lt;00:00, 4072.73it/s, init loss: 1089.1637, avg. loss [1201-1300]: 129.8815]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2000/2000 [00:00&lt;00:00, 3790.34it/s, init loss: 1089.1637, avg. loss [1901-2000]: 129.8815]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;auto_loc&#39;: Array([-0.20069703,  1.2389036 ], dtype=float32)}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">guide</span><span class="o">.</span><span class="n">sample_posterior</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">svi_result</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,))</span>
+<span class="n">print_summary</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="mf">0.89</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                mean       std    median      5.5%     94.5%     n_eff     r_hat
+         μ     53.50      0.50     53.51     52.73     54.29    792.82      1.00
+         σ      3.45      0.36      3.44      2.92      4.02   1015.33      1.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>arviz - WARNING - Shape validation failed: input_shape: (1, 1000), minimum_shape: (chains=2, draws=4)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>μ</th>
+      <td>53.503</td>
+      <td>0.495</td>
+      <td>52.527</td>
+      <td>54.394</td>
+      <td>0.017</td>
+      <td>0.012</td>
+      <td>807.0</td>
+      <td>894.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>σ</th>
+      <td>3.452</td>
+      <td>0.356</td>
+      <td>2.814</td>
+      <td>4.105</td>
+      <td>0.011</td>
+      <td>0.008</td>
+      <td>1009.0</td>
+      <td>947.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idata_svi</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">posterior</span><span class="o">=</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">samples</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">idata_svi</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="s1">&#39;σ&#39;</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="n">marginals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;Axes: &gt;, None],
+       [&lt;Axes: xlabel=&#39;μ&#39;, ylabel=&#39;σ&#39;&gt;, &lt;Axes: &gt;]], dtype=object)
+</pre></div>
+</div>
+<img alt="../_images/6ec8c7ccb3594f1122cc87b8c41f490cdd3e9148bf3b1979c331cf15737c14bd.png" src="../_images/6ec8c7ccb3594f1122cc87b8c41f490cdd3e9148bf3b1979c331cf15737c14bd.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -682,24 +964,21 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_22_0.png" src="../_images/02-programming-probabilistically_22_0.png" />
+<img alt="../_images/219613cdc22f4fe5ff837bcff70c2f525335c8db913b68eb3ddc1b8a25bf8070.png" src="../_images/219613cdc22f4fe5ff837bcff70c2f525335c8db913b68eb3ddc1b8a25bf8070.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_joint</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc2</span><span class="p">),</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="s1">&#39;σ&#39;</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="n">fill_last</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc2</span><span class="p">),</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="s1">&#39;σ&#39;</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="n">marginals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: plot_joint will be deprecated. Please use plot_pair instead.
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;Axes: &gt;, None],
+       [&lt;Axes: xlabel=&#39;μ&#39;, ylabel=&#39;σ&#39;&gt;, &lt;Axes: &gt;]], dtype=object)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot:xlabel=&#39;μ&#39;, ylabel=&#39;σ&#39;&gt;, &lt;AxesSubplot:&gt;,
-       &lt;AxesSubplot:&gt;], dtype=object)
-</pre></div>
-</div>
-<img alt="../_images/02-programming-probabilistically_23_2.png" src="../_images/02-programming-probabilistically_23_2.png" />
+<img alt="../_images/835b60f5c28d365244bad3b9f69629a1c6a968623e9fc6265039f40de53abf9e.png" src="../_images/835b60f5c28d365244bad3b9f69629a1c6a968623e9fc6265039f40de53abf9e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -710,8 +989,8 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                mean       std    median      5.0%     95.0%     n_eff     r_hat
-         μ     53.49      0.05     53.50     53.40     53.57    787.94      1.00
-         σ      3.42      0.04      3.42      3.36      3.48    685.76      1.00
+         μ     53.50      0.54     53.51     52.58     54.35   1363.21      1.00
+         σ      3.55      0.38      3.52      2.89      4.09   1087.79      1.00
 
 Number of divergences: 0
 </pre></div>
@@ -757,27 +1036,27 @@ Number of divergences: 0
   <tbody>
     <tr>
       <th>μ</th>
-      <td>53.495</td>
-      <td>0.049</td>
-      <td>53.405</td>
-      <td>53.594</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>795.0</td>
-      <td>675.0</td>
-      <td>1.01</td>
+      <td>53.501</td>
+      <td>0.537</td>
+      <td>52.456</td>
+      <td>54.494</td>
+      <td>0.015</td>
+      <td>0.014</td>
+      <td>1381.0</td>
+      <td>1106.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>σ</th>
-      <td>3.420</td>
-      <td>0.035</td>
-      <td>3.356</td>
-      <td>3.491</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>693.0</td>
-      <td>579.0</td>
-      <td>1.00</td>
+      <td>3.546</td>
+      <td>0.380</td>
+      <td>2.893</td>
+      <td>4.277</td>
+      <td>0.011</td>
+      <td>0.012</td>
+      <td>1261.0</td>
+      <td>1126.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -795,7 +1074,7 @@ Number of divergences: 0
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc2</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc2</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
-<span class="n">post_p</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">N</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">post_p</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -809,7 +1088,7 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1000, 100)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2000,)
 </pre></div>
 </div>
 </div>
@@ -828,38 +1107,27 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 100)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50,)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jnp</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">post_p</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jnp</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">post_p</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([44.29414 , 44.349854, 46.441837, 46.689426, 46.796425,
-             47.03588 , 47.583427, 47.596024, 48.212406, 48.726635,
-             48.813835, 48.84052 , 49.055523, 49.085613, 49.60701 ,
-             49.714584, 49.80934 , 49.83368 , 49.943848, 50.031883,
-             50.160152, 50.25194 , 50.320923, 50.334843, 50.518284,
-             50.518463, 50.6463  , 50.69864 , 50.728085, 50.96986 ,
-             51.064117, 51.330784, 51.572712, 51.629684, 51.821022,
-             51.835228, 51.87946 , 51.93214 , 52.314796, 52.3805  ,
-             52.59526 , 52.771126, 52.853275, 52.88644 , 53.019768,
-             53.135284, 53.27581 , 53.30327 , 53.48876 , 53.51001 ,
-             53.626865, 53.722065, 53.72291 , 53.811417, 53.82796 ,
-             53.831795, 53.83189 , 53.83466 , 54.084534, 54.088604,
-             54.338524, 54.603535, 54.712193, 54.74976 , 54.75797 ,
-             54.77956 , 54.86422 , 54.87436 , 54.945034, 54.96186 ,
-             55.11813 , 55.122982, 55.267242, 55.4409  , 55.642887,
-             55.657356, 55.68466 , 55.780605, 55.79514 , 56.42554 ,
-             56.570297, 56.609188, 56.980118, 57.09482 , 57.193207,
-             57.202858, 57.915466, 57.950962, 57.98787 , 57.992737,
-             58.044582, 58.31988 , 58.68991 , 59.050575, 59.08069 ,
-             59.140976, 59.159565, 60.87754 , 61.32518 , 62.033207],            dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([46.745388, 47.783894, 47.960545, 48.143864, 48.682137, 49.091415,
+       49.43399 , 50.61955 , 50.651875, 50.870014, 50.940655, 51.011593,
+       51.060616, 51.445423, 51.500843, 51.507828, 51.628143, 51.72838 ,
+       52.139427, 52.14141 , 52.777943, 52.882385, 53.023865, 53.283226,
+       53.357082, 53.459694, 54.149002, 54.518143, 54.66415 , 54.853065,
+       55.205856, 55.271294, 55.291107, 55.31206 , 55.541275, 55.729   ,
+       56.294544, 56.300568, 56.3838  , 57.02212 , 57.11992 , 57.69125 ,
+       57.98786 , 58.0567  , 58.087234, 58.136707, 58.233673, 58.76705 ,
+       60.163494, 62.707558], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -873,7 +1141,7 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
 </pre></div>
 </div>
 </div>
@@ -899,13 +1167,15 @@ Number of divergences: 0
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">post_p</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]:</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">})</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">post_p</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_36_0.png" src="../_images/02-programming-probabilistically_36_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/06c2d10aa330a3a9a639716f9e0ab86c73bb11c5b66b4fd786d45cb17cb139b8.png" src="../_images/06c2d10aa330a3a9a639716f9e0ab86c73bb11c5b66b4fd786d45cb17cb139b8.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -916,15 +1186,18 @@ Number of divergences: 0
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: Your data appears to have a single value or no finite values
+</pre></div>
+</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(40.0, 70.0)
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_37_1.png" src="../_images/02-programming-probabilistically_37_1.png" />
+<img alt="../_images/b033ed948c6e29b1cc475b2276eb9ba564a812327b4184e5ed70431842f6b80d.png" src="../_images/b033ed948c6e29b1cc475b2276eb9ba564a812327b4184e5ed70431842f6b80d.png" />
 </div>
 </div>
 <hr class="docutils" />
-<div class="section" id="robust-inferences">
-<h3>Robust inferences<a class="headerlink" href="#robust-inferences" title="Permalink to this headline">¶</a></h3>
+<section id="robust-inferences">
+<h3>Robust inferences<a class="headerlink" href="#robust-inferences" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -947,18 +1220,17 @@ Number of divergences: 0
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-5.0, 5.0)
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_40_1.png" src="../_images/02-programming-probabilistically_40_1.png" />
+<img alt="../_images/c49046e525be88e5b58f38bc3fb5d9d1d9c1ed42dfcd21589cc193be2fd24929.png" src="../_images/c49046e525be88e5b58f38bc3fb5d9d1d9c1ed42dfcd21589cc193be2fd24929.png" />
 </div>
 </div>
  <center><img src="../_static/imgs/B11197_02_13.png" width="600"></center><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">40.</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">75.</span><span class="p">))</span>
     <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">))</span>
     <span class="n">ν</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;ν&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">30</span><span class="p">))</span>
     
-    <span class="k">with</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">plate</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-        <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">StudentT</span><span class="p">(</span><span class="n">ν</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">StudentT</span><span class="p">(</span><span class="n">ν</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">σ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
 
     
 <span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -969,8 +1241,6 @@ Number of divergences: 0
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: There are not enough devices to run parallel chains: expected 2 but got 1. Chains will be drawn sequentially. If you are running MCMC in CPU, consider using `numpyro.set_host_device_count(2)` at the beginning of your program. You can double-check how many devices are available in your system using `jax.local_device_count()`.
-sample: 100%|███████████████████████████| 1000/1000 [00:02&lt;00:00, 353.77it/s, 7 steps of size 5.48e-01. acc. prob=0.93]
-sample: 100%|██████████████████████████| 1000/1000 [00:00&lt;00:00, 3965.46it/s, 3 steps of size 6.52e-01. acc. prob=0.90]
 </pre></div>
 </div>
 </div>
@@ -983,7 +1253,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_43_0.png" src="../_images/02-programming-probabilistically_43_0.png" />
+<img alt="../_images/12870823d1b58066fa732aa13df98548776c6a888fc5d06140654b0825c0d8bc.png" src="../_images/12870823d1b58066fa732aa13df98548776c6a888fc5d06140654b0825c0d8bc.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1025,39 +1295,39 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>μ</th>
-      <td>52.962</td>
-      <td>0.037</td>
-      <td>52.897</td>
-      <td>53.039</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>1085.0</td>
-      <td>748.0</td>
+      <td>53.015</td>
+      <td>0.385</td>
+      <td>52.314</td>
+      <td>53.713</td>
+      <td>0.015</td>
+      <td>0.012</td>
+      <td>685.0</td>
+      <td>634.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>ν</th>
-      <td>2.809</td>
-      <td>0.125</td>
-      <td>2.577</td>
-      <td>3.037</td>
-      <td>0.006</td>
-      <td>0.005</td>
-      <td>380.0</td>
-      <td>429.0</td>
+      <td>4.324</td>
+      <td>2.554</td>
+      <td>1.114</td>
+      <td>8.752</td>
+      <td>0.128</td>
+      <td>0.232</td>
+      <td>522.0</td>
+      <td>391.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>σ</th>
-      <td>1.944</td>
-      <td>0.036</td>
-      <td>1.880</td>
-      <td>2.017</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>421.0</td>
-      <td>444.0</td>
-      <td>1.01</td>
+      <td>2.179</td>
+      <td>0.395</td>
+      <td>1.500</td>
+      <td>2.860</td>
+      <td>0.017</td>
+      <td>0.025</td>
+      <td>504.0</td>
+      <td>396.0</td>
+      <td>1.02</td>
     </tr>
   </tbody>
 </table>
@@ -1069,7 +1339,7 @@ sample: 100%|██████████████████████�
 <span class="n">prior_p</span> <span class="o">=</span> <span class="n">prior</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
 
 <span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
-<span class="n">post_p</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">N</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">post_p</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1088,7 +1358,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
 </pre></div>
 </div>
 </div>
@@ -1101,17 +1371,21 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FutureWarning: color has been deprecated in favor of colors
+UserWarning: Your data appears to have a single value or no finite values
+</pre></div>
+</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(40.0, 70.0)
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_48_1.png" src="../_images/02-programming-probabilistically_48_1.png" />
+<img alt="../_images/b033ed948c6e29b1cc475b2276eb9ba564a812327b4184e5ed70431842f6b80d.png" src="../_images/b033ed948c6e29b1cc475b2276eb9ba564a812327b4184e5ed70431842f6b80d.png" />
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="tips-example">
-<h1>Tips example<a class="headerlink" href="#tips-example" title="Permalink to this headline">¶</a></h1>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tips-example">
+<h1>Tips example<a class="headerlink" href="#tips-example" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tips</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/tips.csv&#39;</span><span class="p">)</span>
@@ -1204,17 +1478,16 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##### TODO: Violin plot with arviz</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;tip&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">tips</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;day&#39;, ylabel=&#39;tip&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;day&#39;, ylabel=&#39;tip&#39;&gt;
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_51_1.png" src="../_images/02-programming-probabilistically_51_1.png" />
+<img alt="../_images/b1fc8e8a45d6091fba27f2a20e4a71a7a5ddf5fdb97fc13e38b07a1c9f684b22.png" src="../_images/b1fc8e8a45d6091fba27f2a20e4a71a7a5ddf5fdb97fc13e38b07a1c9f684b22.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1229,7 +1502,7 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
     <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
     
@@ -1245,8 +1518,6 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: There are not enough devices to run parallel chains: expected 2 but got 1. Chains will be drawn sequentially. If you are running MCMC in CPU, consider using `numpyro.set_host_device_count(2)` at the beginning of your program. You can double-check how many devices are available in your system using `jax.local_device_count()`.
-sample: 100%|██████████████████████████| 5000/5000 [00:03&lt;00:00, 1634.51it/s, 7 steps of size 6.41e-01. acc. prob=0.90]
-sample: 100%|██████████████████████████| 5000/5000 [00:00&lt;00:00, 5434.91it/s, 7 steps of size 5.79e-01. acc. prob=0.91]
 </pre></div>
 </div>
 </div>
@@ -1259,7 +1530,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_54_0.png" src="../_images/02-programming-probabilistically_54_0.png" />
+<img alt="../_images/afe5c211bc7232d555042eb166cb0c85eac873a9254e4350717e2fb62bb64c73.png" src="../_images/afe5c211bc7232d555042eb166cb0c85eac873a9254e4350717e2fb62bb64c73.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1286,12 +1557,20 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_55_0.png" src="../_images/02-programming-probabilistically_55_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SyntaxWarning: invalid escape sequence &#39;\m&#39;
+SyntaxWarning: invalid escape sequence &#39;\m&#39;
+SyntaxWarning: invalid escape sequence &#39;\m&#39;
+SyntaxWarning: invalid escape sequence &#39;\m&#39;
+SyntaxWarning: invalid escape sequence &#39;\m&#39;
+SyntaxWarning: invalid escape sequence &#39;\m&#39;
+</pre></div>
+</div>
+<img alt="../_images/126c6d778c02bd1d361c32b07d2e4b209b27f1616cffd7b58cba98af2cf5dc96.png" src="../_images/126c6d778c02bd1d361c32b07d2e4b209b27f1616cffd7b58cba98af2cf5dc96.png" />
 </div>
 </div>
-</div>
-<div class="section" id="hierarchical-models">
-<h1>Hierarchical Models<a class="headerlink" href="#hierarchical-models" title="Permalink to this headline">¶</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="hierarchical-models">
+<h1>Hierarchical Models<a class="headerlink" href="#hierarchical-models" title="Link to this heading">#</a></h1>
  <center><img src="../_static/imgs/B11197_02_19.png" width="600"></center><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_samples</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
@@ -1337,7 +1616,7 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">))</span>
     <span class="n">κ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;κ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">))</span>
     <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">μ</span><span class="o">*</span><span class="n">κ</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">μ</span><span class="p">)</span><span class="o">*</span><span class="n">κ</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">N_samples</span><span class="p">),))</span>
@@ -1354,8 +1633,6 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: There are not enough devices to run parallel chains: expected 2 but got 1. Chains will be drawn sequentially. If you are running MCMC in CPU, consider using `numpyro.set_host_device_count(2)` at the beginning of your program. You can double-check how many devices are available in your system using `jax.local_device_count()`.
-sample: 100%|███████████████████████████| 3000/3000 [00:03&lt;00:00, 938.22it/s, 7 steps of size 4.68e-01. acc. prob=0.94]
-sample: 100%|██████████████████████████| 3000/3000 [00:00&lt;00:00, 6070.44it/s, 3 steps of size 4.89e-01. acc. prob=0.92]
 </pre></div>
 </div>
 </div>
@@ -1368,7 +1645,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-programming-probabilistically_64_0.png" src="../_images/02-programming-probabilistically_64_0.png" />
+<img alt="../_images/c9cbe6ac774ff67e92a54b3f7bb40e36621e8734ead13229eaa51ef5d9f1737b.png" src="../_images/c9cbe6ac774ff67e92a54b3f7bb40e36621e8734ead13229eaa51ef5d9f1737b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1410,62 +1687,62 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>θ[0]</th>
-      <td>0.595</td>
-      <td>0.081</td>
-      <td>0.442</td>
-      <td>0.743</td>
+      <td>0.599</td>
+      <td>0.079</td>
+      <td>0.446</td>
+      <td>0.742</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>4082.0</td>
-      <td>3197.0</td>
+      <td>3721.0</td>
+      <td>2775.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ[1]</th>
       <td>0.598</td>
-      <td>0.080</td>
-      <td>0.441</td>
-      <td>0.737</td>
+      <td>0.077</td>
+      <td>0.459</td>
+      <td>0.744</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>4573.0</td>
-      <td>2541.0</td>
+      <td>3966.0</td>
+      <td>2695.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ[2]</th>
-      <td>0.597</td>
+      <td>0.596</td>
       <td>0.079</td>
-      <td>0.456</td>
-      <td>0.747</td>
+      <td>0.454</td>
+      <td>0.748</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>4602.0</td>
-      <td>3073.0</td>
+      <td>4051.0</td>
+      <td>3075.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>κ</th>
-      <td>12.039</td>
-      <td>6.076</td>
-      <td>1.485</td>
-      <td>22.795</td>
-      <td>0.109</td>
-      <td>0.077</td>
-      <td>2685.0</td>
-      <td>1685.0</td>
+      <td>12.085</td>
+      <td>6.324</td>
+      <td>1.900</td>
+      <td>23.612</td>
+      <td>0.106</td>
+      <td>0.101</td>
+      <td>3186.0</td>
+      <td>2361.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ</th>
-      <td>0.582</td>
-      <td>0.098</td>
-      <td>0.399</td>
-      <td>0.767</td>
+      <td>0.585</td>
+      <td>0.095</td>
+      <td>0.406</td>
+      <td>0.759</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3011.0</td>
-      <td>2157.0</td>
+      <td>0.002</td>
+      <td>3660.0</td>
+      <td>2296.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1486,10 +1763,13 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;y&#39;&gt;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FutureWarning: color has been deprecated in favor of colors
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_66_1.png" src="../_images/02-programming-probabilistically_66_1.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;y&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/0cf5169c56980ae992124bc24eb6442a9260ef5d0f32d089f3f8d51109f50e57.png" src="../_images/0cf5169c56980ae992124bc24eb6442a9260ef5d0f32d089f3f8d51109f50e57.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1530,10 +1810,10 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: This figure was using constrained_layout, but that is incompatible with subplots_adjust and/or tight_layout; disabling constrained_layout.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_68_1.png" src="../_images/02-programming-probabilistically_68_1.png" />
+<img alt="../_images/e3d2f125206b236fe64b3b927f5c1bae82e7897c9276c818b49be55115e7807d.png" src="../_images/e3d2f125206b236fe64b3b927f5c1bae82e7897c9276c818b49be55115e7807d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1619,7 +1899,7 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
     <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
     
@@ -1634,15 +1914,13 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: There are not enough devices to run parallel chains: expected 2 but got 1. Chains will be drawn sequentially. If you are running MCMC in CPU, consider using `numpyro.set_host_device_count(2)` at the beginning of your program. You can double-check how many devices are available in your system using `jax.local_device_count()`.
-sample: 100%|███████████████████████████| 1000/1000 [00:03&lt;00:00, 326.13it/s, 7 steps of size 4.78e-01. acc. prob=0.89]
-sample: 100%|██████████████████████████| 1000/1000 [00:00&lt;00:00, 2849.47it/s, 7 steps of size 4.74e-01. acc. prob=0.89]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># hyperpriors</span>
     <span class="n">μ_μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ_μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">))</span>
     <span class="n">σ_μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ_μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">))</span>
@@ -1662,8 +1940,6 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: There are not enough devices to run parallel chains: expected 2 but got 1. Chains will be drawn sequentially. If you are running MCMC in CPU, consider using `numpyro.set_host_device_count(2)` at the beginning of your program. You can double-check how many devices are available in your system using `jax.local_device_count()`.
-sample: 100%|███████████████████████████| 1000/1000 [00:03&lt;00:00, 296.38it/s, 7 steps of size 4.91e-01. acc. prob=0.88]
-sample: 100%|██████████████████████████| 1000/1000 [00:00&lt;00:00, 2840.69it/s, 7 steps of size 5.15e-01. acc. prob=0.86]
 </pre></div>
 </div>
 </div>
@@ -1679,13 +1955,13 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.LineCollection at 0x12cb6c880&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.LineCollection at 0x7f7675239950&gt;
 </pre></div>
 </div>
-<img alt="../_images/02-programming-probabilistically_73_1.png" src="../_images/02-programming-probabilistically_73_1.png" />
+<img alt="../_images/aa9a4b05e76360518f539acd4195ab17514cf09f365ba7cc8217400893a6e917.png" src="../_images/aa9a4b05e76360518f539acd4195ab17514cf09f365ba7cc8217400893a6e917.png" />
 </div>
 </div>
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1696,72 +1972,131 @@ sample: 100%|██████████████████████�
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "bap-numpyro"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "bap-numpyro",
             path: "./notebooks"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'bap-numpyro'</script>
 
-              </div>
+                </article>
               
-        
-            
 
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="01-thinking-probabilistically.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Chapter 1. Thinking Probabilistically</p>
-            </div>
-        </a>
-    </div>
-     <div id="next">
-        <a class="right-next" href="03-modeling-with-Linear-regressions.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Chapter 3. Modeling with Linear Regressions</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-thinking-probabilistically.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 1. Thinking Probabilistically</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-modeling-with-Linear-regressions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 3. Modeling with Linear Regressions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
-        
-        </div>
-    </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a><br/>
-        
-          <div class="extra_footer">
-            <p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Chapter 2. Programming Probabilistically</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpyro-primer"><code class="docutils literal notranslate"><span class="pre">numpyro</span></code> primer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summarizing-the-posterior">Summarizing the posterior</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-based-decisions">Posterior-based decisions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-inferences">Gaussian inferences</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-inferences">Robust inferences</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-example">Tips example</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-models">Hierarchical Models</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a>
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
 Code released under a <a href="https://opensource.org/licenses/MIT">MIT license</a>.
 </p>
 
-          </div>
-      </p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
   </footer>
-</main>
-
-
-      </div>
-    </div>
-  
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  
   </body>
 </html>

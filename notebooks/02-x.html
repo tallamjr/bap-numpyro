@@ -1,452 +1,522 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Chapter 2 Exercises &#8212; Bayesian Analysis in Python (2nd ed.) with NumPyro</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    
-      
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
-
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/02-x';</script>
     <link rel="canonical" href="https://tallamjr.github.io/bap-numpyro/notebooks/02-x.html" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Chapter 3 Exercises" href="03-x.html" />
     <link rel="prev" title="Chapter 1 Exercises" href="01-x.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+  
+  <dialog id="pst-search-dialog">
     
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/bap-cover.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Bayesian Analysis in Python (2nd ed.) with NumPyro</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../README.html">
-   Bayesian Analysis in Python (2nd ed.) with Numpyro
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Bayesian Analysis in Python (2nd ed.) with NumPyro
- </span>
-</p>
+    
+    
+    <img src="../_static/bap-cover.png" class="logo__image only-light" alt="Bayesian Analysis in Python (2nd ed.) with NumPyro - Home"/>
+    <img src="../_static/bap-cover.png" class="logo__image only-dark pst-js-only" alt="Bayesian Analysis in Python (2nd ed.) with NumPyro - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    Bayesian Analysis in Python (2nd ed.) with Numpyro
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Bayesian Analysis in Python (2nd ed.) with NumPyro</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01-thinking-probabilistically.html">
-   Chapter 1. Thinking Probabilistically
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02-programming-probabilistically.html">
-   Chapter 2. Programming Probabilistically
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03-modeling-with-Linear-regressions.html">
-   Chapter 3. Modeling with Linear Regressions
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04-generalizing_linear_models.html">
-   Chapter 4. Generalizing Linear Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05-model_comparison.html">
-   Chapter 5. Model Comparison
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="06-mixture_models.html">
-   Chapter 6. Mixture Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="07-gaussian-process.html">
-   Chapter 7. Gaussian Processes
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="08-inference-engines.html">
-   Chapter 8. Inferene Engines
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01-thinking-probabilistically.html">Chapter 1. Thinking Probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-programming-probabilistically.html">Chapter 2. Programming Probabilistically</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="03-modeling-with-Linear-regressions.html">Chapter 3. Modeling with Linear Regressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-generalizing_linear_models.html">Chapter 4. Generalizing Linear Models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05-model_comparison.html">Chapter 5. Model Comparison</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="06-mixture_models.html">Chapter 6. Mixture Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-gaussian-process.html">Chapter 7. Gaussian Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-inference-engines.html">Chapter 8. Inferene Engines</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Exercises
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01-x.html">
-   Chapter 1 Exercises
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Chapter 2 Exercises
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03-x.html">
-   Chapter 3 Exercises
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04-x.html">
-   Chapter 4 Exercises
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01-x.html">Chapter 1 Exercises</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 2 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-x.html">Chapter 3 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-x.html">Chapter 4 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-x.html">Chapter 5 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-x.html">Chapter 6 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-x.html">Chapter 7 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-x.html">Chapter 8 Exercises</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/02-x.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
 
-            <!-- Source interaction buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/tallamjr/bap-numpyro"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/02-x.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/02-x.ipynb"><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/02-x.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/02-x.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
 
-            <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/02-x.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/02-x.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/02-x.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/02-x.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/02-x.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
     </div>
+  
 </div>
+</div>
+              
+              
 
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 2 Exercises</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-1">
-   Question 1
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#baseline-model">
-     Baseline model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#match-prior-for-previous-example">
-     Match prior for previous example
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1">
-     Replace the beta distribution with a uniform one in the interval [0,1]
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#discussion">
-     Discussion
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#replace-the-beta-distribution-with-a-uniform-1-2">
-     Replace the beta distribution with a uniform  [-1,2]
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
-     Discussion
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-2">
-   Question 2
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-3">
-   Question 3
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-4">
-   Question 4
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-5">
-   Question 5
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#gaussian-model">
-     Gaussian Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#shared-nu-across-all-groups">
-     Shared
-     <span class="math notranslate nohighlight">
-      \(\nu\)
-     </span>
-     across all groups
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#one-nu-per-group">
-     One
-     <span class="math notranslate nohighlight">
-      \(\nu\)
-     </span>
-     per group
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-6">
-   Question 6
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-1-estimate-model-parameters-per-group">
-     Step 1: Estimate model parameters per group
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-2-get-posterior-predictive-values-per-group">
-     Step 2: Get posterior predictive values per group
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-3-pick-data-points-at-random-from-each-group-and-compare">
-     Step 3: Pick data points at random from each group and compare
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-7">
-   Question 7
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#summary-comparison">
-     Summary comparison
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     Discussion
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-8">
-   Question 8
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#question-9">
-   Question 9
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-1">Question 1</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-model">Baseline model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-prior-for-previous-example">Match prior for previous example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1">Replace the beta distribution with a uniform one in the interval [0,1]</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-the-beta-distribution-with-a-uniform-1-2">Replace the beta distribution with a uniform  [-1,2]</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Discussion</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-2">Question 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-3">Question 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-4">Question 4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-5">Question 5</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-model">Gaussian Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shared-nu-across-all-groups">Shared <span class="math notranslate nohighlight">\(\nu\)</span> across all groups</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-nu-per-group">One <span class="math notranslate nohighlight">\(\nu\)</span> per group</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-6">Question 6</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-estimate-model-parameters-per-group">Step 1: Estimate model parameters per group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-get-posterior-predictive-values-per-group">Step 2: Get posterior predictive values per group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-pick-data-points-at-random-from-each-group-and-compare">Step 3: Pick data points at random from each group and compare</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-7">Question 7</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-comparison">Summary comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Discussion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-8">Question 8</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-9">Question 9</a></li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
+
+              
                 
-  <div class="section" id="chapter-2-exercises">
-<h1>Chapter 2 Exercises<a class="headerlink" href="#chapter-2-exercises" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-2-exercises">
+<h1>Chapter 2 Exercises<a class="headerlink" href="#chapter-2-exercises" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">BSpline</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gaussian_kde</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
-<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">vmap</span><span class="p">,</span> <span class="n">local_device_count</span><span class="p">,</span> <span class="n">pmap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">local_device_count</span>
 
-<span class="kn">import</span> <span class="nn">numpyro</span>
-<span class="kn">import</span> <span class="nn">numpyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
-<span class="kn">import</span> <span class="nn">numpyro.optim</span> <span class="k">as</span> <span class="nn">optim</span>
 
-<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">HMC</span><span class="p">,</span> <span class="n">Predictive</span>
-<span class="kn">from</span> <span class="nn">numpyro.diagnostics</span> <span class="kn">import</span> <span class="n">hpdi</span><span class="p">,</span> <span class="n">print_summary</span>
-<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">Predictive</span><span class="p">,</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span><span class="p">,</span> <span class="n">init_to_value</span>
-<span class="kn">from</span> <span class="nn">numpyro.infer.autoguide</span> <span class="kn">import</span> <span class="n">AutoLaplaceApproximation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro.distributions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.infer</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">Predictive</span>
+
 
 
 <span class="n">seed</span><span class="o">=</span><span class="mi">1234</span>
@@ -462,9 +532,15 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/bap-numpyro/bap-numpyro/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
 </div>
-<div class="section" id="question-1">
-<h2>Question 1<a class="headerlink" href="#question-1" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<section id="question-1">
+<h2>Question 1<a class="headerlink" href="#question-1" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>Using PyMC3, change the parameters of the prior beta distribution in <code class="docutils literal notranslate"><span class="pre">our_first_model</span></code> to match those of the previous chapter. Compare the results to the previous chapter. Replace the beta distribution with a uniform one in the interval [0,1]. Are the results equivalent to <span class="math notranslate nohighlight">\(Beta(\alpha=1, \beta=1)\)</span>? Is the sampling slower, faster or the same? What about using a larger interval, such as [-1,2]? Does the model run? What errors do you get?</em></p>
 <div class="cell docutils container">
@@ -477,11 +553,11 @@
 </div>
 </div>
 </div>
-<div class="section" id="baseline-model">
-<h3>Baseline model<a class="headerlink" href="#baseline-model" title="Permalink to this headline">¶</a></h3>
+<section id="baseline-model">
+<h3>Baseline model<a class="headerlink" href="#baseline-model" title="Link to this heading">#</a></h3>
 <p>First let us set a baseline model with a <span class="math notranslate nohighlight">\(\alpha =1, \beta=1\)</span> prior. We’ll give <span class="math notranslate nohighlight">\(\theta\)</span> a more verbose name to be able to more easily identify it later. It should be noted that string variable names do not have to the same as the object name.</p>
 <p>When evaluating each model the strategy will be the same.</p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>Run the model</p></li>
 <li><p>Read the warning messages</p></li>
 <li><p>View the posterior kernel density estimate and traceplot</p></li>
@@ -489,7 +565,7 @@
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># a priori</span>
     <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ Beta(alpha=1, beta=1)&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
     <span class="c1"># likelihood</span>
@@ -501,14 +577,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|██████████████████████████| 5500/5500 [00:02&lt;00:00, 2035.75it/s, 3 steps of size 1.01e+00. acc. prob=0.91]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7494.27it/s, 3 steps of size 1.18e+00. acc. prob=0.90]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7467.46it/s, 3 steps of size 1.07e+00. acc. prob=0.89]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7554.77it/s, 3 steps of size 8.88e-01. acc. prob=0.91]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -517,7 +585,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_6_0.png" src="../_images/02-x_6_0.png" />
+<img alt="../_images/dd675964f975b9b75a4f255e817aabcce7328b122a55c4eb4388a1d7ff1ea3e5.png" src="../_images/dd675964f975b9b75a4f255e817aabcce7328b122a55c4eb4388a1d7ff1ea3e5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -560,27 +628,27 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>θ Beta(alpha=1, beta=1)</th>
-      <td>0.336</td>
-      <td>0.179</td>
-      <td>0.025</td>
+      <td>0.334</td>
+      <td>0.181</td>
+      <td>0.026</td>
       <td>0.654</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>6644.0</td>
-      <td>8142.0</td>
+      <td>0.001</td>
+      <td>7160.0</td>
+      <td>7253.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="match-prior-for-previous-example">
-<h3>Match prior for previous example<a class="headerlink" href="#match-prior-for-previous-example" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="match-prior-for-previous-example">
+<h3>Match prior for previous example<a class="headerlink" href="#match-prior-for-previous-example" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Picking first parameters from page 28</span>
-<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># a priori</span>
     <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;θ&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="c1"># likelihood</span>
@@ -592,22 +660,14 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|██████████████████████████| 5500/5500 [00:02&lt;00:00, 1896.94it/s, 3 steps of size 1.01e+00. acc. prob=0.91]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7079.68it/s, 3 steps of size 1.18e+00. acc. prob=0.90]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 6914.24it/s, 3 steps of size 1.07e+00. acc. prob=0.89]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7260.89it/s, 3 steps of size 8.88e-01. acc. prob=0.91]
-</pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1">
-<h3>Replace the beta distribution with a uniform one in the interval [0,1]<a class="headerlink" href="#replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1">
+<h3>Replace the beta distribution with a uniform one in the interval [0,1]<a class="headerlink" href="#replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Picking first parameters from page 28</span>
-<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># a priori</span>
     <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ Uniform(0,1)&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="c1"># likelihood</span>
@@ -619,14 +679,6 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|██████████████████████████| 5500/5500 [00:02&lt;00:00, 2075.46it/s, 1 steps of size 9.34e-01. acc. prob=0.92]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7531.80it/s, 3 steps of size 1.14e+00. acc. prob=0.91]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 6961.59it/s, 3 steps of size 1.18e+00. acc. prob=0.87]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7762.11it/s, 3 steps of size 1.20e+00. acc. prob=0.88]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -635,7 +687,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_12_0.png" src="../_images/02-x_12_0.png" />
+<img alt="../_images/2fb785d744d53c99b3001c1541b3bf8a8f03d889125e329dde8c32a57adefc76.png" src="../_images/2fb785d744d53c99b3001c1541b3bf8a8f03d889125e329dde8c32a57adefc76.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -678,42 +730,42 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>θ Beta(alpha=1, beta=1)</th>
-      <td>0.336</td>
-      <td>0.179</td>
-      <td>0.025</td>
+      <td>0.334</td>
+      <td>0.181</td>
+      <td>0.026</td>
       <td>0.654</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>6644.0</td>
-      <td>8142.0</td>
+      <td>0.001</td>
+      <td>7160.0</td>
+      <td>7253.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ Uniform(0,1)</th>
-      <td>0.334</td>
-      <td>0.180</td>
-      <td>0.030</td>
-      <td>0.656</td>
+      <td>0.332</td>
+      <td>0.179</td>
+      <td>0.031</td>
+      <td>0.652</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>7436.0</td>
-      <td>8597.0</td>
+      <td>6579.0</td>
+      <td>8439.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="discussion">
-<h3>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="discussion">
+<h3>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h3>
 <p>Both priors produce identical results. This is to be expected as a <span class="math notranslate nohighlight">\(Beta(1,1)\)</span> prior is exactly the same as a <span class="math notranslate nohighlight">\(Uniform(0,1)\)</span> prior. I encourage you to prove it to yourself by plotting both. Furthermore, the models sampling times are identical as well.</p>
-</div>
-<div class="section" id="replace-the-beta-distribution-with-a-uniform-1-2">
-<h3>Replace the beta distribution with a uniform  [-1,2]<a class="headerlink" href="#replace-the-beta-distribution-with-a-uniform-1-2" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="replace-the-beta-distribution-with-a-uniform-1-2">
+<h3>Replace the beta distribution with a uniform  [-1,2]<a class="headerlink" href="#replace-the-beta-distribution-with-a-uniform-1-2" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># a priori</span>
     <span class="n">θ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;θ Uniform(-1,1)&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
     <span class="c1"># likelihood</span>
@@ -725,14 +777,6 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|██████████████████████████| 5500/5500 [00:02&lt;00:00, 2079.47it/s, 7 steps of size 6.44e-01. acc. prob=0.91]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 6590.69it/s, 3 steps of size 8.60e-01. acc. prob=0.86]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7147.64it/s, 1 steps of size 1.10e+00. acc. prob=0.80]
-sample: 100%|██████████████████████████| 5500/5500 [00:00&lt;00:00, 7372.29it/s, 3 steps of size 1.05e+00. acc. prob=0.84]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -741,7 +785,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_17_0.png" src="../_images/02-x_17_0.png" />
+<img alt="../_images/c0f3754185c45433b7b72c287ab69ad3906c1c3a6ac049e7690000d5702a3ef3.png" src="../_images/c0f3754185c45433b7b72c287ab69ad3906c1c3a6ac049e7690000d5702a3ef3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -784,50 +828,50 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>θ Beta(alpha=1, beta=1)</th>
-      <td>0.336</td>
-      <td>0.179</td>
-      <td>0.025</td>
+      <td>0.334</td>
+      <td>0.181</td>
+      <td>0.026</td>
       <td>0.654</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>6644.0</td>
-      <td>8142.0</td>
+      <td>0.001</td>
+      <td>7160.0</td>
+      <td>7253.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ Uniform(-1,1)</th>
       <td>0.335</td>
       <td>0.178</td>
-      <td>0.022</td>
-      <td>0.637</td>
+      <td>0.028</td>
+      <td>0.652</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>6041.0</td>
-      <td>7257.0</td>
+      <td>4983.0</td>
+      <td>4623.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="id1">
-<h3>Discussion<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id1">
+<h3>Discussion<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>Looking at the mean, sd, and HPD values, both results look identical, which is great. However there are three items that raise concerns. We will cover these in depth in Chapter 8 but will note them here as part of the exercise.</p>
 <p>The first is that there are two new warning messages that look something like <code class="docutils literal notranslate"><span class="pre">There</span> <span class="pre">were</span> <span class="pre">1179</span> <span class="pre">divergences</span> <span class="pre">after</span> <span class="pre">tuning.</span> <span class="pre">Increase</span> <span class="pre">target_accept</span> <span class="pre">or</span> <span class="pre">reparameterize</span></code>. Here, the sampler is warning us that something is going wrong with sampling.</p>
 <p>The second is the black bars at the bottom of the traceplot. These also indicate divergences.</p>
 <p>Lastly, when looking at eff_n, which stands for effective number of samples, the <span class="math notranslate nohighlight">\(Uniform(-1,2)\)</span> prior has a much lower number than the <span class="math notranslate nohighlight">\(Beta(1,1)\)</span>, meaning that the number of useful samples was much less than the total number of samples drawn.</p>
 <p>This makes sense when asking the question “Can a probabiity be less than 0 or more than 1?”. The answer is no, but in our prior we’re asking the sampler to “test” prior probability values less than 0 and greater than 1, and when it does so the likelihood function is unable to compute a value.</p>
 <p>Again, we’ll cover MCMC diagnostics (and what to do) in much more detail in Chapter 8, but for now it is sufficient to be able to recognize these warnings when they appear.</p>
-</div>
-</div>
-<div class="section" id="question-2">
-<h2>Question 2<a class="headerlink" href="#question-2" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="question-2">
+<h2>Question 2<a class="headerlink" href="#question-2" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>Read about the <a class="reference external" href="https://docs.pymc.io/notebooks/getting_started.html#Case-study-2:-Coal-mining-disasters">coal mining disaster model</a> that is part of the PyMC3 documentation. Try to implement and run this model by yourself.</em></p>
-</div>
-<div class="section" id="question-3">
-<h2>Question 3<a class="headerlink" href="#question-3" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="question-3">
+<h2>Question 3<a class="headerlink" href="#question-3" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>Modify <code class="docutils literal notranslate"><span class="pre">model_g</span></code>: change the prior for the mean to a Gaussian distribution centered at the empirical mean, and play with a couple of reasonable values for the standard deviation of this prior. How robust/sensitive are the inferences to these changes? What do you think of using a Gaussian, which is an unbounded distribution (goes from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(+\infty\)</span>), to model bouded data such as this? Remember that we said it is not possible to get values below 0 or above 100.</em></p>
 <p>First let’s load the data and calculate the mean and standard deviation</p>
@@ -901,7 +945,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(53.496456, dtype=float32), DeviceArray(3.4200068, dtype=float32))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Array(53.49646, dtype=float32), Array(3.4200068, dtype=float32))
 </pre></div>
 </div>
 </div>
@@ -919,7 +963,7 @@ sample: 100%|██████████████████████�
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">sd_prior</span> <span class="ow">in</span> <span class="n">sd_priors</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Modified prior to Gaussian</span>
         <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;μ_prior_</span><span class="si">{</span><span class="n">sd_prior</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">empirical_mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd_prior</span><span class="p">))</span>
         <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
@@ -930,26 +974,6 @@ sample: 100%|██████████████████████�
     <span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
     <span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
     <span class="n">summaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mcmc</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 699.15it/s, 7 steps of size 8.02e-01. acc. prob=0.93]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 7309.98it/s, 3 steps of size 7.60e-01. acc. prob=0.93]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6883.45it/s, 7 steps of size 9.07e-01. acc. prob=0.92]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6873.74it/s, 3 steps of size 1.04e+00. acc. prob=0.88]
-sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 741.67it/s, 3 steps of size 7.38e-01. acc. prob=0.94]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6881.21it/s, 3 steps of size 7.53e-01. acc. prob=0.94]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 7111.00it/s, 3 steps of size 8.62e-01. acc. prob=0.89]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6837.45it/s, 3 steps of size 7.97e-01. acc. prob=0.93]
-sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 718.08it/s, 3 steps of size 6.16e-01. acc. prob=0.95]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 7166.38it/s, 7 steps of size 8.00e-01. acc. prob=0.92]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6828.82it/s, 3 steps of size 8.31e-01. acc. prob=0.90]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6815.96it/s, 3 steps of size 1.08e+00. acc. prob=0.89]
-sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 709.60it/s, 3 steps of size 7.31e-01. acc. prob=0.93]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 7079.51it/s, 3 steps of size 8.03e-01. acc. prob=0.93]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5105.73it/s, 7 steps of size 8.54e-01. acc. prob=0.93]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6858.02it/s, 3 steps of size 9.82e-01. acc. prob=0.90]
 </pre></div>
 </div>
 </div>
@@ -993,98 +1017,98 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>μ_prior_1.5</th>
-      <td>53.495</td>
-      <td>0.487</td>
-      <td>52.600</td>
-      <td>54.477</td>
+      <td>53.490</td>
+      <td>0.471</td>
+      <td>52.632</td>
+      <td>54.407</td>
       <td>0.008</td>
-      <td>0.006</td>
-      <td>3521.0</td>
-      <td>2716.0</td>
+      <td>0.008</td>
+      <td>3242.0</td>
+      <td>2416.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>σ</th>
-      <td>3.533</td>
-      <td>0.378</td>
-      <td>2.884</td>
-      <td>4.254</td>
+      <td>3.537</td>
+      <td>0.367</td>
+      <td>2.852</td>
+      <td>4.216</td>
       <td>0.007</td>
-      <td>0.005</td>
-      <td>2732.0</td>
-      <td>2464.0</td>
+      <td>0.006</td>
+      <td>2818.0</td>
+      <td>2437.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ_prior_3</th>
-      <td>53.492</td>
-      <td>0.510</td>
-      <td>52.496</td>
-      <td>54.447</td>
-      <td>0.009</td>
-      <td>0.006</td>
-      <td>3146.0</td>
-      <td>2358.0</td>
+      <td>53.487</td>
+      <td>0.487</td>
+      <td>52.552</td>
+      <td>54.378</td>
+      <td>0.008</td>
+      <td>0.008</td>
+      <td>3743.0</td>
+      <td>2999.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>σ</th>
-      <td>3.554</td>
-      <td>0.389</td>
-      <td>2.862</td>
-      <td>4.280</td>
-      <td>0.008</td>
-      <td>0.006</td>
-      <td>2652.0</td>
-      <td>2167.0</td>
+      <td>3.550</td>
+      <td>0.369</td>
+      <td>2.886</td>
+      <td>4.259</td>
+      <td>0.007</td>
+      <td>0.007</td>
+      <td>3308.0</td>
+      <td>2339.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ_prior_5</th>
-      <td>53.496</td>
-      <td>0.499</td>
-      <td>52.581</td>
-      <td>54.483</td>
-      <td>0.008</td>
-      <td>0.006</td>
-      <td>3514.0</td>
-      <td>2809.0</td>
+      <td>53.486</td>
+      <td>0.503</td>
+      <td>52.513</td>
+      <td>54.421</td>
+      <td>0.010</td>
+      <td>0.009</td>
+      <td>2789.0</td>
+      <td>2280.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>σ</th>
-      <td>3.544</td>
-      <td>0.372</td>
-      <td>2.875</td>
-      <td>4.242</td>
+      <td>3.552</td>
+      <td>0.370</td>
+      <td>2.901</td>
+      <td>4.277</td>
       <td>0.007</td>
-      <td>0.005</td>
-      <td>2554.0</td>
-      <td>2167.0</td>
+      <td>0.007</td>
+      <td>2976.0</td>
+      <td>2671.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ_prior_1000</th>
-      <td>53.483</td>
-      <td>0.516</td>
-      <td>52.441</td>
-      <td>54.448</td>
+      <td>53.505</td>
+      <td>0.506</td>
+      <td>52.529</td>
+      <td>54.441</td>
       <td>0.009</td>
-      <td>0.006</td>
-      <td>3205.0</td>
-      <td>2635.0</td>
+      <td>0.008</td>
+      <td>3491.0</td>
+      <td>2633.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>σ</th>
-      <td>3.544</td>
-      <td>0.381</td>
-      <td>2.805</td>
-      <td>4.216</td>
-      <td>0.008</td>
-      <td>0.005</td>
-      <td>2587.0</td>
-      <td>2404.0</td>
+      <td>3.534</td>
+      <td>0.371</td>
+      <td>2.876</td>
+      <td>4.247</td>
+      <td>0.007</td>
+      <td>0.006</td>
+      <td>2934.0</td>
+      <td>2696.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1093,9 +1117,9 @@ sample: 100%|██████████████████████�
 </div>
 <p>Looking at the summaries, the combination of model and inference technique seem quite robust to the changes. Even with a prior that is 300x larger than the empirical prior, the posterior values converge to approximately the same result. Computationally there seems to be very little difference.</p>
 <p>Logically however, there could be some question about the choice of an unbounded prior. Since it is not possible to get values below 0 or above 100, it doesn’t make practical sense to have a prior that exists for those values. Luckily though, with modern inference methods such as NUTS, the samples can “bypass” questionable priors and still get a good approximation of the posterior.</p>
-</div>
-<div class="section" id="question-4">
-<h2>Question 4<a class="headerlink" href="#question-4" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="question-4">
+<h2>Question 4<a class="headerlink" href="#question-4" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>Using the data in chemical_shifts.csv, compute the empirical mean and the standard deviation with and without outliers. Repeat the exercise by adding more outliers. Compare those results to the Bayesian estimations using the Gaussian and Student’s t distributions from the chapter.</em></p>
 <p>Let’s first compute the mean and standard deviation without removing any data:</p>
@@ -1109,7 +1133,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(53.496456, dtype=float32), DeviceArray(3.4200068, dtype=float32))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Array(53.49646, dtype=float32), Array(3.4200068, dtype=float32))
 </pre></div>
 </div>
 </div>
@@ -1123,7 +1147,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([63.43, 68.58], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([63.43, 68.58], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1139,7 +1163,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(52.95261, dtype=float32), DeviceArray(2.1950302, dtype=float32))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Array(52.95261, dtype=float32), Array(2.1950302, dtype=float32))
 </pre></div>
 </div>
 </div>
@@ -1158,62 +1182,62 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([[51.06],
-             [55.12],
-             [53.73],
-             [50.24],
-             [52.05],
-             [56.4 ],
-             [48.45],
-             [52.34],
-             [55.65],
-             [51.49],
-             [51.86],
-             [63.43],
-             [53.  ],
-             [56.09],
-             [51.93],
-             [52.31],
-             [52.33],
-             [57.48],
-             [57.44],
-             [55.14],
-             [53.93],
-             [54.62],
-             [56.09],
-             [68.58],
-             [51.36],
-             [55.47],
-             [50.73],
-             [51.94],
-             [54.95],
-             [50.39],
-             [52.91],
-             [51.5 ],
-             [52.68],
-             [47.72],
-             [49.73],
-             [51.82],
-             [54.99],
-             [52.84],
-             [53.19],
-             [54.52],
-             [51.46],
-             [53.73],
-             [51.61],
-             [49.81],
-             [52.42],
-             [54.3 ],
-             [53.84],
-             [53.16],
-             [63.43],
-             [63.43],
-             [63.43],
-             [63.43],
-             [68.58],
-             [68.58],
-             [68.58],
-             [68.58]], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([[51.06],
+       [55.12],
+       [53.73],
+       [50.24],
+       [52.05],
+       [56.4 ],
+       [48.45],
+       [52.34],
+       [55.65],
+       [51.49],
+       [51.86],
+       [63.43],
+       [53.  ],
+       [56.09],
+       [51.93],
+       [52.31],
+       [52.33],
+       [57.48],
+       [57.44],
+       [55.14],
+       [53.93],
+       [54.62],
+       [56.09],
+       [68.58],
+       [51.36],
+       [55.47],
+       [50.73],
+       [51.94],
+       [54.95],
+       [50.39],
+       [52.91],
+       [51.5 ],
+       [52.68],
+       [47.72],
+       [49.73],
+       [51.82],
+       [54.99],
+       [52.84],
+       [53.19],
+       [54.52],
+       [51.46],
+       [53.73],
+       [51.61],
+       [49.81],
+       [52.42],
+       [54.3 ],
+       [53.84],
+       [53.16],
+       [63.43],
+       [63.43],
+       [63.43],
+       [63.43],
+       [68.58],
+       [68.58],
+       [68.58],
+       [68.58]], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1228,15 +1252,15 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray(55.28339, dtype=float32), DeviceArray(5.489223, dtype=float32))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Array(55.283398, dtype=float32), Array(5.4892225, dtype=float32))
 </pre></div>
 </div>
 </div>
 </div>
 <p>The mean and standard deviation both go up in this case. This intuitively makes sense because the distribution needs to “stretch” to include these additional data points that are farther away from the mean.</p>
-</div>
-<div class="section" id="question-5">
-<h2>Question 5<a class="headerlink" href="#question-5" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="question-5">
+<h2>Question 5<a class="headerlink" href="#question-5" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>Modify the tips example to make it robust to outliers. Try with one shared <span class="math notranslate nohighlight">\(\nu\)</span> for all groups and also with one <span class="math notranslate nohighlight">\(\nu\)</span> per group. Run posterior predictive checks to assess these three models.</em></p>
 <div class="cell docutils container">
@@ -1250,11 +1274,11 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 </div>
-<div class="section" id="gaussian-model">
-<h3>Gaussian Model<a class="headerlink" href="#gaussian-model" title="Permalink to this headline">¶</a></h3>
+<section id="gaussian-model">
+<h3>Gaussian Model<a class="headerlink" href="#gaussian-model" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># Priors</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
     <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
@@ -1267,12 +1291,6 @@ sample: 100%|██████████████████████�
 
 <span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
 <span class="n">y_pred_normal</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 617.67it/s, 7 steps of size 6.89e-01. acc. prob=0.89]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5770.65it/s, 7 steps of size 7.45e-01. acc. prob=0.87]
 </pre></div>
 </div>
 </div>
@@ -1295,18 +1313,18 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
 </pre></div>
 </div>
-<img alt="../_images/02-x_48_1.png" src="../_images/02-x_48_1.png" />
+<img alt="../_images/00067c3056a9dfa4f0449411a1adbda870b5ff03b471cd2ce586843f2f201971.png" src="../_images/00067c3056a9dfa4f0449411a1adbda870b5ff03b471cd2ce586843f2f201971.png" />
 </div>
 </div>
-</div>
-<div class="section" id="shared-nu-across-all-groups">
-<h3>Shared <span class="math notranslate nohighlight">\(\nu\)</span> across all groups<a class="headerlink" href="#shared-nu-across-all-groups" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="shared-nu-across-all-groups">
+<h3>Shared <span class="math notranslate nohighlight">\(\nu\)</span> across all groups<a class="headerlink" href="#shared-nu-across-all-groups" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># Priors</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
     <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
@@ -1321,12 +1339,6 @@ sample: 100%|██████████████████████�
 
 <span class="n">pred</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">mcmc_nu_shared</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc_nu_shared</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
 <span class="n">y_pred_nu_shared</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:03&lt;00:00, 479.80it/s, 7 steps of size 4.68e-01. acc. prob=0.92]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5180.11it/s, 7 steps of size 4.97e-01. acc. prob=0.93]
 </pre></div>
 </div>
 </div>
@@ -1345,19 +1357,19 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([[3.3804502 , 1.855169  , 2.6588318 , ..., 2.3689137 ,
-              3.9253676 , 1.7528629 ],
-             [3.7585166 , 4.7252293 , 2.6407044 , ..., 2.5933318 ,
-              6.6557975 , 1.5313852 ],
-             [4.1861796 , 3.0742688 , 3.1691594 , ..., 4.770434  ,
-              0.99994695, 3.0893745 ],
-             ...,
-             [6.1282716 , 0.09785277, 2.0844345 , ..., 1.3396584 ,
-              4.6238675 , 0.21592183],
-             [1.0493304 , 2.8243797 , 3.9303071 , ..., 3.959254  ,
-              2.518939  , 0.926102  ],
-             [2.820881  , 2.8085551 , 5.292919  , ..., 1.9563518 ,
-              3.7566905 , 6.6220255 ]], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([[3.944108 , 4.48731  , 3.899557 , ..., 3.4518824, 3.1758935,
+        1.5224074],
+       [3.428737 , 0.1982381, 3.0603845, ..., 2.8211567, 1.4233612,
+        3.8392003],
+       [3.3694654, 4.8263645, 3.310632 , ..., 1.8444812, 1.6120323,
+        1.5592682],
+       ...,
+       [3.4513235, 1.2440659, 2.0373352, ..., 3.184697 , 2.9687126,
+        3.7288897],
+       [3.908794 , 2.6023464, 0.9131194, ..., 2.2376926, 1.7101749,
+        1.6577308],
+       [3.2169476, 1.0937365, 3.5113213, ..., 1.8514206, 2.588916 ,
+        3.6898258]], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1389,18 +1401,18 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
 </pre></div>
 </div>
-<img alt="../_images/02-x_54_1.png" src="../_images/02-x_54_1.png" />
+<img alt="../_images/87de759e517d00d3991106d6b6fbfef427c87b6992c63ad6dc4b45eac25ce65f.png" src="../_images/87de759e517d00d3991106d6b6fbfef427c87b6992c63ad6dc4b45eac25ce65f.png" />
 </div>
 </div>
-</div>
-<div class="section" id="one-nu-per-group">
-<h3>One <span class="math notranslate nohighlight">\(\nu\)</span> per group<a class="headerlink" href="#one-nu-per-group" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="one-nu-per-group">
+<h3>One <span class="math notranslate nohighlight">\(\nu\)</span> per group<a class="headerlink" href="#one-nu-per-group" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">rng_seed</span><span class="o">=</span><span class="mi">1234</span><span class="p">):</span>
         <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
         <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
@@ -1450,12 +1462,6 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:03&lt;00:00, 417.62it/s, 7 steps of size 4.48e-01. acc. prob=0.92]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 2147.20it/s, 7 steps of size 5.34e-01. acc. prob=0.86]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1482,26 +1488,26 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
 </pre></div>
 </div>
-<img alt="../_images/02-x_63_1.png" src="../_images/02-x_63_1.png" />
+<img alt="../_images/d473356bc2dc3ac09f1438c58856f0ef363abc75a4f430cd98593c7e4e2f32d5.png" src="../_images/d473356bc2dc3ac09f1438c58856f0ef363abc75a4f430cd98593c7e4e2f32d5.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="question-6">
-<h2>Question 6<a class="headerlink" href="#question-6" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="question-6">
+<h2>Question 6<a class="headerlink" href="#question-6" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>Compute the probability of superiority directly from the posterior (without computing Cohen’s d first). You can use the <code class="docutils literal notranslate"><span class="pre">pm.sample_posterior_predictive()</span></code> function to take a sample from each group. Is it really different from the calculation assuming normality? Can you explain the result?</em></p>
 <p>The goal is to calculate Cohen’s D numerically. We’ll do that in 3 steps:</p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>Fit a distribution of parameters to our data</p></li>
 <li><p>Generate posterior predictive distributions for our groups</p></li>
 <li><p>Pick data points at random from each group and compare the datapoints in each group</p></li>
 </ol>
-<div class="section" id="step-1-estimate-model-parameters-per-group">
-<h3>Step 1: Estimate model parameters per group<a class="headerlink" href="#step-1-estimate-model-parameters-per-group" title="Permalink to this headline">¶</a></h3>
+<section id="step-1-estimate-model-parameters-per-group">
+<h3>Step 1: Estimate model parameters per group<a class="headerlink" href="#step-1-estimate-model-parameters-per-group" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tips</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/tips.csv&#39;</span><span class="p">)</span>
@@ -1515,7 +1521,7 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># Priors</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
     <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
@@ -1531,12 +1537,6 @@ sample: 100%|██████████████████████�
 <span class="n">ppc_cg</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
 
 <span class="n">ppc_cg</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ppc_cg</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="mi">500</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 559.87it/s, 7 steps of size 6.89e-01. acc. prob=0.89]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5668.81it/s, 7 steps of size 7.45e-01. acc. prob=0.87]
 </pre></div>
 </div>
 </div>
@@ -1582,107 +1582,107 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>μ[0]</th>
-      <td>2.767</td>
-      <td>0.164</td>
-      <td>2.473</td>
-      <td>3.085</td>
+      <td>2.770</td>
+      <td>0.163</td>
+      <td>2.468</td>
+      <td>3.077</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>3093.0</td>
-      <td>1329.0</td>
+      <td>0.004</td>
+      <td>3281.0</td>
+      <td>1486.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[1]</th>
       <td>2.726</td>
-      <td>0.269</td>
-      <td>2.240</td>
-      <td>3.243</td>
+      <td>0.252</td>
+      <td>2.274</td>
+      <td>3.207</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>2525.0</td>
-      <td>1487.0</td>
+      <td>0.006</td>
+      <td>2523.0</td>
+      <td>1267.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[2]</th>
-      <td>2.997</td>
-      <td>0.175</td>
-      <td>2.636</td>
-      <td>3.301</td>
+      <td>2.992</td>
+      <td>0.170</td>
+      <td>2.677</td>
+      <td>3.319</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>2913.0</td>
-      <td>1306.0</td>
+      <td>0.004</td>
+      <td>3376.0</td>
+      <td>1425.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[3]</th>
       <td>3.256</td>
-      <td>0.143</td>
-      <td>2.980</td>
-      <td>3.503</td>
+      <td>0.145</td>
+      <td>2.982</td>
+      <td>3.517</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>2935.0</td>
-      <td>1481.0</td>
+      <td>0.004</td>
+      <td>2961.0</td>
+      <td>1331.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>σ[0]</th>
-      <td>1.270</td>
-      <td>0.119</td>
-      <td>1.058</td>
-      <td>1.492</td>
+      <td>1.265</td>
+      <td>0.113</td>
+      <td>1.060</td>
+      <td>1.475</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3532.0</td>
-      <td>1564.0</td>
+      <td>0.003</td>
+      <td>3055.0</td>
+      <td>1591.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>σ[1]</th>
-      <td>1.109</td>
-      <td>0.212</td>
-      <td>0.737</td>
-      <td>1.499</td>
+      <td>1.103</td>
+      <td>0.200</td>
+      <td>0.765</td>
+      <td>1.466</td>
       <td>0.005</td>
-      <td>0.003</td>
-      <td>2613.0</td>
-      <td>1435.0</td>
+      <td>0.006</td>
+      <td>2094.0</td>
+      <td>1210.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>σ[2]</th>
-      <td>1.654</td>
-      <td>0.125</td>
-      <td>1.435</td>
-      <td>1.897</td>
+      <td>1.656</td>
+      <td>0.126</td>
+      <td>1.413</td>
+      <td>1.887</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>3144.0</td>
-      <td>1403.0</td>
+      <td>0.004</td>
+      <td>3163.0</td>
+      <td>1338.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>σ[3]</th>
-      <td>1.252</td>
-      <td>0.100</td>
-      <td>1.064</td>
-      <td>1.436</td>
+      <td>1.256</td>
+      <td>0.103</td>
+      <td>1.073</td>
+      <td>1.442</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3178.0</td>
-      <td>1464.0</td>
+      <td>0.002</td>
+      <td>3143.0</td>
+      <td>1544.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="step-2-get-posterior-predictive-values-per-group">
-<h3>Step 2: Get posterior predictive values per group<a class="headerlink" href="#step-2-get-posterior-predictive-values-per-group" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="step-2-get-posterior-predictive-values-per-group">
+<h3>Step 2: Get posterior predictive values per group<a class="headerlink" href="#step-2-get-posterior-predictive-values-per-group" title="Link to this heading">#</a></h3>
 <p>In our case, let’s see if Sunday is superior to Thursday in regards to tips.</p>
 <p>In our code, recall that:</p>
 <ul class="simple">
@@ -1707,7 +1707,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_71_0.png" src="../_images/02-x_71_0.png" />
+<img alt="../_images/dfa8aa2a2209dbd83992a5c5e12f9f32937fb1dd0e7a68dbaf08f0e3867f0c12.png" src="../_images/dfa8aa2a2209dbd83992a5c5e12f9f32937fb1dd0e7a68dbaf08f0e3867f0c12.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1717,13 +1717,13 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_72_0.png" src="../_images/02-x_72_0.png" />
+<img alt="../_images/46136a74b684dc89f7ac89a41e1154a9226764dc3ee294c04981614cf5ffbe82.png" src="../_images/46136a74b684dc89f7ac89a41e1154a9226764dc3ee294c04981614cf5ffbe82.png" />
 </div>
 </div>
 <p>From visual inspection, it’s hard to see the difference between the two groups.</p>
-</div>
-<div class="section" id="step-3-pick-data-points-at-random-from-each-group-and-compare">
-<h3>Step 3: Pick data points at random from each group and compare<a class="headerlink" href="#step-3-pick-data-points-at-random-from-each-group-and-compare" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="step-3-pick-data-points-at-random-from-each-group-and-compare">
+<h3>Step 3: Pick data points at random from each group and compare<a class="headerlink" href="#step-3-pick-data-points-at-random-from-each-group-and-compare" title="Link to this heading">#</a></h3>
 <p>Let’s numerically simulate Cohen’s D by drawing random samples from both posterior predictive distributions and naively calculating probability</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1740,7 +1740,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.381
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.404
 </pre></div>
 </div>
 </div>
@@ -1757,15 +1757,15 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray(0.406, dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array(0.377, dtype=float32)
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="question-7">
-<h2>Question 7<a class="headerlink" href="#question-7" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="question-7">
+<h2>Question 7<a class="headerlink" href="#question-7" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>Repeat the exercise we did with <code class="docutils literal notranslate"><span class="pre">model_h</span></code>. This time, without hierarchical structure, use a flat prior such as <span class="math notranslate nohighlight">\(Beta(1,1)\)</span>. Compare the results of both models.</em></p>
 <div class="cell docutils container">
@@ -1785,7 +1785,7 @@ sample: 100%|██████████████████████�
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Baseline model</span>
-<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># Priors</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
     <span class="n">κ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;κ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
@@ -1806,12 +1806,6 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:03&lt;00:00, 467.57it/s, 3 steps of size 5.23e-01. acc. prob=0.90]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5774.81it/s, 7 steps of size 4.86e-01. acc. prob=0.93]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1820,7 +1814,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_80_0.png" src="../_images/02-x_80_0.png" />
+<img alt="../_images/11ffa283377ef60ce39f5b4b62efc1344e83424fd8b79e3e221492dc0beff69a.png" src="../_images/11ffa283377ef60ce39f5b4b62efc1344e83424fd8b79e3e221492dc0beff69a.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1830,7 +1824,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_81_0.png" src="../_images/02-x_81_0.png" />
+<img alt="../_images/3ac63939d8c28576495cd3f56769fd2f9f7572b1fd26c07bfeeeb313fc510cce.png" src="../_images/3ac63939d8c28576495cd3f56769fd2f9f7572b1fd26c07bfeeeb313fc510cce.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1874,62 +1868,62 @@ sample: 100%|██████████████████████�
     <tr>
       <th>θ[0]</th>
       <td>0.548</td>
-      <td>0.089</td>
-      <td>0.378</td>
-      <td>0.708</td>
+      <td>0.093</td>
+      <td>0.373</td>
+      <td>0.711</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>1870.0</td>
-      <td>1528.0</td>
-      <td>1.00</td>
+      <td>0.002</td>
+      <td>1631.0</td>
+      <td>1309.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>θ[1]</th>
-      <td>0.128</td>
+      <td>0.127</td>
       <td>0.056</td>
-      <td>0.027</td>
-      <td>0.228</td>
+      <td>0.032</td>
+      <td>0.230</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>1885.0</td>
-      <td>1188.0</td>
-      <td>1.00</td>
+      <td>1879.0</td>
+      <td>1171.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>θ[2]</th>
-      <td>0.130</td>
-      <td>0.058</td>
-      <td>0.028</td>
-      <td>0.235</td>
+      <td>0.127</td>
+      <td>0.059</td>
+      <td>0.031</td>
+      <td>0.241</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>2038.0</td>
-      <td>1368.0</td>
-      <td>1.00</td>
+      <td>0.002</td>
+      <td>1996.0</td>
+      <td>1138.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>κ</th>
-      <td>5.980</td>
-      <td>4.084</td>
-      <td>0.523</td>
-      <td>13.470</td>
-      <td>0.105</td>
-      <td>0.074</td>
-      <td>1404.0</td>
-      <td>1356.0</td>
-      <td>1.00</td>
+      <td>6.075</td>
+      <td>4.135</td>
+      <td>0.487</td>
+      <td>13.877</td>
+      <td>0.108</td>
+      <td>0.115</td>
+      <td>1473.0</td>
+      <td>1531.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>μ</th>
-      <td>0.301</td>
-      <td>0.120</td>
-      <td>0.105</td>
-      <td>0.539</td>
+      <td>0.296</td>
+      <td>0.108</td>
+      <td>0.106</td>
+      <td>0.488</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>1421.0</td>
-      <td>1371.0</td>
-      <td>1.01</td>
+      <td>0.003</td>
+      <td>1661.0</td>
+      <td>1383.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -1943,10 +1937,10 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
 </pre></div>
 </div>
-<img alt="../_images/02-x_83_1.png" src="../_images/02-x_83_1.png" />
+<img alt="../_images/a030968ecaede011636636255df6009ce312be1b355121c0ca88c3e3111afd71.png" src="../_images/a030968ecaede011636636255df6009ce312be1b355121c0ca88c3e3111afd71.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1960,7 +1954,7 @@ sample: 100%|██████████████████████�
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Flat model</span>
-<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># Priors</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
     <span class="n">κ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;κ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
@@ -1981,12 +1975,6 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:03&lt;00:00, 483.93it/s, 7 steps of size 6.81e-01. acc. prob=0.83]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 6294.30it/s, 7 steps of size 5.73e-01. acc. prob=0.94]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1995,7 +1983,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_86_0.png" src="../_images/02-x_86_0.png" />
+<img alt="../_images/c1c82b27b4f8145b73a6fd2f488ca181eb52854cc0b0556bf13f8297c172e400.png" src="../_images/c1c82b27b4f8145b73a6fd2f488ca181eb52854cc0b0556bf13f8297c172e400.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2005,7 +1993,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_87_0.png" src="../_images/02-x_87_0.png" />
+<img alt="../_images/0b86daf8df0b3e47bdef7776945837a941cced8aa2a3f773510097117fd48d47.png" src="../_images/0b86daf8df0b3e47bdef7776945837a941cced8aa2a3f773510097117fd48d47.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2048,38 +2036,38 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>θ</th>
-      <td>0.272</td>
-      <td>0.045</td>
-      <td>0.186</td>
-      <td>0.354</td>
+      <td>0.271</td>
+      <td>0.049</td>
+      <td>0.184</td>
+      <td>0.363</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>1744.0</td>
-      <td>1512.0</td>
+      <td>1553.0</td>
+      <td>1334.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>κ</th>
-      <td>9.159</td>
-      <td>5.936</td>
-      <td>0.029</td>
-      <td>19.496</td>
-      <td>0.176</td>
-      <td>0.125</td>
-      <td>901.0</td>
-      <td>698.0</td>
+      <td>8.782</td>
+      <td>5.688</td>
+      <td>0.408</td>
+      <td>18.748</td>
+      <td>0.152</td>
+      <td>0.113</td>
+      <td>1153.0</td>
+      <td>936.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ</th>
       <td>0.343</td>
       <td>0.156</td>
-      <td>0.049</td>
-      <td>0.620</td>
+      <td>0.061</td>
+      <td>0.634</td>
       <td>0.004</td>
-      <td>0.003</td>
-      <td>1370.0</td>
-      <td>991.0</td>
+      <td>0.004</td>
+      <td>1474.0</td>
+      <td>1176.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -2094,14 +2082,14 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:arviz.data.io_numpyro:posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>posterior predictive shape not compatible with number of chains and draws. This can mean that some draws or even whole chains are not represented.
 </pre></div>
 </div>
-<img alt="../_images/02-x_89_1.png" src="../_images/02-x_89_1.png" />
+<img alt="../_images/976d8fe1718e9411fa6165e180c7256dab3986bc45a09625a1fe3515a6631bf8.png" src="../_images/976d8fe1718e9411fa6165e180c7256dab3986bc45a09625a1fe3515a6631bf8.png" />
 </div>
 </div>
-<div class="section" id="summary-comparison">
-<h3>Summary comparison<a class="headerlink" href="#summary-comparison" title="Permalink to this headline">¶</a></h3>
+<section id="summary-comparison">
+<h3>Summary comparison<a class="headerlink" href="#summary-comparison" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">baseline_summary</span><span class="p">,</span> <span class="n">flat_summary</span><span class="p">])</span>
@@ -2142,117 +2130,117 @@ sample: 100%|██████████████████████�
     <tr>
       <th>θ[0]</th>
       <td>0.548</td>
-      <td>0.089</td>
-      <td>0.378</td>
-      <td>0.708</td>
+      <td>0.093</td>
+      <td>0.373</td>
+      <td>0.711</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>1870.0</td>
-      <td>1528.0</td>
-      <td>1.00</td>
+      <td>0.002</td>
+      <td>1631.0</td>
+      <td>1309.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>θ[1]</th>
-      <td>0.128</td>
+      <td>0.127</td>
       <td>0.056</td>
-      <td>0.027</td>
-      <td>0.228</td>
+      <td>0.032</td>
+      <td>0.230</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>1885.0</td>
-      <td>1188.0</td>
-      <td>1.00</td>
+      <td>1879.0</td>
+      <td>1171.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>θ[2]</th>
-      <td>0.130</td>
-      <td>0.058</td>
-      <td>0.028</td>
-      <td>0.235</td>
+      <td>0.127</td>
+      <td>0.059</td>
+      <td>0.031</td>
+      <td>0.241</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>2038.0</td>
-      <td>1368.0</td>
-      <td>1.00</td>
+      <td>0.002</td>
+      <td>1996.0</td>
+      <td>1138.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>κ</th>
-      <td>5.980</td>
-      <td>4.084</td>
-      <td>0.523</td>
-      <td>13.470</td>
-      <td>0.105</td>
-      <td>0.074</td>
-      <td>1404.0</td>
-      <td>1356.0</td>
-      <td>1.00</td>
+      <td>6.075</td>
+      <td>4.135</td>
+      <td>0.487</td>
+      <td>13.877</td>
+      <td>0.108</td>
+      <td>0.115</td>
+      <td>1473.0</td>
+      <td>1531.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>μ</th>
-      <td>0.301</td>
-      <td>0.120</td>
-      <td>0.105</td>
-      <td>0.539</td>
+      <td>0.296</td>
+      <td>0.108</td>
+      <td>0.106</td>
+      <td>0.488</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>1421.0</td>
-      <td>1371.0</td>
-      <td>1.01</td>
+      <td>0.003</td>
+      <td>1661.0</td>
+      <td>1383.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>θ</th>
-      <td>0.272</td>
-      <td>0.045</td>
-      <td>0.186</td>
-      <td>0.354</td>
+      <td>0.271</td>
+      <td>0.049</td>
+      <td>0.184</td>
+      <td>0.363</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>1744.0</td>
-      <td>1512.0</td>
-      <td>1.00</td>
+      <td>1553.0</td>
+      <td>1334.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>κ</th>
-      <td>9.159</td>
-      <td>5.936</td>
-      <td>0.029</td>
-      <td>19.496</td>
-      <td>0.176</td>
-      <td>0.125</td>
-      <td>901.0</td>
-      <td>698.0</td>
-      <td>1.00</td>
+      <td>8.782</td>
+      <td>5.688</td>
+      <td>0.408</td>
+      <td>18.748</td>
+      <td>0.152</td>
+      <td>0.113</td>
+      <td>1153.0</td>
+      <td>936.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>μ</th>
       <td>0.343</td>
       <td>0.156</td>
-      <td>0.049</td>
-      <td>0.620</td>
+      <td>0.061</td>
+      <td>0.634</td>
       <td>0.004</td>
-      <td>0.003</td>
-      <td>1370.0</td>
-      <td>991.0</td>
-      <td>1.00</td>
+      <td>0.004</td>
+      <td>1474.0</td>
+      <td>1176.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="id2">
-<h3>Discussion<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id2">
+<h3>Discussion<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>In the hiearchical model, we get three estimates of <span class="math notranslate nohighlight">\(\theta\)</span>, one per each group. So, by using a hierarchical model, we’re able to obtain the range of <span class="math notranslate nohighlight">\(\theta\)</span> parameters per group, and not just the average <span class="math notranslate nohighlight">\(\theta\)</span> parameter for all groups.</p>
-</div>
-</div>
-<div class="section" id="question-8">
-<h2>Question 8<a class="headerlink" href="#question-8" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="question-8">
+<h2>Question 8<a class="headerlink" href="#question-8" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>Create a hierarchical version of the tips example by partially pooling across the days of the week. Compare the results to those obtained without the hierarchical structure.</em></p>
 <p>Refer to Question 6 for the non-pooled version of the model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># Priors</span>
     <span class="n">pooled_mean</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;pooled_mean&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">10.</span><span class="p">))</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">pooled_mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">groups</span><span class="p">,))</span>
@@ -2273,12 +2261,6 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████| 1500/1500 [00:02&lt;00:00, 531.90it/s, 7 steps of size 5.87e-01. acc. prob=0.91]
-sample: 100%|██████████████████████████| 1500/1500 [00:00&lt;00:00, 5603.35it/s, 3 steps of size 5.90e-01. acc. prob=0.92]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2287,7 +2269,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_95_0.png" src="../_images/02-x_95_0.png" />
+<img alt="../_images/9c87ae9b418e6f95814587dffc086495cefda2415f81ecb5c054e49ff778e590.png" src="../_images/9c87ae9b418e6f95814587dffc086495cefda2415f81ecb5c054e49ff778e590.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2331,111 +2313,111 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>pooled_mean</th>
-      <td>2.940</td>
+      <td>2.923</td>
       <td>0.514</td>
-      <td>1.938</td>
-      <td>3.855</td>
-      <td>0.008</td>
-      <td>0.006</td>
-      <td>4705.0</td>
-      <td>1374.0</td>
-      <td>1.0</td>
+      <td>1.954</td>
+      <td>3.850</td>
+      <td>0.009</td>
+      <td>0.011</td>
+      <td>3157.0</td>
+      <td>1596.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>μ[0]</th>
-      <td>2.779</td>
-      <td>0.161</td>
-      <td>2.480</td>
-      <td>3.088</td>
+      <td>2.774</td>
+      <td>0.159</td>
+      <td>2.499</td>
+      <td>3.102</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>3150.0</td>
-      <td>1261.0</td>
-      <td>1.0</td>
+      <td>0.004</td>
+      <td>2928.0</td>
+      <td>1534.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>μ[1]</th>
       <td>2.746</td>
-      <td>0.242</td>
-      <td>2.295</td>
-      <td>3.212</td>
-      <td>0.005</td>
+      <td>0.232</td>
+      <td>2.337</td>
+      <td>3.194</td>
       <td>0.004</td>
-      <td>2434.0</td>
-      <td>1216.0</td>
-      <td>1.0</td>
+      <td>0.005</td>
+      <td>3034.0</td>
+      <td>1725.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>μ[2]</th>
-      <td>2.995</td>
-      <td>0.168</td>
-      <td>2.692</td>
-      <td>3.322</td>
+      <td>2.996</td>
+      <td>0.181</td>
+      <td>2.681</td>
+      <td>3.341</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>3523.0</td>
-      <td>1659.0</td>
-      <td>1.0</td>
+      <td>0.004</td>
+      <td>3480.0</td>
+      <td>1612.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>μ[3]</th>
-      <td>3.248</td>
-      <td>0.142</td>
-      <td>2.974</td>
-      <td>3.503</td>
-      <td>0.002</td>
-      <td>0.002</td>
-      <td>3447.0</td>
-      <td>1230.0</td>
-      <td>1.0</td>
+      <td>3.246</td>
+      <td>0.143</td>
+      <td>2.984</td>
+      <td>3.510</td>
+      <td>0.003</td>
+      <td>0.004</td>
+      <td>2813.0</td>
+      <td>1550.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>σ[0]</th>
-      <td>1.266</td>
-      <td>0.114</td>
-      <td>1.048</td>
-      <td>1.466</td>
+      <td>1.269</td>
+      <td>0.119</td>
+      <td>1.037</td>
+      <td>1.483</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3751.0</td>
-      <td>1306.0</td>
-      <td>1.0</td>
+      <td>0.003</td>
+      <td>3490.0</td>
+      <td>1444.0</td>
+      <td>1.01</td>
     </tr>
     <tr>
       <th>σ[1]</th>
-      <td>1.095</td>
-      <td>0.200</td>
-      <td>0.731</td>
-      <td>1.432</td>
+      <td>1.090</td>
+      <td>0.194</td>
+      <td>0.775</td>
+      <td>1.448</td>
       <td>0.004</td>
-      <td>0.003</td>
-      <td>3429.0</td>
-      <td>1465.0</td>
-      <td>1.0</td>
+      <td>0.006</td>
+      <td>3135.0</td>
+      <td>1544.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>σ[2]</th>
-      <td>1.654</td>
-      <td>0.130</td>
-      <td>1.435</td>
-      <td>1.916</td>
+      <td>1.653</td>
+      <td>0.128</td>
+      <td>1.411</td>
+      <td>1.874</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>4926.0</td>
-      <td>1584.0</td>
-      <td>1.0</td>
+      <td>0.003</td>
+      <td>3414.0</td>
+      <td>1442.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>σ[3]</th>
-      <td>1.256</td>
-      <td>0.108</td>
-      <td>1.061</td>
-      <td>1.457</td>
+      <td>1.253</td>
+      <td>0.103</td>
+      <td>1.069</td>
+      <td>1.442</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3472.0</td>
-      <td>1427.0</td>
-      <td>1.0</td>
+      <td>0.002</td>
+      <td>3139.0</td>
+      <td>1440.0</td>
+      <td>1.00</td>
     </tr>
   </tbody>
 </table>
@@ -2480,207 +2462,207 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>μ[0]</th>
-      <td>2.767</td>
-      <td>0.164</td>
-      <td>2.473</td>
-      <td>3.085</td>
+      <td>2.770</td>
+      <td>0.163</td>
+      <td>2.468</td>
+      <td>3.077</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>3093.0</td>
-      <td>1329.0</td>
-      <td>1.0</td>
+      <td>0.004</td>
+      <td>3281.0</td>
+      <td>1486.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>μ[1]</th>
       <td>2.726</td>
-      <td>0.269</td>
-      <td>2.240</td>
-      <td>3.243</td>
+      <td>0.252</td>
+      <td>2.274</td>
+      <td>3.207</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>2525.0</td>
-      <td>1487.0</td>
-      <td>1.0</td>
+      <td>0.006</td>
+      <td>2523.0</td>
+      <td>1267.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>μ[2]</th>
-      <td>2.997</td>
-      <td>0.175</td>
-      <td>2.636</td>
-      <td>3.301</td>
+      <td>2.992</td>
+      <td>0.170</td>
+      <td>2.677</td>
+      <td>3.319</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>2913.0</td>
-      <td>1306.0</td>
-      <td>1.0</td>
+      <td>0.004</td>
+      <td>3376.0</td>
+      <td>1425.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>μ[3]</th>
       <td>3.256</td>
-      <td>0.143</td>
-      <td>2.980</td>
-      <td>3.503</td>
+      <td>0.145</td>
+      <td>2.982</td>
+      <td>3.517</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>2935.0</td>
-      <td>1481.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>σ[0]</th>
-      <td>1.270</td>
-      <td>0.119</td>
-      <td>1.058</td>
-      <td>1.492</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>3532.0</td>
-      <td>1564.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>σ[1]</th>
-      <td>1.109</td>
-      <td>0.212</td>
-      <td>0.737</td>
-      <td>1.499</td>
-      <td>0.005</td>
-      <td>0.003</td>
-      <td>2613.0</td>
-      <td>1435.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>σ[2]</th>
-      <td>1.654</td>
-      <td>0.125</td>
-      <td>1.435</td>
-      <td>1.897</td>
-      <td>0.002</td>
-      <td>0.002</td>
-      <td>3144.0</td>
-      <td>1403.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>σ[3]</th>
-      <td>1.252</td>
-      <td>0.100</td>
-      <td>1.064</td>
-      <td>1.436</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>3178.0</td>
-      <td>1464.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>pooled_mean</th>
-      <td>2.940</td>
-      <td>0.514</td>
-      <td>1.938</td>
-      <td>3.855</td>
-      <td>0.008</td>
-      <td>0.006</td>
-      <td>4705.0</td>
-      <td>1374.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>μ[0]</th>
-      <td>2.779</td>
-      <td>0.161</td>
-      <td>2.480</td>
-      <td>3.088</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>3150.0</td>
-      <td>1261.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>μ[1]</th>
-      <td>2.746</td>
-      <td>0.242</td>
-      <td>2.295</td>
-      <td>3.212</td>
-      <td>0.005</td>
       <td>0.004</td>
-      <td>2434.0</td>
-      <td>1216.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>μ[2]</th>
-      <td>2.995</td>
-      <td>0.168</td>
-      <td>2.692</td>
-      <td>3.322</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>3523.0</td>
-      <td>1659.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>μ[3]</th>
-      <td>3.248</td>
-      <td>0.142</td>
-      <td>2.974</td>
-      <td>3.503</td>
-      <td>0.002</td>
-      <td>0.002</td>
-      <td>3447.0</td>
-      <td>1230.0</td>
-      <td>1.0</td>
+      <td>2961.0</td>
+      <td>1331.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>σ[0]</th>
-      <td>1.266</td>
-      <td>0.114</td>
-      <td>1.048</td>
-      <td>1.466</td>
+      <td>1.265</td>
+      <td>0.113</td>
+      <td>1.060</td>
+      <td>1.475</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3751.0</td>
-      <td>1306.0</td>
-      <td>1.0</td>
+      <td>0.003</td>
+      <td>3055.0</td>
+      <td>1591.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>σ[1]</th>
-      <td>1.095</td>
+      <td>1.103</td>
       <td>0.200</td>
-      <td>0.731</td>
-      <td>1.432</td>
-      <td>0.004</td>
-      <td>0.003</td>
-      <td>3429.0</td>
-      <td>1465.0</td>
-      <td>1.0</td>
+      <td>0.765</td>
+      <td>1.466</td>
+      <td>0.005</td>
+      <td>0.006</td>
+      <td>2094.0</td>
+      <td>1210.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>σ[2]</th>
-      <td>1.654</td>
-      <td>0.130</td>
-      <td>1.435</td>
-      <td>1.916</td>
+      <td>1.656</td>
+      <td>0.126</td>
+      <td>1.413</td>
+      <td>1.887</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>4926.0</td>
-      <td>1584.0</td>
-      <td>1.0</td>
+      <td>0.004</td>
+      <td>3163.0</td>
+      <td>1338.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>σ[3]</th>
       <td>1.256</td>
-      <td>0.108</td>
-      <td>1.061</td>
-      <td>1.457</td>
+      <td>0.103</td>
+      <td>1.073</td>
+      <td>1.442</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3472.0</td>
-      <td>1427.0</td>
-      <td>1.0</td>
+      <td>0.002</td>
+      <td>3143.0</td>
+      <td>1544.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>pooled_mean</th>
+      <td>2.923</td>
+      <td>0.514</td>
+      <td>1.954</td>
+      <td>3.850</td>
+      <td>0.009</td>
+      <td>0.011</td>
+      <td>3157.0</td>
+      <td>1596.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>μ[0]</th>
+      <td>2.774</td>
+      <td>0.159</td>
+      <td>2.499</td>
+      <td>3.102</td>
+      <td>0.003</td>
+      <td>0.004</td>
+      <td>2928.0</td>
+      <td>1534.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>μ[1]</th>
+      <td>2.746</td>
+      <td>0.232</td>
+      <td>2.337</td>
+      <td>3.194</td>
+      <td>0.004</td>
+      <td>0.005</td>
+      <td>3034.0</td>
+      <td>1725.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>μ[2]</th>
+      <td>2.996</td>
+      <td>0.181</td>
+      <td>2.681</td>
+      <td>3.341</td>
+      <td>0.003</td>
+      <td>0.004</td>
+      <td>3480.0</td>
+      <td>1612.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>μ[3]</th>
+      <td>3.246</td>
+      <td>0.143</td>
+      <td>2.984</td>
+      <td>3.510</td>
+      <td>0.003</td>
+      <td>0.004</td>
+      <td>2813.0</td>
+      <td>1550.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>σ[0]</th>
+      <td>1.269</td>
+      <td>0.119</td>
+      <td>1.037</td>
+      <td>1.483</td>
+      <td>0.002</td>
+      <td>0.003</td>
+      <td>3490.0</td>
+      <td>1444.0</td>
+      <td>1.01</td>
+    </tr>
+    <tr>
+      <th>σ[1]</th>
+      <td>1.090</td>
+      <td>0.194</td>
+      <td>0.775</td>
+      <td>1.448</td>
+      <td>0.004</td>
+      <td>0.006</td>
+      <td>3135.0</td>
+      <td>1544.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>σ[2]</th>
+      <td>1.653</td>
+      <td>0.128</td>
+      <td>1.411</td>
+      <td>1.874</td>
+      <td>0.002</td>
+      <td>0.003</td>
+      <td>3414.0</td>
+      <td>1442.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>σ[3]</th>
+      <td>1.253</td>
+      <td>0.103</td>
+      <td>1.069</td>
+      <td>1.442</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>3139.0</td>
+      <td>1440.0</td>
+      <td>1.00</td>
     </tr>
   </tbody>
 </table>
@@ -2693,7 +2675,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_98_0.png" src="../_images/02-x_98_0.png" />
+<img alt="../_images/75ab06e40835abee8bee2644e9edae3c31b924ae0a308f422c3e743cc8f1ccd0.png" src="../_images/75ab06e40835abee8bee2644e9edae3c31b924ae0a308f422c3e743cc8f1ccd0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2703,12 +2685,12 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_99_0.png" src="../_images/02-x_99_0.png" />
+<img alt="../_images/238d74b809bbf2f422bb1d00d1f0b10a0cb329aa345731cfd262532d1b542626.png" src="../_images/238d74b809bbf2f422bb1d00d1f0b10a0cb329aa345731cfd262532d1b542626.png" />
 </div>
 </div>
-</div>
-<div class="section" id="question-9">
-<h2>Question 9<a class="headerlink" href="#question-9" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="question-9">
+<h2>Question 9<a class="headerlink" href="#question-9" title="Link to this heading">#</a></h2>
 <hr class="docutils" />
 <p><em>PyMC3 can create <strong>directed acyclic graphs (DAGs)</strong> from models that are very similar to Kruschke’s diagrams. You can obtain them using the <code class="docutils literal notranslate"><span class="pre">pm.model_to_graphviz()</span></code> function. To generate DAGs, you may need to install graphviz using the command <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">conda-forge</span> <span class="pre">python-graphviz</span></code>. Generate a DAG for each model in this chapter.</em></p>
 <div class="cell docutils container">
@@ -2718,7 +2700,8 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02-x_102_0.svg" src="../_images/02-x_102_0.svg" /></div>
+<img alt="../_images/284369bcc4297d69c0747db0a2defa1323ee613a4978e6e3dc0e7820a4b9ab03.svg" src="../_images/284369bcc4297d69c0747db0a2defa1323ee613a4978e6e3dc0e7820a4b9ab03.svg" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2728,8 +2711,8 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <p><em>A last note before finishing up: besides the exercises you’ll find at the end of each chapter, you can always try to (and probably should) think of problems you are interested in and how to apply what you have learned to that problem. Maybe you will need to define your problem in a different way, or maybe you will need to expand or modify the models you have learned. If you think this task is beyond your current skills, note down the problem and come back to it after reading another chapter in this book. Eventually, if the book does not answer your questions, check the <a class="reference external" href="https://docs.pymc.io/nb_examples/index.html">PyMC3 examples</a> or ask a question on <a class="reference external" href="https://discourse.pymc.io/">PyMC’s Discourse</a>.</em></p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -2740,72 +2723,145 @@ sample: 100%|██████████████████████�
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "bap-numpyro"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "bap-numpyro",
             path: "./notebooks"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'bap-numpyro'</script>
 
-              </div>
+                </article>
               
-        
-            
 
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="01-x.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Chapter 1 Exercises</p>
-            </div>
-        </a>
-    </div>
-     <div id="next">
-        <a class="right-next" href="03-x.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Chapter 3 Exercises</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-x.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 1 Exercises</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-x.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 3 Exercises</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
-        
-        </div>
-    </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a><br/>
-        
-          <div class="extra_footer">
-            <p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-1">Question 1</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-model">Baseline model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-prior-for-previous-example">Match prior for previous example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-the-beta-distribution-with-a-uniform-one-in-the-interval-0-1">Replace the beta distribution with a uniform one in the interval [0,1]</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-the-beta-distribution-with-a-uniform-1-2">Replace the beta distribution with a uniform  [-1,2]</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Discussion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-2">Question 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-3">Question 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-4">Question 4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-5">Question 5</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-model">Gaussian Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shared-nu-across-all-groups">Shared <span class="math notranslate nohighlight">\(\nu\)</span> across all groups</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-nu-per-group">One <span class="math notranslate nohighlight">\(\nu\)</span> per group</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-6">Question 6</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-estimate-model-parameters-per-group">Step 1: Estimate model parameters per group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-get-posterior-predictive-values-per-group">Step 2: Get posterior predictive values per group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-pick-data-points-at-random-from-each-group-and-compare">Step 3: Pick data points at random from each group and compare</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-7">Question 7</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-comparison">Summary comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Discussion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-8">Question 8</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#question-9">Question 9</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a>
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
 Code released under a <a href="https://opensource.org/licenses/MIT">MIT license</a>.
 </p>
 
-          </div>
-      </p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
   </footer>
-</main>
-
-
-      </div>
-    </div>
-  
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  
   </body>
 </html>

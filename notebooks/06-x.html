@@ -1,0 +1,1313 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 6 Exercises &#8212; Bayesian Analysis in Python (2nd ed.) with NumPyro</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-x';</script>
+    <link rel="canonical" href="https://tallamjr.github.io/bap-numpyro/notebooks/06-x.html" />
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 7 Exercises" href="07-x.html" />
+    <link rel="prev" title="Chapter 5 Exercises" href="05-x.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/bap-cover.png" class="logo__image only-light" alt="Bayesian Analysis in Python (2nd ed.) with NumPyro - Home"/>
+    <img src="../_static/bap-cover.png" class="logo__image only-dark pst-js-only" alt="Bayesian Analysis in Python (2nd ed.) with NumPyro - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    Bayesian Analysis in Python (2nd ed.) with Numpyro
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Bayesian Analysis in Python (2nd ed.) with NumPyro</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-thinking-probabilistically.html">Chapter 1. Thinking Probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-programming-probabilistically.html">Chapter 2. Programming Probabilistically</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="03-modeling-with-Linear-regressions.html">Chapter 3. Modeling with Linear Regressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-generalizing_linear_models.html">Chapter 4. Generalizing Linear Models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05-model_comparison.html">Chapter 5. Model Comparison</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="06-mixture_models.html">Chapter 6. Mixture Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-gaussian-process.html">Chapter 7. Gaussian Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-inference-engines.html">Chapter 8. Inferene Engines</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-x.html">Chapter 1 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-x.html">Chapter 2 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-x.html">Chapter 3 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-x.html">Chapter 4 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-x.html">Chapter 5 Exercises</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 6 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-x.html">Chapter 7 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-x.html">Chapter 8 Exercises</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/06-x.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/06-x.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/06-x.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-x.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/06-x.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 6 Exercises</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4">Exercise 4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5">Exercise 5</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6">Exercise 6</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-6-exercises">
+<h1>Chapter 6 Exercises<a class="headerlink" href="#chapter-6-exercises" title="Link to this heading">#</a></h1>
+<blockquote>
+<div><p>Note: The BAP repository does not include published exercises for Chapter 6. The exercises below are practice problems authored in the style of the book, covering the same chapter themes (finite mixture models, the Dirichlet prior on mixture weights, label switching and non-identifiability, and continuous/Dirichlet-process style mixtures).</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">local_device_count</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro.distributions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.infer</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">Predictive</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.distributions.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedTransform</span>
+
+<span class="n">seed</span> <span class="o">=</span> <span class="mi">1234</span>
+
+<span class="k">if</span> <span class="s2">&quot;SVG&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">config</span> InlineBackend.figure_formats = [&quot;svg&quot;]
+<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">message</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">category</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">message</span>
+<span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;arviz-darkgrid&quot;</span><span class="p">)</span>
+<span class="n">numpyro</span><span class="o">.</span><span class="n">set_platform</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>  <span class="c1"># or &quot;gpu&quot;, &quot;tpu&quot; depending on system</span>
+<span class="n">numpyro</span><span class="o">.</span><span class="n">set_host_device_count</span><span class="p">(</span><span class="n">local_device_count</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/bap-numpyro/bap-numpyro/.venv/lib/python3.13/site-packages/arviz/__init__.py:50: FutureWarning: 
+ArviZ is undergoing a major refactor to improve flexibility and extensibility while maintaining a user-friendly interface.
+Some upcoming changes may be backward incompatible.
+For details and migration guidance, visit: https://python.arviz.org/en/latest/user_guide/migration_guide.html
+  warn(
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/bap-numpyro/bap-numpyro/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+</div>
+</div>
+<section id="exercise-1">
+<h2>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h2>
+<hr class="docutils" />
+<p><em>Load the <code class="docutils literal notranslate"><span class="pre">chemical_shifts.csv</span></code> dataset (the experimental chemical shift values, one column of floats). Fit a two-component Gaussian mixture model using <code class="docutils literal notranslate"><span class="pre">MixtureSameFamily</span></code> with a <code class="docutils literal notranslate"><span class="pre">Dirichlet</span></code> prior on the mixture weights. Use <code class="docutils literal notranslate"><span class="pre">OrderedTransform</span></code> on the component means to break the label-switching symmetry. Report the posterior means and 94% HDI for the weights <code class="docutils literal notranslate"><span class="pre">p</span></code> and component means. Why is the ordered-means constraint necessary, and what artefact appears in the summary when it is absent?</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cs_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/chemical_shifts.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;shift&#39;</span><span class="p">])</span>
+<span class="n">cs_obs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_raw</span><span class="p">[</span><span class="s1">&#39;shift&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cs_obs</span><span class="p">)</span><span class="si">}</span><span class="s2">,  min = </span><span class="si">{</span><span class="n">cs_obs</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,  max = </span><span class="si">{</span><span class="n">cs_obs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,  mean = </span><span class="si">{</span><span class="n">cs_obs</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">cs_obs</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">cs_obs</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Chemical shift&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Observed chemical shifts&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 48,  min = 47.72,  max = 68.58,  mean = 53.50
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
+</pre></div>
+</div>
+<img alt="../_images/bc15d339a2e37dd0ec99c85f158d319a9b40d964575a481132ded051a4c3258d.png" src="../_images/bc15d339a2e37dd0ec99c85f158d319a9b40d964575a481132ded051a4c3258d.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">model_ordered</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">clusters</span><span class="p">)))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="c1"># OrderedTransform forces means[0] &lt; means[1], breaking label-switching</span>
+    <span class="n">mu_init</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs_obs</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cs_obs</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">clusters</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="s1">&#39;means&#39;</span><span class="p">,</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">TransformedDistribution</span><span class="p">(</span>
+            <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu_init</span><span class="p">,</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">clusters</span><span class="p">)),</span>
+            <span class="n">OrderedTransform</span><span class="p">(),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.0</span><span class="p">))</span>
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span><span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model_ordered</span><span class="p">)</span>
+<span class="n">mcmc_ex1</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_ex1</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">cs_obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idata_ex1</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc_ex1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">idata_ex1</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.94</span><span class="p">))</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_ex1</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>            mean     sd  hdi_3%  hdi_97%  mcse_mean  mcse_sd  ess_bulk  \
+p[0]       0.940  0.035   0.874    0.992      0.001    0.001    2309.0   
+p[1]       0.060  0.035   0.008    0.126      0.001    0.001    2309.0   
+means[0]  52.939  0.331  52.357   53.603      0.008    0.007    1525.0   
+means[1]  65.940  1.730  63.042   69.336      0.041    0.051    1904.0   
+sd         2.328  0.255   1.903    2.821      0.006    0.007    1786.0   
+
+          ess_tail  r_hat  
+p[0]        1398.0    1.0  
+p[1]        1398.0    1.0  
+means[0]    1350.0    1.0  
+means[1]    1300.0    1.0  
+sd          1403.0    1.0  
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
+</pre></div>
+</div>
+<img alt="../_images/d57947a2d52cb7f8ab674ea3a111e77942370e0c8d4fc3fa8fe0e2bf2dc9877d.png" src="../_images/d57947a2d52cb7f8ab674ea3a111e77942370e0c8d4fc3fa8fe0e2bf2dc9877d.png" />
+</div>
+</div>
+<p>Without <code class="docutils literal notranslate"><span class="pre">OrderedTransform</span></code>, HMC treats the two components as exchangeable. Because swapping component labels (component 0 gets mean A, component 1 gets mean B, or vice versa) leaves the likelihood identical, the sampler jumps between these equivalent modes. The trace plots show both chains exploring opposite assignments, and the summary reports an artificially inflated <code class="docutils literal notranslate"><span class="pre">r_hat</span></code> and low <code class="docutils literal notranslate"><span class="pre">ess_bulk</span></code>. Constraining the means to be ordered collapses both modes into one, so the sampler explores a unimodal posterior and diagnostics improve markedly.</p>
+</section>
+<section id="exercise-2">
+<h2>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h2>
+<hr class="docutils" />
+<p><em>Using the same <code class="docutils literal notranslate"><span class="pre">chemical_shifts.csv</span></code> data, fit three separate mixture models with K = 2, 3, and 4 components respectively, each with an ordered-means prior. Convert each MCMC object to an <code class="docutils literal notranslate"><span class="pre">InferenceData</span></code> with <code class="docutils literal notranslate"><span class="pre">az.from_numpyro</span></code>, then compare all three with <code class="docutils literal notranslate"><span class="pre">az.compare</span></code> using the LOO criterion. Which K is preferred? Plot the comparison with <code class="docutils literal notranslate"><span class="pre">az.plot_compare</span></code> and discuss what the ELPD difference and its standard error tell you about whether the improvement is decisive.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_mixture_model</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a NumPyro mixture model with k ordered Gaussian components.&quot;&quot;&quot;</span>
+    <span class="n">mu_init</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs_obs</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cs_obs</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">k</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">k</span><span class="p">)))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+            <span class="s1">&#39;means&#39;</span><span class="p">,</span>
+            <span class="n">dist</span><span class="o">.</span><span class="n">TransformedDistribution</span><span class="p">(</span>
+                <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu_init</span><span class="p">,</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">k</span><span class="p">)),</span>
+                <span class="n">OrderedTransform</span><span class="p">(),</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.0</span><span class="p">))</span>
+        <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+        <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">,</span>
+            <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span>
+                <span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span>
+                <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model</span>
+
+
+<span class="n">k_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">mcmc_runs</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k_values</span><span class="p">:</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">make_mixture_model</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">mcmc_k</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span>
+        <span class="n">NUTS</span><span class="p">(</span><span class="n">m</span><span class="p">),</span>
+        <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mcmc_k</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">cs_obs</span><span class="p">)</span>
+    <span class="n">mcmc_runs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcmc_k</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;K=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>K=2 done
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>K=3 done
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>K=4 done
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idata_runs</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;K=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc_runs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k_values</span><span class="p">}</span>
+<span class="n">cmp_df</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">idata_runs</span><span class="p">,</span> <span class="n">ic</span><span class="o">=</span><span class="s1">&#39;loo&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;BB-pseudo-BMA&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cmp_df</span><span class="p">[[</span><span class="s1">&#39;rank&#39;</span><span class="p">,</span> <span class="s1">&#39;elpd_loo&#39;</span><span class="p">,</span> <span class="s1">&#39;p_loo&#39;</span><span class="p">,</span> <span class="s1">&#39;elpd_diff&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">,</span> <span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="s1">&#39;dse&#39;</span><span class="p">]])</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">cmp_df</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     rank    elpd_loo     p_loo  elpd_diff    weight        se       dse
+K=2     0 -119.148610  4.187634   0.000000  0.710295  7.116944  0.000000
+K=3     1 -120.397335  4.482426   1.248724  0.206426  7.268201  0.319822
+K=4     2 -121.296895  4.469854   2.148284  0.083278  7.240147  0.203929
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.70 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.70 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+UserWarning: The figure layout has changed to tight
+</pre></div>
+</div>
+<img alt="../_images/90fbdaddba34fb93a0afbda5e8f8ee246d2d5c3dc3a22dce970bed00521e3491.png" src="../_images/90fbdaddba34fb93a0afbda5e8f8ee246d2d5c3dc3a22dce970bed00521e3491.png" />
+</div>
+</div>
+<p>LOO compares models by their expected log pointwise predictive density (ELPD). The top-ranked model is preferred by the criterion. The column <code class="docutils literal notranslate"><span class="pre">dse</span></code> is the standard error of the ELPD difference between adjacent-ranked models: when <code class="docutils literal notranslate"><span class="pre">elpd_diff</span></code> is smaller than <code class="docutils literal notranslate"><span class="pre">dse</span></code>, the improvement is not statistically decisive and both models are essentially equivalent. Mixture models tend to show diminishing returns as K grows because additional components capture noise rather than genuine structure. The effective number of parameters <code class="docutils literal notranslate"><span class="pre">p_loo</span></code> rises with K, penalising over-fitted models.</p>
+</section>
+<section id="exercise-3">
+<h2>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading">#</a></h2>
+<hr class="docutils" />
+<p><em>Demonstrate label switching on the <code class="docutils literal notranslate"><span class="pre">chemical_shifts_theo_exp.csv</span></code> data using the experimental shift column (<code class="docutils literal notranslate"><span class="pre">exp</span></code>). Fit a two-component Gaussian mixture model WITHOUT an ordering constraint and examine the trace. Then refit WITH <code class="docutils literal notranslate"><span class="pre">OrderedTransform</span></code> and compare the <code class="docutils literal notranslate"><span class="pre">r_hat</span></code> and <code class="docutils literal notranslate"><span class="pre">ess_bulk</span></code> from <code class="docutils literal notranslate"><span class="pre">az.summary</span></code> for the component means in both cases. Overlay the posterior density of each component mean for both models on a single plot to show that the unordered model has a bimodal posterior while the ordered model concentrates on a single mode.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cs_theo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/chemical_shifts_theo_exp.csv&#39;</span><span class="p">)</span>
+<span class="n">cs_exp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_theo</span><span class="p">[</span><span class="s1">&#39;exp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">)</span><span class="si">}</span><span class="s2">,  mean = </span><span class="si">{</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,  std = </span><span class="si">{</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Model without ordering constraint</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">model_unordered</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mf">10.0</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,))</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.0</span><span class="p">))</span>
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span><span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="n">mcmc_unord</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">NUTS</span><span class="p">(</span><span class="n">model_unordered</span><span class="p">),</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_unord</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">cs_exp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unordered model done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 1776,  mean = 56.51,  std = 4.75
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unordered model done
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model WITH ordering constraint</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">model_ord</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">mu_init</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">])</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="s1">&#39;means&#39;</span><span class="p">,</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">TransformedDistribution</span><span class="p">(</span>
+            <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu_init</span><span class="p">,</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span>
+            <span class="n">OrderedTransform</span><span class="p">(),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.0</span><span class="p">))</span>
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span><span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="n">mcmc_ord</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">NUTS</span><span class="p">(</span><span class="n">model_ord</span><span class="p">),</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+<span class="n">mcmc_ord</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">cs_exp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ordered model done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ordered model done
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idata_unord</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc_unord</span><span class="p">)</span>
+<span class="n">idata_ord</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc_ord</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- Unordered model ---&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">idata_unord</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.94</span><span class="p">)[[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="s1">&#39;hdi_3%&#39;</span><span class="p">,</span> <span class="s1">&#39;hdi_97%&#39;</span><span class="p">,</span> <span class="s1">&#39;ess_bulk&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hat&#39;</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">--- Ordered model ---&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">idata_ord</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.94</span><span class="p">)[[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="s1">&#39;hdi_3%&#39;</span><span class="p">,</span> <span class="s1">&#39;hdi_97%&#39;</span><span class="p">,</span> <span class="s1">&#39;ess_bulk&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hat&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Unordered model ---
+            mean     sd  hdi_3%  hdi_97%  ess_bulk  r_hat
+means[0]  52.153  5.321  46.292   57.657       3.0   1.83
+means[1]  52.158  5.317  46.294   57.662       3.0   1.83
+
+--- Ordered model ---
+            mean     sd  hdi_3%  hdi_97%  ess_bulk  r_hat
+means[0]  46.845  0.451  46.062   47.727     600.0   1.01
+means[1]  57.465  0.098  57.279   57.652    1988.0   1.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples_unord</span> <span class="o">=</span> <span class="n">mcmc_unord</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span>  <span class="c1"># (S, 2)</span>
+<span class="n">samples_ord</span> <span class="o">=</span> <span class="n">mcmc_ord</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span>      <span class="c1"># (S, 2)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">comp_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">samples_unord</span><span class="p">[:,</span> <span class="n">comp_i</span><span class="p">],</span> <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;component </span><span class="si">{</span><span class="n">comp_i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">},</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Unordered: component means (label switching)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;mean value&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+
+<span class="k">for</span> <span class="n">comp_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">samples_ord</span><span class="p">[:,</span> <span class="n">comp_i</span><span class="p">],</span> <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;component </span><span class="si">{</span><span class="n">comp_i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">},</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Ordered: component means (single mode)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;mean value&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
+</pre></div>
+</div>
+<img alt="../_images/523233578a75aa0d850179f779c217a37d3df9c1f63e9f00374b40256eebf781.png" src="../_images/523233578a75aa0d850179f779c217a37d3df9c1f63e9f00374b40256eebf781.png" />
+</div>
+</div>
+<p>The unordered model shows large <code class="docutils literal notranslate"><span class="pre">r_hat</span></code> values (above 1.1) and very low <code class="docutils literal notranslate"><span class="pre">ess_bulk</span></code> for the component means because the two chains may settle on opposite label assignments. The posterior for each component mean is bimodal, with mass near both the lower and upper cluster centres. With <code class="docutils literal notranslate"><span class="pre">OrderedTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">r_hat</span></code> drops to approximately 1.0 and <code class="docutils literal notranslate"><span class="pre">ess_bulk</span></code> increases substantially. The posterior of each component mean concentrates near a single value, confirming that the identifiability problem has been resolved.</p>
+</section>
+<section id="exercise-4">
+<h2>Exercise 4<a class="headerlink" href="#exercise-4" title="Link to this heading">#</a></h2>
+<hr class="docutils" />
+<p><em>Using the ordered two-component mixture fitted to <code class="docutils literal notranslate"><span class="pre">chemical_shifts_theo_exp.csv</span></code> (<code class="docutils literal notranslate"><span class="pre">exp</span></code> column) from Exercise 3, generate posterior predictive samples and plot the posterior predictive density alongside the observed data. Use the IQR (interquartile range) as a test statistic: compute it for the observed data and for each posterior predictive draw, then plot the distribution of simulated IQR values and mark the observed value. Report the Bayesian p-value for this statistic.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate one posterior predictive observation per posterior sample (no obs= argument)</span>
+<span class="n">ppc_ex4</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">mcmc_ord</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">posterior_samples</span><span class="o">=</span><span class="n">mcmc_ord</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span>
+    <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span>
+<span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">y_ppc</span> <span class="o">=</span> <span class="n">ppc_ex4</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span>  <span class="c1"># shape (S,) — one scalar draw per posterior sample</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Posterior predictive shape: </span><span class="si">{</span><span class="n">y_ppc</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior predictive shape: (2000,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">,</span> <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;observed&#39;</span><span class="p">},</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">y_ppc</span><span class="p">,</span> <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior predictive (marginal draws)&#39;</span><span class="p">},</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Chemical shift (exp)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Posterior predictive vs observed&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
+</pre></div>
+</div>
+<img alt="../_images/77f3441c392622307fb5f1538d641b47ffc4157711bb7abd0ad530fc8f021d69.png" src="../_images/77f3441c392622307fb5f1538d641b47ffc4157711bb7abd0ad530fc8f021d69.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">iqr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interquartile range of x along the given axis.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">75</span><span class="p">,</span> <span class="mi">25</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span>
+
+<span class="n">T_obs_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">iqr</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">))</span>
+
+<span class="c1"># Each posterior sample produces one replicate observation from the mixture.</span>
+<span class="c1"># We need replicate *datasets* (same length as the observed data) to compute IQR.</span>
+<span class="c1"># Strategy: tile the posterior samples so that each of the N data-length positions</span>
+<span class="c1"># draws from a posterior sample, then compute the dataset IQR.</span>
+<span class="n">n_rep</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># number of replicate datasets</span>
+<span class="n">post_ord</span> <span class="o">=</span> <span class="n">mcmc_ord</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+<span class="n">n_post</span> <span class="o">=</span> <span class="n">post_ord</span><span class="p">[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># For each replicate dataset we want N draws from the mixture.</span>
+<span class="c1"># Draw N indices into the posterior to get N single-observation predictive draws.</span>
+<span class="n">rng_rep</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">T_sim_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">rep_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_rep</span><span class="p">):</span>
+    <span class="n">rng_rep</span><span class="p">,</span> <span class="n">rng_use</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">rng_rep</span><span class="p">)</span>
+    <span class="n">idx_post</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">rng_use</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">),),</span> <span class="n">minval</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="n">n_post</span><span class="p">)</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="n">idx_post</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">post_ord</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">ppc_rep</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">mcmc_ord</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">posterior_samples</span><span class="o">=</span><span class="n">sub</span><span class="p">,</span>
+        <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span>
+    <span class="p">)(</span><span class="n">rng_use</span><span class="p">)</span>
+    <span class="n">T_sim_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">iqr</span><span class="p">(</span><span class="n">ppc_rep</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])))</span>
+
+<span class="n">T_sim</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">T_sim_list</span><span class="p">)</span>
+<span class="n">p_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">T_sim</span> <span class="o">&gt;=</span> <span class="n">T_obs_val</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Observed IQR: </span><span class="si">{</span><span class="n">T_obs_val</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Bayesian p-value (IQR): </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">T_sim</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">T_obs_val</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;observed IQR = </span><span class="si">{</span><span class="n">T_obs_val</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;IQR of replicate dataset&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Posterior predictive IQR  (p-value = </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Observed IQR: 5.600
+Bayesian p-value (IQR): 0.365
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
+</pre></div>
+</div>
+<img alt="../_images/98cd696929390370144640e7fdcc9e9f9d9e637a4ba8a6fb4142531926b25fe1.png" src="../_images/98cd696929390370144640e7fdcc9e9f9d9e637a4ba8a6fb4142531926b25fe1.png" />
+</div>
+</div>
+<p>A Bayesian p-value near 0.5 indicates that the model reproduces the IQR of the observed data without systematic bias. Values near 0 or 1 signal model misfit for that test statistic. Because the mixture model is flexible enough to match both the location and spread of each cluster, the IQR should be well recovered. If the data contained heavy tails or an asymmetric mixture, a test statistic sensitive to those features (e.g. skewness or an extreme quantile) would be more diagnostic.</p>
+</section>
+<section id="exercise-5">
+<h2>Exercise 5<a class="headerlink" href="#exercise-5" title="Link to this heading">#</a></h2>
+<hr class="docutils" />
+<p><em>Load the <code class="docutils literal notranslate"><span class="pre">iris.csv</span></code> dataset. Using the <code class="docutils literal notranslate"><span class="pre">petal_length</span></code> column for all three species, fit a three-component Gaussian mixture model with an ordered-means prior and a <code class="docutils literal notranslate"><span class="pre">Dirichlet</span></code> prior on the weights. Plot the posterior predictive mixture density over a grid and overlay the KDE of the observed data. Then compute the posterior mean mixture density at a grid of x values using the formula <code class="docutils literal notranslate"><span class="pre">sum_k</span> <span class="pre">w_k</span> <span class="pre">*</span> <span class="pre">N(x;</span> <span class="pre">mu_k,</span> <span class="pre">sigma)</span></code> weighted by the posterior mean weights and means. Discuss whether the mixture components correspond to the three iris species and what limitations mixture models have for this task.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iris</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/iris.csv&#39;</span><span class="p">)</span>
+<span class="n">petal_length</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">petal_length</span><span class="p">)</span><span class="si">}</span><span class="s2">,  min = </span><span class="si">{</span><span class="n">petal_length</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">,  max = </span><span class="si">{</span><span class="n">petal_length</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Species counts:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 150,  min = 1.00,  max = 6.90
+Species counts:
+species
+setosa        50
+versicolor    50
+virginica     50
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k_iris</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">mu_iris_init</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">petal_length</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">petal_length</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">k_iris</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">model_iris_mix</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">k_iris</span><span class="p">)))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="s1">&#39;means&#39;</span><span class="p">,</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">TransformedDistribution</span><span class="p">(</span>
+            <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu_iris_init</span><span class="p">,</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">k_iris</span><span class="p">)),</span>
+            <span class="n">OrderedTransform</span><span class="p">(),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">3.0</span><span class="p">))</span>
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">,</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span>
+            <span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span>
+            <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="n">mcmc_iris</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span>
+    <span class="n">NUTS</span><span class="p">(</span><span class="n">model_iris_mix</span><span class="p">),</span>
+    <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mcmc_iris</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">petal_length</span><span class="p">)</span>
+<span class="n">idata_iris</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc_iris</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">idata_iris</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;means&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.94</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           mean     sd  hdi_3%  hdi_97%  mcse_mean  mcse_sd  ess_bulk  \
+p[0]      0.335  0.039   0.260    0.405      0.001    0.001    1983.0   
+p[1]      0.402  0.055   0.297    0.503      0.001    0.001    1803.0   
+p[2]      0.263  0.054   0.169    0.370      0.001    0.001    1767.0   
+means[0]  1.471  0.065   1.361    1.598      0.002    0.001    1608.0   
+means[1]  4.403  0.087   4.234    4.561      0.002    0.002    1653.0   
+means[2]  5.696  0.123   5.451    5.922      0.003    0.003    1584.0   
+sd        0.449  0.031   0.390    0.504      0.001    0.001    1706.0   
+
+          ess_tail  r_hat  
+p[0]        1423.0    1.0  
+p[1]        1486.0    1.0  
+p[2]        1456.0    1.0  
+means[0]    1288.0    1.0  
+means[1]    1531.0    1.0  
+means[2]    1277.0    1.0  
+sd          1572.0    1.0  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post</span> <span class="o">=</span> <span class="n">mcmc_iris</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+<span class="n">w_post</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span>          <span class="c1"># (S, K)</span>
+<span class="n">mu_post</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span>     <span class="c1"># (S, K)</span>
+<span class="n">sd_post</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s1">&#39;sd&#39;</span><span class="p">]</span>        <span class="c1"># (S,)</span>
+
+<span class="n">x_grid</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">petal_length</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">petal_length</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>  <span class="c1"># (G,)</span>
+
+<span class="c1"># Component densities: shape (S, K, G)</span>
+<span class="n">comp_dens</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+    <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu_post</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">sd_post</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x_grid</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:])</span>
+<span class="p">)</span>
+<span class="c1"># Weighted mixture density: shape (S, G)</span>
+<span class="n">mix_dens</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w_post</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">comp_dens</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">mix_mean</span> <span class="o">=</span> <span class="n">mix_dens</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># posterior mean density (G,)</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Plot 50 posterior density draws</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">mix_dens</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">mix_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;posterior mean density&#39;</span><span class="p">)</span>
+
+<span class="c1"># Individual component densities at posterior means</span>
+<span class="n">w_mean</span> <span class="o">=</span> <span class="n">w_post</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">mu_mean</span> <span class="o">=</span> <span class="n">mu_post</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sd_mean</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sd_post</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">comp_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k_iris</span><span class="p">):</span>
+    <span class="n">comp_i_dens</span> <span class="o">=</span> <span class="n">w_mean</span><span class="p">[</span><span class="n">comp_i</span><span class="p">]</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu_mean</span><span class="p">[</span><span class="n">comp_i</span><span class="p">],</span> <span class="n">sd_mean</span><span class="p">)</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x_grid</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">comp_i_dens</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">petal_length</span><span class="p">,</span> <span class="n">plot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;observed KDE&#39;</span><span class="p">},</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Petal length (cm)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Three-component Gaussian mixture: iris petal length&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
+</pre></div>
+</div>
+<img alt="../_images/ea241dc02509898eaef1b1ec40f74a8377980d124e4aa74a8dc3579f90487bba.png" src="../_images/ea241dc02509898eaef1b1ec40f74a8377980d124e4aa74a8dc3579f90487bba.png" />
+</div>
+</div>
+<p>The mixture components typically align with the three species clusters visible in the petal-length distribution: a narrow setosa peak near 1.5 cm and two overlapping versicolor/virginica peaks. The posterior mean weights approximately reflect the equal (1:1:1) species proportions in the dataset.</p>
+<p>However, an unsupervised mixture model has no access to species labels. It discovers the number of density modes rather than taxonomic boundaries. When two species overlap strongly (versicolor and virginica share similar petal lengths), a single component may absorb both, or the components may not align cleanly with species. This is a fundamental limitation: mixture models are density estimators, not classifiers. To assign observations to species reliably, a supervised or semi-supervised model is needed.</p>
+</section>
+<section id="exercise-6">
+<h2>Exercise 6<a class="headerlink" href="#exercise-6" title="Link to this heading">#</a></h2>
+<hr class="docutils" />
+<p><em>Using the <code class="docutils literal notranslate"><span class="pre">chemical_shifts.csv</span></code> data, implement a truncated stick-breaking (Dirichlet process) mixture with K = 10 components. The stick-breaking prior on the weights uses a concentration parameter <code class="docutils literal notranslate"><span class="pre">alpha</span></code> drawn from <code class="docutils literal notranslate"><span class="pre">Gamma(1,</span> <span class="pre">1)</span></code>. Use a shared <code class="docutils literal notranslate"><span class="pre">HalfNormal</span></code> standard deviation and ordered component means initialised on a grid. Run the model and plot the posterior mean component weights <code class="docutils literal notranslate"><span class="pre">w_k</span></code> against the component index. Discuss what the decay in weights implies about how many components the data actually needs.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K_dp</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">stick_breaking</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Truncated stick-breaking weights from a Dirichlet process.</span>
+
+<span class="sd">    The K-component truncation does not consume the full unit stick, so the</span>
+<span class="sd">    raw weights sum to less than one. They are explicitly renormalised here so</span>
+<span class="sd">    that the returned weights sum to exactly one, redistributing the truncation</span>
+<span class="sd">    remainder uniformly across all K components. This ensures the weights</span>
+<span class="sd">    displayed and passed to the mixture likelihood are identical.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="n">alpha</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">K</span><span class="p">,))</span>
+    <span class="n">w_raw</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">]),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">beta</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w_raw</span> <span class="o">/</span> <span class="n">w_raw</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">w</span>
+
+
+<span class="n">mu_dp_init</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs_obs</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cs_obs</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">K_dp</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">model_dp</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">deterministic</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">stick_breaking</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">K_dp</span><span class="p">))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="s1">&#39;means&#39;</span><span class="p">,</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">TransformedDistribution</span><span class="p">(</span>
+            <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu_dp_init</span><span class="p">,</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">K_dp</span><span class="p">)),</span>
+            <span class="n">OrderedTransform</span><span class="p">(),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">10.0</span><span class="p">))</span>
+    <span class="n">component_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">means</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
+    <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">,</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">MixtureSameFamily</span><span class="p">(</span>
+            <span class="n">mixing_distribution</span><span class="o">=</span><span class="n">c</span><span class="p">,</span>
+            <span class="n">component_distribution</span><span class="o">=</span><span class="n">component_dist</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="n">mcmc_dp</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span>
+    <span class="n">NUTS</span><span class="p">(</span><span class="n">model_dp</span><span class="p">,</span> <span class="n">target_accept_prob</span><span class="o">=</span><span class="mf">0.85</span><span class="p">),</span>
+    <span class="n">num_warmup</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mcmc_dp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">cs_obs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dirichlet process mixture done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dirichlet process mixture done
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_dp</span> <span class="o">=</span> <span class="n">mcmc_dp</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">]</span>  <span class="c1"># (S, K)</span>
+<span class="n">w_mean_dp</span> <span class="o">=</span> <span class="n">w_dp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">component_idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">K_dp</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">component_idx</span><span class="p">,</span> <span class="n">w_mean_dp</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">component_idx</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">component_idx</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Component index&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Posterior mean weight&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Stick-breaking DP mixture: posterior mean component weights&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Posterior mean weights by component:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">wt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">w_mean_dp</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  component </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="s1">2d</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">wt</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior mean weights by component:
+  component  1: 0.9519
+  component  2: 0.0405
+  component  3: 0.0053
+  component  4: 0.0014
+  component  5: 0.0005
+  component  6: 0.0002
+  component  7: 0.0001
+  component  8: 0.0001
+  component  9: 0.0000
+  component 10: 0.0000
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
+</pre></div>
+</div>
+<img alt="../_images/5c6d7bab8f7911d3a3a7e4d8a741dd7cbc7d5cbfce9a4bf75921d2f9afffea17.png" src="../_images/5c6d7bab8f7911d3a3a7e4d8a741dd7cbc7d5cbfce9a4bf75921d2f9afffea17.png" />
+</div>
+</div>
+<p>The stick-breaking process allocates weight greedily to the first few components and leaves later components with negligible weight. Because the K-component truncation leaves a residual stick remainder unconsumed, the raw weights sum to slightly less than one. The implementation explicitly renormalises them (<code class="docutils literal notranslate"><span class="pre">w</span> <span class="pre">=</span> <span class="pre">w_raw</span> <span class="pre">/</span> <span class="pre">w_raw.sum()</span></code>) before passing to <code class="docutils literal notranslate"><span class="pre">Categorical</span></code> and before storing via <code class="docutils literal notranslate"><span class="pre">numpyro.deterministic</span></code>, so the plotted weights are identical to the effective mixture weights used in the likelihood.</p>
+<p>If the data genuinely require only K* effective components, the posterior mean weights beyond index K* should be close to zero. This is the non-parametric Bayesian analogue of automatic model selection: rather than fitting separate K-component models and comparing them with WAIC/LOO, the DP mixture allows K to be effectively inferred from the data. The concentration parameter <code class="docutils literal notranslate"><span class="pre">alpha</span></code> controls how quickly the weights decay: a small <code class="docutils literal notranslate"><span class="pre">alpha</span></code> concentrates mass on few components, while a large <code class="docutils literal notranslate"><span class="pre">alpha</span></code> spreads mass more evenly and encourages more components. The posterior on <code class="docutils literal notranslate"><span class="pre">alpha</span></code> reflects the data’s evidence for the number of clusters.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "bap-numpyro"
+        },
+        kernelOptions: {
+            name: "bap-numpyro",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'bap-numpyro'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05-x.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 5 Exercises</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07-x.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 7 Exercises</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4">Exercise 4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5">Exercise 5</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6">Exercise 6</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a>
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+Code released under a <a href="https://opensource.org/licenses/MIT">MIT license</a>.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

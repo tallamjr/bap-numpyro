@@ -1,336 +1,492 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Chapter 6. Mixture Models &#8212; Bayesian Analysis in Python (2nd ed.) with NumPyro</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    
-      
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
-
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/06-mixture_models';</script>
     <link rel="canonical" href="https://tallamjr.github.io/bap-numpyro/notebooks/06-mixture_models.html" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Chapter 7. Gaussian Processes" href="07-gaussian-process.html" />
     <link rel="prev" title="Chapter 5. Model Comparison" href="05-model_comparison.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+  
+  <dialog id="pst-search-dialog">
     
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/bap-cover.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Bayesian Analysis in Python (2nd ed.) with NumPyro</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../README.html">
-   Bayesian Analysis in Python (2nd ed.) with Numpyro
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Bayesian Analysis in Python (2nd ed.) with NumPyro
- </span>
-</p>
+    
+    
+    <img src="../_static/bap-cover.png" class="logo__image only-light" alt="Bayesian Analysis in Python (2nd ed.) with NumPyro - Home"/>
+    <img src="../_static/bap-cover.png" class="logo__image only-dark pst-js-only" alt="Bayesian Analysis in Python (2nd ed.) with NumPyro - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    Bayesian Analysis in Python (2nd ed.) with Numpyro
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Bayesian Analysis in Python (2nd ed.) with NumPyro</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01-thinking-probabilistically.html">
-   Chapter 1. Thinking Probabilistically
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02-programming-probabilistically.html">
-   Chapter 2. Programming Probabilistically
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03-modeling-with-Linear-regressions.html">
-   Chapter 3. Modeling with Linear Regressions
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04-generalizing_linear_models.html">
-   Chapter 4. Generalizing Linear Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05-model_comparison.html">
-   Chapter 5. Model Comparison
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Chapter 6. Mixture Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="07-gaussian-process.html">
-   Chapter 7. Gaussian Processes
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="08-inference-engines.html">
-   Chapter 8. Inferene Engines
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01-thinking-probabilistically.html">Chapter 1. Thinking Probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-programming-probabilistically.html">Chapter 2. Programming Probabilistically</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="03-modeling-with-Linear-regressions.html">Chapter 3. Modeling with Linear Regressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-generalizing_linear_models.html">Chapter 4. Generalizing Linear Models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05-model_comparison.html">Chapter 5. Model Comparison</a></li>
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 6. Mixture Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-gaussian-process.html">Chapter 7. Gaussian Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-inference-engines.html">Chapter 8. Inferene Engines</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Exercises
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01-x.html">
-   Chapter 1 Exercises
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02-x.html">
-   Chapter 2 Exercises
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03-x.html">
-   Chapter 3 Exercises
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04-x.html">
-   Chapter 4 Exercises
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01-x.html">Chapter 1 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-x.html">Chapter 2 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-x.html">Chapter 3 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-x.html">Chapter 4 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-x.html">Chapter 5 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-x.html">Chapter 6 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-x.html">Chapter 7 Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-x.html">Chapter 8 Exercises</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/06-mixture_models.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
 
-            <!-- Source interaction buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/tallamjr/bap-numpyro"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-mixture_models.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/06-mixture_models.ipynb"><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/06-mixture_models.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/06-mixture_models.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
 
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
 
-            <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/tallamjr/bap-numpyro/master?urlpath=tree/notebooks/06-mixture_models.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/tallamjr/bap-numpyro/blob/master/notebooks/06-mixture_models.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro/edit/master/notebooks/06-mixture_models.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tallamjr/bap-numpyro/issues/new?title=Issue%20on%20page%20%2Fnotebooks/06-mixture_models.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/06-mixture_models.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
     </div>
+  
 </div>
+</div>
+              
+              
 
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 6. Mixture Models</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#non-identifiability-of-mixture-models">
-   Non-identifiability of mixture models
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-choose-k">
-   How to choose K
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#non-finite-mixture-model">
-   Non-finite mixture model
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-identifiability-of-mixture-models">Non-identifiability of mixture models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-choose-k">How to choose K</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-finite-mixture-model">Non-finite mixture model</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
+
+              
                 
-  <div class="section" id="chapter-6-mixture-models">
-<h1>Chapter 6. Mixture Models<a class="headerlink" href="#chapter-6-mixture-models" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-6-mixture-models">
+<h1>Chapter 6. Mixture Models<a class="headerlink" href="#chapter-6-mixture-models" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
-<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">vmap</span><span class="p">,</span> <span class="n">local_device_count</span><span class="p">,</span> <span class="n">pmap</span><span class="p">,</span> <span class="n">lax</span><span class="p">,</span> <span class="n">tree_map</span>
-<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">nn</span> <span class="k">as</span> <span class="n">jnn</span>
-<span class="kn">from</span> <span class="nn">jax.scipy</span> <span class="kn">import</span> <span class="n">stats</span><span class="p">,</span> <span class="n">special</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">local_device_count</span>
 
-<span class="kn">import</span> <span class="nn">numpyro</span>
-<span class="kn">import</span> <span class="nn">numpyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
-<span class="kn">import</span> <span class="nn">numpyro.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpyro.distributions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dist</span>
 
-<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">HMC</span><span class="p">,</span> <span class="n">Predictive</span>
-<span class="kn">from</span> <span class="nn">numpyro.diagnostics</span> <span class="kn">import</span> <span class="n">hpdi</span><span class="p">,</span> <span class="n">print_summary</span>
-<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">Predictive</span><span class="p">,</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span><span class="p">,</span> <span class="n">init_to_value</span>
-<span class="kn">from</span> <span class="nn">numpyro.infer.autoguide</span> <span class="kn">import</span> <span class="n">AutoLaplaceApproximation</span>
-<span class="kn">from</span> <span class="nn">numpyro.distributions.transforms</span> <span class="kn">import</span> <span class="n">OrderedTransform</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.infer</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">Predictive</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpyro.distributions.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedTransform</span>
 
 <span class="n">seed</span><span class="o">=</span><span class="mi">1234</span>
 
@@ -342,6 +498,12 @@
 <span class="n">az</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;arviz-darkgrid&quot;</span><span class="p">)</span>
 <span class="n">numpyro</span><span class="o">.</span><span class="n">set_platform</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span> <span class="c1"># or &quot;gpu&quot;, &quot;tpu&quot; depending on system</span>
 <span class="n">numpyro</span><span class="o">.</span><span class="n">set_host_device_count</span><span class="p">(</span><span class="n">local_device_count</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/bap-numpyro/bap-numpyro/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
 </pre></div>
 </div>
 </div>
@@ -387,7 +549,7 @@
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([], [])
 </pre></div>
 </div>
-<img alt="../_images/06-mixture_models_5_1.png" src="../_images/06-mixture_models_5_1.png" />
+<img alt="../_images/9cdbfdfe6e1b6db1ad0795b838467652e5ad2938ba43462273d48ebbd7a8bb39.png" src="../_images/9cdbfdfe6e1b6db1ad0795b838467652e5ad2938ba43462273d48ebbd7a8bb39.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -425,7 +587,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="mi">2</span>
 
-<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">clusters</span><span class="p">)))</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
 
@@ -441,12 +603,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 2500/2500 [00:05&lt;00:00, 491.61it/s, 3 steps of size 6.26e-01. acc. prob=0.92]
-sample: 100%|███████████████████████████████████████████| 2500/2500 [00:01&lt;00:00, 1701.92it/s, 7 steps of size 6.96e-01. acc. prob=0.90]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -455,22 +611,22 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;means&#39;: DeviceArray([[46.59215 , 57.53969 ],
-              [46.77208 , 57.60634 ],
-              [47.404488, 57.47748 ],
-              ...,
-              [57.420513, 47.251415],
-              [57.43893 , 47.13221 ],
-              [57.534637, 46.69333 ]], dtype=float32),
- &#39;p&#39;: DeviceArray([[0.07781173, 0.9221883 ],
-              [0.07711639, 0.9228836 ],
-              [0.11415413, 0.8858459 ],
-              ...,
-              [0.90347517, 0.09652483],
-              [0.8928458 , 0.10715419],
-              [0.9177794 , 0.08222061]], dtype=float32),
- &#39;sd&#39;: DeviceArray([3.6385975, 3.6188638, 3.5631063, ..., 3.6311502, 3.6953619,
-              3.5244987], dtype=float32)}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;means&#39;: Array([[47.580914, 57.511353],
+        [46.31163 , 57.463352],
+        [46.945286, 57.36471 ],
+        ...,
+        [57.31111 , 46.130222],
+        [57.549923, 46.910404],
+        [57.402885, 47.477074]], dtype=float32),
+ &#39;p&#39;: Array([[0.10050424, 0.8994958 ],
+        [0.08773348, 0.9122665 ],
+        [0.0858224 , 0.9141776 ],
+        ...,
+        [0.9215747 , 0.07842529],
+        [0.9024806 , 0.0975194 ],
+        [0.9084545 , 0.09154552]], dtype=float32),
+ &#39;sd&#39;: Array([3.6588502, 3.6098988, 3.7137556, ..., 3.6483197, 3.713011 ,
+        3.641915 ], dtype=float32)}
 </pre></div>
 </div>
 </div>
@@ -483,17 +639,17 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n0&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n0&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n1&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n1&#39;}&gt;]], dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;Axes: title={&#39;center&#39;: &#39;means\n0&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;means\n0&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;means\n1&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;means\n1&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;p\n0&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;p\n0&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;p\n1&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;p\n1&#39;}&gt;]], dtype=object)
 </pre></div>
 </div>
-<img alt="../_images/06-mixture_models_11_1.png" src="../_images/06-mixture_models_11_1.png" />
+<img alt="../_images/c8eda740a59b091a51a9e55e06003add8b0084b5b0b8ffb2f20244a3c96eec8f.png" src="../_images/c8eda740a59b091a51a9e55e06003add8b0084b5b0b8ffb2f20244a3c96eec8f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -557,36 +713,36 @@ sample: 100%|██████████████████████�
   <tbody>
     <tr>
       <th>means[0]</th>
-      <td>52.154</td>
-      <td>5.324</td>
-      <td>46.283</td>
-      <td>57.672</td>
-      <td>3.752</td>
-      <td>3.176</td>
+      <td>52.147</td>
+      <td>5.328</td>
+      <td>46.306</td>
+      <td>57.685</td>
+      <td>3.755</td>
+      <td>0.005</td>
       <td>3.0</td>
-      <td>55.0</td>
+      <td>59.0</td>
       <td>1.83</td>
     </tr>
     <tr>
       <th>means[1]</th>
-      <td>52.156</td>
-      <td>5.316</td>
-      <td>46.310</td>
-      <td>57.674</td>
-      <td>3.746</td>
-      <td>3.171</td>
+      <td>52.152</td>
+      <td>5.324</td>
+      <td>46.301</td>
+      <td>57.663</td>
+      <td>3.752</td>
+      <td>0.006</td>
       <td>3.0</td>
-      <td>58.0</td>
+      <td>66.0</td>
       <td>1.83</td>
     </tr>
     <tr>
       <th>p[0]</th>
       <td>0.500</td>
       <td>0.410</td>
-      <td>0.078</td>
-      <td>0.924</td>
+      <td>0.076</td>
+      <td>0.923</td>
       <td>0.289</td>
-      <td>0.245</td>
+      <td>0.000</td>
       <td>3.0</td>
       <td>51.0</td>
       <td>1.83</td>
@@ -595,10 +751,10 @@ sample: 100%|██████████████████████�
       <th>p[1]</th>
       <td>0.500</td>
       <td>0.410</td>
-      <td>0.076</td>
-      <td>0.922</td>
+      <td>0.077</td>
+      <td>0.924</td>
       <td>0.289</td>
-      <td>0.245</td>
+      <td>0.000</td>
       <td>3.0</td>
       <td>51.0</td>
       <td>1.83</td>
@@ -614,8 +770,8 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 </div>
-<div class="section" id="non-identifiability-of-mixture-models">
-<h2>Non-identifiability of mixture models<a class="headerlink" href="#non-identifiability-of-mixture-models" title="Permalink to this headline">¶</a></h2>
+<section id="non-identifiability-of-mixture-models">
+<h2>Non-identifiability of mixture models<a class="headerlink" href="#non-identifiability-of-mixture-models" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -623,7 +779,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([50.859257, 56.51029 ], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([50.859257, 56.51029 ], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -644,7 +800,7 @@ sample: 100%|██████████████████████�
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="mi">2</span>
 
-<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">clusters</span><span class="p">)))</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
     
@@ -662,12 +818,6 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 2500/2500 [00:06&lt;00:00, 369.88it/s, 7 steps of size 6.35e-01. acc. prob=0.92]
-sample: 100%|████████████████████████████████████████████| 2500/2500 [00:02&lt;00:00, 835.65it/s, 3 steps of size 7.73e-01. acc. prob=0.86]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -677,21 +827,21 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0, 0&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0, 0&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0, 1&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n0, 1&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1, 0&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1, 0&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1, 1&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;means\n1, 1&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n0&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n0&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n1&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;p\n1&#39;}&gt;]], dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;Axes: title={&#39;center&#39;: &#39;means\n0, 0&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;means\n0, 0&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;means\n0, 1&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;means\n0, 1&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;means\n1, 0&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;means\n1, 0&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;means\n1, 1&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;means\n1, 1&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;p\n0&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;p\n0&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;p\n1&#39;}&gt;,
+        &lt;Axes: title={&#39;center&#39;: &#39;p\n1&#39;}&gt;]], dtype=object)
 </pre></div>
 </div>
-<img alt="../_images/06-mixture_models_20_1.png" src="../_images/06-mixture_models_20_1.png" />
+<img alt="../_images/a74c9cca6a3120daf994266513ec2ef173e1037eb8d9e86d6633ee4efd864fa5.png" src="../_images/a74c9cca6a3120daf994266513ec2ef173e1037eb8d9e86d6633ee4efd864fa5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -740,51 +890,51 @@ sample: 100%|██████████████████████�
   </thead>
   <tbody>
     <tr>
-      <th>means[0,0]</th>
-      <td>46.823</td>
+      <th>means[0, 0]</th>
+      <td>46.813</td>
+      <td>0.408</td>
+      <td>46.056</td>
+      <td>47.561</td>
+      <td>0.006</td>
+      <td>0.007</td>
+      <td>5376.0</td>
+      <td>2848.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>means[0, 1]</th>
+      <td>57.464</td>
+      <td>0.099</td>
+      <td>57.276</td>
+      <td>57.652</td>
+      <td>0.001</td>
+      <td>0.002</td>
+      <td>4467.0</td>
+      <td>2762.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>means[1, 0]</th>
+      <td>46.809</td>
       <td>0.402</td>
-      <td>46.108</td>
-      <td>47.601</td>
+      <td>46.091</td>
+      <td>47.597</td>
       <td>0.006</td>
-      <td>0.004</td>
-      <td>4707.0</td>
-      <td>3263.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>means[0,1]</th>
-      <td>57.464</td>
-      <td>0.099</td>
-      <td>57.274</td>
-      <td>57.646</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>5627.0</td>
-      <td>3227.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>means[1,0]</th>
-      <td>46.822</td>
-      <td>0.398</td>
-      <td>46.077</td>
-      <td>47.548</td>
       <td>0.006</td>
-      <td>0.004</td>
-      <td>4401.0</td>
-      <td>2888.0</td>
+      <td>4991.0</td>
+      <td>3236.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>means[1,1]</th>
-      <td>57.464</td>
-      <td>0.099</td>
-      <td>57.280</td>
-      <td>57.649</td>
+      <th>means[1, 1]</th>
+      <td>57.462</td>
+      <td>0.100</td>
+      <td>57.293</td>
+      <td>57.663</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>4593.0</td>
-      <td>3082.0</td>
+      <td>0.002</td>
+      <td>5176.0</td>
+      <td>3101.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -792,47 +942,47 @@ sample: 100%|██████████████████████�
       <td>0.090</td>
       <td>0.006</td>
       <td>0.078</td>
-      <td>0.101</td>
+      <td>0.102</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>4095.0</td>
-      <td>2982.0</td>
+      <td>4440.0</td>
+      <td>3139.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>p[1]</th>
       <td>0.910</td>
       <td>0.006</td>
-      <td>0.899</td>
+      <td>0.898</td>
       <td>0.922</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>4095.0</td>
-      <td>2982.0</td>
+      <td>4440.0</td>
+      <td>3139.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sd</th>
       <td>3.649</td>
-      <td>0.053</td>
-      <td>3.549</td>
-      <td>3.746</td>
+      <td>0.052</td>
+      <td>3.555</td>
+      <td>3.748</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>5568.0</td>
-      <td>3207.0</td>
+      <td>6559.0</td>
+      <td>3142.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="how-to-choose-k">
-<h2>How to choose K<a class="headerlink" href="#how-to-choose-k" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="how-to-choose-k">
+<h2>How to choose K<a class="headerlink" href="#how-to-choose-k" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">clusters</span><span class="p">)))</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
     
@@ -850,12 +1000,6 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 2500/2500 [00:08&lt;00:00, 281.81it/s, 7 steps of size 6.35e-01. acc. prob=0.92]
-sample: 100%|████████████████████████████████████████████| 2500/2500 [00:05&lt;00:00, 417.45it/s, 3 steps of size 7.73e-01. acc. prob=0.86]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -864,7 +1008,7 @@ sample: 100%|██████████████████████�
 <span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         
         <span class="n">p</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">cluster</span><span class="p">)))</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
@@ -890,130 +1034,76 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.405282   -1.0672494  -0.89249873]
-(3,)
-Traced&lt;ConcreteArray([-1.405282   -1.0672494  -0.89249873], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
-  with primal = DeviceArray([-1.405282  , -1.0672494 , -0.89249873], dtype=float32)
-       tangent = Traced&lt;ShapedArray(float32[3]):JaxprTrace(level=1/0)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.1757951 4.914957  9.147978 ]
 (3,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                          | 0/2500 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[3])&gt;with&lt;JVPTrace(level=4/1)&gt;
-  with primal = Traced&lt;ShapedArray(float32[3])&gt;with&lt;DynamicJaxprTrace(level=2/1)&gt;
-       tangent = Traced&lt;ShapedArray(float32[3]):JaxprTrace(level=3/1)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradTracer(primal=[1.1757951 4.914957  9.147978 ], typeof(tangent)=f32[3])
 (3,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:08&lt;00:00, 286.52it/s, 63 steps of size 4.23e-02. acc. prob=0.90]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.792481   -0.17571521  0.1223264 ]
-(3,)
-Traced&lt;ConcreteArray([-1.792481   -0.17571521  0.1223264 ], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
-  with primal = DeviceArray([-1.792481  , -0.17571521,  0.1223264 ], dtype=float32)
-       tangent = Traced&lt;ShapedArray(float32[3]):JaxprTrace(level=1/0)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradTracer(primal=JitTracer(float32[3]), typeof(tangent)=f32[3])
 (3,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:03&lt;00:00, 820.09it/s, 15 steps of size 2.43e-01. acc. prob=0.91]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.4278064 4.8978853 6.2823005]
+(3,)
+GradTracer(primal=[1.4278064 4.8978853 6.2823005], typeof(tangent)=f32[3])
+(3,)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.405282   3.7530613  3.927812   4.386582 ]
-(4,)
-Traced&lt;ConcreteArray([-1.405282   3.7530613  3.927812   4.386582 ], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
-  with primal = DeviceArray([-1.405282 ,  3.7530613,  3.927812 ,  4.386582 ], dtype=float32)
-       tangent = Traced&lt;ShapedArray(float32[4]):JaxprTrace(level=1/0)&gt;
-(4,)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                          | 0/2500 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[4])&gt;with&lt;JVPTrace(level=4/1)&gt;
-  with primal = Traced&lt;ShapedArray(float32[4])&gt;with&lt;DynamicJaxprTrace(level=2/1)&gt;
-       tangent = Traced&lt;ShapedArray(float32[4]):JaxprTrace(level=3/1)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.1757951  4.914957   9.147978  10.336727 ]
 (4,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:35&lt;00:00, 70.17it/s, 255 steps of size 1.19e-02. acc. prob=0.95]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-1.792481  -0.5164275 -0.2183859  1.5443151]
-(4,)
-Traced&lt;ConcreteArray([-1.792481  -0.5164275 -0.2183859  1.5443151], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
-  with primal = DeviceArray([-1.792481 , -0.5164275, -0.2183859,  1.5443151], dtype=float32)
-       tangent = Traced&lt;ShapedArray(float32[4]):JaxprTrace(level=1/0)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradTracer(primal=[ 1.1757951  4.914957   9.147978  10.336727 ], typeof(tangent)=f32[4])
 (4,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:27&lt;00:00, 90.79it/s, 127 steps of size 8.03e-03. acc. prob=0.94]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradTracer(primal=JitTracer(float32[4]), typeof(tangent)=f32[4])
+(4,)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.7935977 1.8328353 4.7855444 4.9249754 5.1354523]
-(5,)
-Traced&lt;ConcreteArray([0.7935977 1.8328353 4.7855444 4.9249754 5.1354523], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
-  with primal = DeviceArray([0.7935977, 1.8328353, 4.7855444, 4.9249754, 5.1354523], dtype=float32)
-       tangent = Traced&lt;ShapedArray(float32[5]):JaxprTrace(level=1/0)&gt;
-(5,)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.4278064 4.8978853 6.2823005 9.461412 ]
+(4,)
+GradTracer(primal=[1.4278064 4.8978853 6.2823005 9.461412 ], typeof(tangent)=f32[4])
+(4,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                          | 0/2500 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[5])&gt;with&lt;JVPTrace(level=4/1)&gt;
-  with primal = Traced&lt;ShapedArray(float32[5])&gt;with&lt;DynamicJaxprTrace(level=2/1)&gt;
-       tangent = Traced&lt;ShapedArray(float32[5]):JaxprTrace(level=3/1)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.1757951  4.914957   9.147978  10.336727  10.56475  ]
 (5,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:17&lt;00:00, 145.12it/s, 31 steps of size 1.21e-01. acc. prob=0.95]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.9015174  4.3690042  7.8917313  8.105168  13.3667755]
-(5,)
-Traced&lt;ConcreteArray([ 0.9015174  4.3690042  7.8917313  8.105168  13.3667755], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
-  with primal = DeviceArray([ 0.9015174,  4.3690042,  7.8917313,  8.105168 , 13.3667755],            dtype=float32)
-       tangent = Traced&lt;ShapedArray(float32[5]):JaxprTrace(level=1/0)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradTracer(primal=[ 1.1757951  4.914957   9.147978  10.336727  10.56475  ], typeof(tangent)=f32[5])
 (5,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:13&lt;00:00, 183.09it/s, 63 steps of size 6.52e-02. acc. prob=0.86]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradTracer(primal=JitTracer(float32[5]), typeof(tangent)=f32[5])
+(5,)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.7935977 1.8328353 7.11053   7.249961  7.460438  8.691059 ]
-(6,)
-Traced&lt;ConcreteArray([0.7935977 1.8328353 7.11053   7.249961  7.460438  8.691059 ], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
-  with primal = DeviceArray([0.7935977, 1.8328353, 7.11053  , 7.249961 , 7.460438 ,
-                             8.691059 ], dtype=float32)
-       tangent = Traced&lt;ShapedArray(float32[6]):JaxprTrace(level=1/0)&gt;
-(6,)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.4278064  4.8978853  6.2823005  9.461412  12.84012  ]
+(5,)
+GradTracer(primal=[ 1.4278064  4.8978853  6.2823005  9.461412  12.84012  ], typeof(tangent)=f32[5])
+(5,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                          | 0/2500 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[6])&gt;with&lt;JVPTrace(level=4/1)&gt;
-  with primal = Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=2/1)&gt;
-       tangent = Traced&lt;ShapedArray(float32[6]):JaxprTrace(level=3/1)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.1757951  4.914957   9.147978  10.336727  10.56475   12.195241 ]
 (6,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|███████████████████████████████████████████| 2500/2500 [00:35&lt;00:00, 70.27it/s, 127 steps of size 6.11e-02. acc. prob=0.57]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.9015174  4.3690042  5.2567453  5.4701824 10.731791  10.875133 ]
-(6,)
-Traced&lt;ConcreteArray([ 0.9015174  4.3690042  5.2567453  5.4701824 10.731791  10.875133 ], dtype=float32)&gt;with&lt;JVPTrace(level=2/0)&gt;
-  with primal = DeviceArray([ 0.9015174,  4.3690042,  5.2567453,  5.4701824, 10.731791 ,
-                             10.875133 ], dtype=float32)
-       tangent = Traced&lt;ShapedArray(float32[6]):JaxprTrace(level=1/0)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradTracer(primal=[ 1.1757951  4.914957   9.147978  10.336727  10.56475   12.195241 ], typeof(tangent)=f32[6])
 (6,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 2500/2500 [00:25&lt;00:00, 97.44it/s, 31 steps of size 1.19e-01. acc. prob=0.92]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradTracer(primal=JitTracer(float32[6]), typeof(tangent)=f32[6])
+(6,)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.4278064  4.8978853  6.2823005  9.461412  12.840121  14.035982 ]
+(6,)
+GradTracer(primal=[ 1.4278064  4.8978853  6.2823005  9.461412  12.840121  14.035982 ], typeof(tangent)=f32[6])
+(6,)
 </pre></div>
 </div>
 </div>
@@ -1051,7 +1141,7 @@ Traced&lt;ConcreteArray([ 0.9015174  4.3690042  5.2567453  5.4701824 10.731791  
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/06-mixture_models_26_0.png" src="../_images/06-mixture_models_26_0.png" />
+<img alt="../_images/78cd20c1c549a94671532127699e8fc28981b965867ccd6994be140aa5d8af3c.png" src="../_images/78cd20c1c549a94671532127699e8fc28981b965867ccd6994be140aa5d8af3c.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1071,12 +1161,12 @@ Traced&lt;ConcreteArray([ 0.9015174  4.3690042  5.2567453  5.4701824 10.731791  
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[3])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[3])
 (3,)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_values([DeviceArray([57.74525 , 50.141926, 53.405487, ..., 57.63712 , 58.24072 ,
-             64.50387 ], dtype=float32)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_values([Array([53.187992, 57.290894, 57.881   , ..., 57.647396, 54.501644,
+       57.747177], dtype=float32)])
 </pre></div>
 </div>
 </div>
@@ -1092,13 +1182,19 @@ Traced&lt;ConcreteArray([ 0.9015174  4.3690042  5.2567453  5.4701824 10.731791  
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[3])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[3])
 (3,)
-Traced&lt;ShapedArray(float32[4])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[4])
 (4,)
-Traced&lt;ShapedArray(float32[5])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[5])
 (5,)
-Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[6])
 (6,)
 </pre></div>
 </div>
@@ -1124,10 +1220,10 @@ Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [57.74525  50.141926 53.405487 ... 57.63712  58.24072  64.50387 ]
-1 [55.685463 47.6005   49.555256 ... 57.849586 55.612312 61.546535]
-2 [54.532833 46.843277 54.844418 ... 54.875175 53.33296  59.637592]
-3 [55.4144   41.105106 53.29952  ... 53.94297  52.922012 60.480656]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 [53.187992 57.290894 57.881    ... 57.647396 54.501644 57.747177]
+1 [50.54214  55.621502 56.16703  ... 59.404232 66.83684  59.205715]
+2 [46.420326 54.95187  54.4958   ... 58.22527  67.149445 57.838387]
+3 [54.43933  59.751354 53.548313 ... 59.559574 64.58404  57.118355]
 </pre></div>
 </div>
 </div>
@@ -1163,8 +1259,8 @@ Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">iqr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="p">[</span><span class="mi">75</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">a</span><span class="p">))</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">iqr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">75</span><span class="p">,</span> <span class="mi">25</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="n">a</span><span class="p">))</span>
 
 <span class="n">T_obs</span> <span class="o">=</span> <span class="n">iqr</span><span class="p">(</span><span class="n">cs_exp</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">d_sim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ppc_mm</span><span class="p">):</span>
@@ -1185,7 +1281,12 @@ Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
  0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
  0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
  0. 0. 0. 0.]
-[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: Your data appears to have a single value or no finite values
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
  0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
  0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
  0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
@@ -1202,54 +1303,54 @@ Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
  0. 0. 0. 0.]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RuntimeWarning: divide by zero encountered in true_divide
-RuntimeWarning: invalid value encountered in true_divide
-RuntimeWarning: divide by zero encountered in true_divide
-RuntimeWarning: invalid value encountered in true_divide
-RuntimeWarning: divide by zero encountered in true_divide
-RuntimeWarning: invalid value encountered in true_divide
-RuntimeWarning: divide by zero encountered in true_divide
-RuntimeWarning: invalid value encountered in true_divide
-</pre></div>
-</div>
-<img alt="../_images/06-mixture_models_35_2.png" src="../_images/06-mixture_models_35_2.png" />
+<img alt="../_images/615a8fd632d51f19fd4a9053172e3c2c85b0ee244a1f9bbff03a45d37316b700.png" src="../_images/615a8fd632d51f19fd4a9053172e3c2c85b0ee244a1f9bbff03a45d37316b700.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comp</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">traces</span><span class="p">)),</span> <span class="n">ic</span><span class="o">=</span><span class="s2">&quot;waic&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;BB-pseudo-BMA&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idata_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">]</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">idata_list</span><span class="p">)),</span> <span class="n">ic</span><span class="o">=</span><span class="s2">&quot;waic&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;BB-pseudo-BMA&#39;</span><span class="p">)</span>
 <span class="n">comp</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The default method used to estimate the weights for each model,has changed from BB-pseudo-BMA to stacking
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[6])
+(6,)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[5.2118061e+01 7.1559749e+20 8.0297345e+20 8.2045797e+20 2.1260502e+32
- 1.1329012e+34]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3.0225224e+01 1.3429115e+19 1.5363652e+19 1.8018420e+29 1.8018516e+29
+ 3.2886866e+31]
 (6,)
-Traced&lt;ShapedArray(float32[3])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
+JitTracer(float32[3])
 (3,)
-[5.2118061e+01 7.1559749e+20 8.0297345e+20 8.2045797e+20 2.1260502e+32
- 1.1329012e+34]
-(6,)
-Traced&lt;ShapedArray(float32[4])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
-(4,)
-[5.2118061e+01 7.1559749e+20 8.0297345e+20 8.2045797e+20 2.1260502e+32
- 1.1329012e+34]
-(6,)
-Traced&lt;ShapedArray(float32[5])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
-(5,)
-[5.2118061e+01 7.1559749e+20 8.0297345e+20 8.2045797e+20 2.1260502e+32
- 1.1329012e+34]
-(6,)
-Traced&lt;ShapedArray(float32[6])&gt;with&lt;DynamicJaxprTrace(level=1/0)&gt;
-(6,)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
-See http://arxiv.org/abs/1507.04544 for details
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[6])
+(6,)
+[3.0225224e+01 1.3429115e+19 1.5363652e+19 1.8018420e+29 1.8018516e+29
+ 3.2886866e+31]
+(6,)
+JitTracer(float32[4])
+(4,)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[6])
+(6,)
+[3.0225224e+01 1.3429115e+19 1.5363652e+19 1.8018420e+29 1.8018516e+29
+ 3.2886866e+31]
+(6,)
+JitTracer(float32[5])
+(5,)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JitTracer(float32[6])
+(6,)
+[3.0225224e+01 1.3429115e+19 1.5363652e+19 1.8018420e+29 1.8018516e+29
+ 3.2886866e+31]
+(6,)
+JitTracer(float32[6])
+(6,)
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1271,62 +1372,62 @@ See http://arxiv.org/abs/1507.04544 for details
     <tr style="text-align: right;">
       <th></th>
       <th>rank</th>
-      <th>waic</th>
+      <th>elpd_waic</th>
       <th>p_waic</th>
-      <th>d_waic</th>
+      <th>elpd_diff</th>
       <th>weight</th>
       <th>se</th>
       <th>dse</th>
       <th>warning</th>
-      <th>waic_scale</th>
+      <th>scale</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>6</th>
       <td>0</td>
-      <td>-5135.310869</td>
-      <td>15.798141</td>
+      <td>-5124.601457</td>
+      <td>12.100592</td>
       <td>0.000000</td>
-      <td>7.039205e-01</td>
-      <td>32.746687</td>
+      <td>9.482521e-01</td>
+      <td>30.183447</td>
       <td>0.000000</td>
-      <td>True</td>
+      <td>False</td>
       <td>log</td>
     </tr>
     <tr>
       <th>5</th>
       <td>1</td>
-      <td>-5136.615405</td>
-      <td>12.786784</td>
-      <td>1.304536</td>
-      <td>2.390853e-01</td>
-      <td>31.524217</td>
-      <td>1.300529</td>
+      <td>-5129.203222</td>
+      <td>9.829674</td>
+      <td>4.601765</td>
+      <td>5.174787e-02</td>
+      <td>30.160624</td>
+      <td>2.338497</td>
       <td>False</td>
       <td>log</td>
     </tr>
     <tr>
       <th>4</th>
       <td>2</td>
-      <td>-5139.413207</td>
-      <td>7.432724</td>
-      <td>4.102338</td>
-      <td>5.699420e-02</td>
-      <td>31.128302</td>
-      <td>2.552043</td>
+      <td>-5167.561459</td>
+      <td>23.534077</td>
+      <td>42.960002</td>
+      <td>9.688167e-14</td>
+      <td>30.616922</td>
+      <td>6.183365</td>
       <td>False</td>
       <td>log</td>
     </tr>
     <tr>
       <th>3</th>
       <td>3</td>
-      <td>-5203.690167</td>
-      <td>17.401520</td>
-      <td>68.379299</td>
-      <td>2.699810e-21</td>
-      <td>31.289554</td>
-      <td>9.751138</td>
+      <td>-5216.386331</td>
+      <td>3.471338</td>
+      <td>91.784875</td>
+      <td>8.581903e-28</td>
+      <td>32.440714</td>
+      <td>12.534438</td>
       <td>False</td>
       <td>log</td>
     </tr>
@@ -1336,19 +1437,24 @@ See http://arxiv.org/abs/1507.04544 for details
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Broken. TODO, fix error relating to this.</span>
-<span class="c1"># az.plot_compare(comp)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;Model comparison\nhigher is better&#39;}, xlabel=&#39;elpd_waic (log)&#39;, ylabel=&#39;ranked models&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/eef26079f8d07223f4d20f34d0dad887551129b67784f007d3cb512a81f61972.png" src="../_images/eef26079f8d07223f4d20f34d0dad887551129b67784f007d3cb512a81f61972.png" />
 </div>
 </div>
-<div class="section" id="non-finite-mixture-model">
-<h2>Non-finite mixture model<a class="headerlink" href="#non-finite-mixture-model" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="non-finite-mixture-model">
+<h2>Non-finite mixture model<a class="headerlink" href="#non-finite-mixture-model" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">stick_breaking_truncated</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">stick_breaking_truncated</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Truncated stick-breaking process view of a DP</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -1393,10 +1499,10 @@ See http://arxiv.org/abs/1507.04544 for details
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: This figure was using constrained_layout, but that is incompatible with subplots_adjust and/or tight_layout; disabling constrained_layout.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UserWarning: The figure layout has changed to tight
 </pre></div>
 </div>
-<img alt="../_images/06-mixture_models_39_1.png" src="../_images/06-mixture_models_39_1.png" />
+<img alt="../_images/191cc54e0ff08fc8df1380c3f5d57af67d3155599276ea05fab1ea42d7798f1e.png" src="../_images/191cc54e0ff08fc8df1380c3f5d57af67d3155599276ea05fab1ea42d7798f1e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1421,14 +1527,14 @@ See http://arxiv.org/abs/1507.04544 for details
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([], [])
 </pre></div>
 </div>
-<img alt="../_images/06-mixture_models_40_1.png" src="../_images/06-mixture_models_40_1.png" />
+<img alt="../_images/214d2a27b0bd34a424981404b5322c7af8086df203d59618c393309cfaa7bcb5.png" src="../_images/214d2a27b0bd34a424981404b5322c7af8086df203d59618c393309cfaa7bcb5.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="mi">20</span>
 
-<span class="k">def</span> <span class="nf">stick_breaking</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stick_breaking</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
     <span class="n">β</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;β&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="n">α</span><span class="p">),</span> <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">K</span><span class="p">,))</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">β</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">]),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">β</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
 <span class="c1">#     β = pm.Beta(&#39;β&#39;, 1., α, shape=K)</span>
@@ -1441,7 +1547,7 @@ See http://arxiv.org/abs/1507.04544 for details
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">α</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;α&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="n">concentration</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">1.</span><span class="p">))</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">deterministic</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">stick_breaking</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">K</span><span class="p">))</span>
                        
@@ -1461,12 +1567,6 @@ See http://arxiv.org/abs/1507.04544 for details
 <span class="n">kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_accept_prob</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
 <span class="n">mcmc3</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chain_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
 <span class="n">mcmc3</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sample: 100%|████████████████████████████████████████████| 100/100 [04:19&lt;00:00,  2.60s/it, 1023 steps of size 6.57e-03. acc. prob=0.52]
-sample: 100%|████████████████████████████████████████████| 100/100 [04:46&lt;00:00,  2.86s/it, 1023 steps of size 1.83e-03. acc. prob=0.97]
 </pre></div>
 </div>
 </div>
@@ -1494,7 +1594,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/06-mixture_models_44_0.png" src="../_images/06-mixture_models_44_0.png" />
+<img alt="../_images/e0fb344440afeaee110de52a54e299e2877f811f5efd34914cbceeeee2ffbdf2.png" src="../_images/e0fb344440afeaee110de52a54e299e2877f811f5efd34914cbceeeee2ffbdf2.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1504,7 +1604,7 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/06-mixture_models_45_0.png" src="../_images/06-mixture_models_45_0.png" />
+<img alt="../_images/9d44dc3a954bb39a4241ea815758f44431cc759aea24e2c029f6cd5b5c29c392.png" src="../_images/9d44dc3a954bb39a4241ea815758f44431cc759aea24e2c029f6cd5b5c29c392.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1522,29 +1622,23 @@ sample: 100%|██████████████████████�
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Average weight&#39;)
 </pre></div>
 </div>
-<img alt="../_images/06-mixture_models_46_1.png" src="../_images/06-mixture_models_46_1.png" />
+<img alt="../_images/ef4e8403fa994380046cc36dd03e61abbe5c93e7e54123a6c17119246c0ab683.png" src="../_images/ef4e8403fa994380046cc36dd03e61abbe5c93e7e54123a6c17119246c0ab683.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray([[45.43555 , 45.76748 , 45.818993, 54.50315 , 59.173943,
-              64.33026 ],
-             [45.743027, 45.879845, 46.071526, 54.450314, 59.080513,
-              64.30733 ],
-             [45.39138 , 45.724678, 45.91162 , 54.48335 , 59.17437 ,
-              64.41409 ],
-             ...,
-             [45.498985, 51.297474, 54.39981 , 57.54888 , 60.524788,
-              64.93046 ],
-             [45.635292, 51.222794, 54.21004 , 57.125477, 60.29111 ,
-              64.93555 ],
-             [45.34042 , 51.778076, 54.736847, 57.581596, 60.05674 ,
-              64.63671 ]], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([[46.596302, 46.63517 , 57.324295],
+       [46.769577, 46.839527, 57.46855 ],
+       [47.04169 , 47.06808 , 57.510597],
+       ...,
+       [45.399944, 46.58596 , 57.389954],
+       [45.428696, 46.587704, 57.294716],
+       [45.466618, 46.66854 , 57.405167]], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1611,190 +1705,17 @@ sample: 100%|██████████████████████�
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
-        <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
-        <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="mi">9</span><span class="n">y</span><span class="o">/</span><span class="mi">6</span><span class="n">kx7fns90pn84gtycx7dyl680000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_33006</span><span class="o">/</span><span class="mf">463852275.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>         <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>         <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post</span> <span class="o">=</span> <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s1">&#39;w&#39;</span><span class="p">]</span>                                             <span class="c1"># (S, K)</span>
+<span class="n">_means_raw</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s1">&#39;means&#39;</span><span class="p">]</span>                                <span class="c1"># (S, K, K) due to sample_shape=(K,)</span>
+<span class="n">means</span> <span class="o">=</span> <span class="n">_means_raw</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>                               <span class="c1"># (S, K) - first draw per posterior sample</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s1">&#39;sd&#39;</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span>                                  <span class="c1"># (S, 1) -&gt; broadcasts to (S, K)</span>
 
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/distribution.py</span> in <span class="ni">__call__</span><span class="nt">(cls, *args, **kwargs)</span>
-<span class="g g-Whitespace">     </span><span class="mi">92</span>             <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">93</span>                 <span class="k">return</span> <span class="n">result</span>
-<span class="ne">---&gt; </span><span class="mi">94</span>         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">95</span> 
-<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="nd">@property</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/continuous.py</span> in <span class="ni">__init__</span><span class="nt">(self, loc, scale, validate_args)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1238</span> 
-<span class="g g-Whitespace">   </span><span class="mi">1239</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">validate_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1240</span>         <span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">promote_shapes</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1241</span>         <span class="n">batch_shape</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">broadcast_shapes</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">scale</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1242</span>         <span class="nb">super</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/util.py</span> in <span class="ni">promote_shapes</span><span class="nt">(shape, *args)</span>
-<span class="g g-Whitespace">    </span><span class="mi">286</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">287</span>         <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
-<span class="ne">--&gt; </span><span class="mi">288</span>         <span class="n">num_dims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lax</span><span class="o">.</span><span class="n">broadcast_shapes</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">shapes</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">289</span>         <span class="k">return</span> <span class="p">[</span>
-<span class="g g-Whitespace">    </span><span class="mi">290</span>             <span class="n">_reshape</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_dims</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">num_dims</span> <span class="k">else</span> <span class="n">arg</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/util.py</span> in <span class="ni">wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">193</span>         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">194</span>       <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">195</span>         <span class="k">return</span> <span class="n">cached</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">_trace_context</span><span class="p">(),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span> 
-<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="n">wrapper</span><span class="o">.</span><span class="n">cache_clear</span> <span class="o">=</span> <span class="n">cached</span><span class="o">.</span><span class="n">cache_clear</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/util.py</span> in <span class="ni">cached</span><span class="nt">(_, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">186</span>     <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span><span class="p">(</span><span class="n">max_size</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">188</span>       <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">189</span> 
-<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/lax/lax.py</span> in <span class="ni">broadcast_shapes</span><span class="nt">(*shapes)</span>
-<span class="g g-Whitespace">     </span><span class="mi">90</span>   <span class="n">result_shape</span> <span class="o">=</span> <span class="n">_try_broadcast_shapes</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">91</span>   <span class="k">if</span> <span class="n">result_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">92</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incompatible shapes for broadcasting: </span><span class="si">{}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">93</span>                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">shapes</span><span class="p">))))</span>
-<span class="g g-Whitespace">     </span><span class="mi">94</span>   <span class="k">return</span> <span class="n">result_shape</span>
-
-<span class="ne">ValueError</span>: Incompatible shapes for broadcasting: ((1, 1, 1, 1), (1, 100, 20, 20), (1, 1, 1, 100))
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_plot</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cs</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-
-<span class="n">post_pdf_contribs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
-    <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
-        <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
-        <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">x_plot</span><span class="p">))</span>
-    <span class="p">)</span> <span class="c1"># [:, jnp.newaxis, :]</span>
-<span class="n">post_pdfs</span> <span class="o">=</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">post_pdf_contribs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="mi">9</span><span class="n">y</span><span class="o">/</span><span class="mi">6</span><span class="n">kx7fns90pn84gtycx7dyl680000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_33006</span><span class="o">/</span><span class="mf">4200411102.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> 
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">post_pdf_contribs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
-<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>         <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span>         <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/distribution.py</span> in <span class="ni">__call__</span><span class="nt">(cls, *args, **kwargs)</span>
-<span class="g g-Whitespace">     </span><span class="mi">92</span>             <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">93</span>                 <span class="k">return</span> <span class="n">result</span>
-<span class="ne">---&gt; </span><span class="mi">94</span>         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">95</span> 
-<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="nd">@property</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/continuous.py</span> in <span class="ni">__init__</span><span class="nt">(self, loc, scale, validate_args)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1238</span> 
-<span class="g g-Whitespace">   </span><span class="mi">1239</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">validate_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1240</span>         <span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">promote_shapes</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1241</span>         <span class="n">batch_shape</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">broadcast_shapes</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">scale</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1242</span>         <span class="nb">super</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/numpyro/distributions/util.py</span> in <span class="ni">promote_shapes</span><span class="nt">(shape, *args)</span>
-<span class="g g-Whitespace">    </span><span class="mi">286</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">287</span>         <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
-<span class="ne">--&gt; </span><span class="mi">288</span>         <span class="n">num_dims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lax</span><span class="o">.</span><span class="n">broadcast_shapes</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">shapes</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">289</span>         <span class="k">return</span> <span class="p">[</span>
-<span class="g g-Whitespace">    </span><span class="mi">290</span>             <span class="n">_reshape</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_dims</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">num_dims</span> <span class="k">else</span> <span class="n">arg</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/util.py</span> in <span class="ni">wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">193</span>         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">194</span>       <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">195</span>         <span class="k">return</span> <span class="n">cached</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">_trace_context</span><span class="p">(),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span> 
-<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="n">wrapper</span><span class="o">.</span><span class="n">cache_clear</span> <span class="o">=</span> <span class="n">cached</span><span class="o">.</span><span class="n">cache_clear</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/util.py</span> in <span class="ni">cached</span><span class="nt">(_, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">186</span>     <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span><span class="p">(</span><span class="n">max_size</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">188</span>       <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">189</span> 
-<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/lax/lax.py</span> in <span class="ni">broadcast_shapes</span><span class="nt">(*shapes)</span>
-<span class="g g-Whitespace">     </span><span class="mi">90</span>   <span class="n">result_shape</span> <span class="o">=</span> <span class="n">_try_broadcast_shapes</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">91</span>   <span class="k">if</span> <span class="n">result_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">92</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incompatible shapes for broadcasting: </span><span class="si">{}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">93</span>                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">shapes</span><span class="p">))))</span>
-<span class="g g-Whitespace">     </span><span class="mi">94</span>   <span class="k">return</span> <span class="n">result_shape</span>
-
-<span class="ne">ValueError</span>: Incompatible shapes for broadcasting: ((1, 1, 1, 1), (1, 100, 20, 20), (1, 1, 1, 100))
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="n">x_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cs</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">scipy</span>
-<span class="n">post_pdf_contribs</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">x_plot</span><span class="p">),</span>
-                                   <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
-                                   <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span>
-<span class="n">post_pdfs</span> <span class="o">=</span> <span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">post_pdf_contribs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">IndexError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="mi">9</span><span class="n">y</span><span class="o">/</span><span class="mi">6</span><span class="n">kx7fns90pn84gtycx7dyl680000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_33006</span><span class="o">/</span><span class="mf">2613252450.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">post_pdf_contribs</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">x_plot</span><span class="p">),</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>                                    <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;means&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span>
-<span class="ne">----&gt; </span><span class="mi">6</span>                                    <span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;sd&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">post_pdfs</span> <span class="o">=</span> <span class="p">(</span><span class="n">mcmc3</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="s1">&#39;w&#39;</span><span class="p">][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">post_pdf_contribs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ni">_rewriting_take</span><span class="nt">(arr, idx, indices_are_sorted, unique_indices)</span>
-<span class="g g-Whitespace">   </span><span class="mi">5150</span>   <span class="n">arr</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">5151</span>   <span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span> <span class="o">=</span> <span class="n">_split_index_for_jit</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">5152</span>   <span class="k">return</span> <span class="n">_gather</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span><span class="p">,</span> <span class="n">indices_are_sorted</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">5153</span>                  <span class="n">unique_indices</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">5154</span> 
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ni">_gather</span><span class="nt">(arr, treedef, static_idx, dynamic_idx, indices_are_sorted, unique_indices)</span>
-<span class="g g-Whitespace">   </span><span class="mi">5159</span>             <span class="n">unique_indices</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">5160</span>   <span class="n">idx</span> <span class="o">=</span> <span class="n">_merge_static_and_dynamic_indices</span><span class="p">(</span><span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">5161</span>   <span class="n">indexer</span> <span class="o">=</span> <span class="n">_index_to_gather</span><span class="p">(</span><span class="n">shape</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="n">idx</span><span class="p">)</span>  <span class="c1"># shared with _scatter_update</span>
-<span class="g g-Whitespace">   </span><span class="mi">5162</span>   <span class="n">y</span> <span class="o">=</span> <span class="n">arr</span>
-<span class="g g-Whitespace">   </span><span class="mi">5163</span> 
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ni">_index_to_gather</span><span class="nt">(x_shape, idx, normalize_indices)</span>
-<span class="g g-Whitespace">   </span><span class="mi">5251</span> <span class="k">def</span> <span class="nf">_index_to_gather</span><span class="p">(</span><span class="n">x_shape</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">normalize_indices</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">5252</span>   <span class="c1"># Remove ellipses and add trailing slice(None)s.</span>
-<span class="ne">-&gt; </span><span class="mi">5253</span>   <span class="n">idx</span> <span class="o">=</span> <span class="n">_canonicalize_tuple_index</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_shape</span><span class="p">),</span> <span class="n">idx</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">5254</span> 
-<span class="g g-Whitespace">   </span><span class="mi">5255</span>   <span class="c1"># Check for advanced indexing:</span>
-
-<span class="nn">/usr/local/anaconda3/envs/bap-numpyro/lib/python3.8/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ni">_canonicalize_tuple_index</span><span class="nt">(arr_ndim, idx)</span>
-<span class="g g-Whitespace">   </span><span class="mi">5531</span>   <span class="k">if</span> <span class="n">len_without_none</span> <span class="o">&gt;</span> <span class="n">arr_ndim</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">5532</span>     <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Too many indices for array: </span><span class="si">{}</span><span class="s2"> non-None/Ellipsis indices for dim </span><span class="si">{}</span><span class="s2">.&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">5533</span>     <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">len_without_none</span><span class="p">,</span> <span class="n">arr_ndim</span><span class="p">))</span>
-<span class="nn">   5534   ellipses = (i for i, elt</span> in <span class="ni">enumerate</span><span class="nt">(idx) if elt is Ellipsis)</span>
-<span class="g g-Whitespace">   </span><span class="mi">5535</span>   <span class="n">ellipsis_index</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ellipses</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
-<span class="ne">IndexError</span>: Too many indices for array: 2 non-None/Ellipsis indices for dim 1.
+<span class="n">x_plot</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">cs_exp</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">cs_exp</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">200</span><span class="p">)</span>   <span class="c1"># (G,)</span>
+<span class="n">comp_dens</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+    <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">means</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">sd</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x_plot</span><span class="p">)</span>
+<span class="p">)</span>                                                         <span class="c1"># (S, K, G)</span>
+<span class="n">post_pdfs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">comp_dens</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>    <span class="c1"># (S, G)</span>
 </pre></div>
 </div>
 </div>
@@ -1812,6 +1733,12 @@ sample: 100%|██████████████████████�
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([], [])
+</pre></div>
+</div>
+<img alt="../_images/8defc7371e48539b3cf6c6b2f48fbb66e9bbd1a968a81eeb8338105ba91d2609.png" src="../_images/8defc7371e48539b3cf6c6b2f48fbb66e9bbd1a968a81eeb8338105ba91d2609.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1828,8 +1755,8 @@ sample: 100%|██████████████████████�
 </div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1840,72 +1767,117 @@ sample: 100%|██████████████████████�
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "bap-numpyro"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "bap-numpyro",
             path: "./notebooks"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'bap-numpyro'</script>
 
-              </div>
+                </article>
               
-        
-            
 
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="05-model_comparison.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Chapter 5. Model Comparison</p>
-            </div>
-        </a>
-    </div>
-     <div id="next">
-        <a class="right-next" href="07-gaussian-process.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Chapter 7. Gaussian Processes</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05-model_comparison.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 5. Model Comparison</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07-gaussian-process.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 7. Gaussian Processes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
-        
-        </div>
-    </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a><br/>
-        
-          <div class="extra_footer">
-            <p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-identifiability-of-mixture-models">Non-identifiability of mixture models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-choose-k">How to choose K</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-finite-mixture-model">Non-finite mixture model</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By <a href="https://github.com/tallamjr/">Tarek Allam Jr. [Allam Labs.]</a>
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
 Code released under a <a href="https://opensource.org/licenses/MIT">MIT license</a>.
 </p>
 
-          </div>
-      </p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
   </footer>
-</main>
-
-
-      </div>
-    </div>
-  
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  
   </body>
 </html>
